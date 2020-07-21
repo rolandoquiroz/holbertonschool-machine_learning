@@ -70,6 +70,6 @@ plt.xlabel('Grades')
 plt.ylabel('Number of Students')
 plt.title('Project A')
 
-plt.suptitle('All in One', x=0.484, y=0.93)
-plt.subplots_adjust(wspace=0.350, hspace=1)
+plt.suptitle('All in One', x=0.485, y=0.93)
+plt.subplots_adjust(wspace=0.355, hspace=1)
 plt.show()
