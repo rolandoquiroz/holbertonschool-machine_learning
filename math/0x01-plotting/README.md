@@ -1,7 +1,7 @@
 # 
 
-![Seahorse draw](https://github.com/rolandoquiroz/images/seahorse-draw.png)
-![Holberton logo](https://github.com/rolandoquiroz/holberton-logo.png)
+![Seahorse draw](https://github.com/rolandoquiroz/images/blob/master/seahorse-draw.png)
+![Holberton logo](https://github.com/rolandoquiroz/images/blob/master/holberton-logo.png)
 
 ## Specializations - Machine Learning ― Math : 0x01. Plotting
 
