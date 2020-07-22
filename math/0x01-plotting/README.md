@@ -1,5 +1,4 @@
-![Holberton logo](./pictures/holberton-logo.png)
-![Seahorse draw](./pictures/seahorse.png)
+# Holberton School
 
 ## Specializations - Machine Learning ― Math : 0x01. Plotting
 
