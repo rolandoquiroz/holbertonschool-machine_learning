@@ -1,5 +1,8 @@
 # Holberton School
 
+![Holberton logo](./pictures/holberton-logo.png)
+![Seahorse draw](./pictures/seahorse.png)
+
 ## Specializations - Machine Learning ― Math : 0x01. Plotting
 
 0x01. Plotting is a Python project made with the matplotlib library about the plotting fundamentals and the most common types of plots used in machine learning engineering.
