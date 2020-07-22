@@ -8,7 +8,7 @@
   <img src="https://github.com/rolandoquiroz/images/blob/master/holberton-logo.png" />
 </p>
 
-## Specializations - Machine Learning ― Math : 0x01. Plotting
+# Specializations - Machine Learning ― Math : 0x01. Plotting
 
 0x01. Plotting is a Python project made with the matplotlib library about the plotting fundamentals and the most common types of plots used in machine learning engineering.
 
