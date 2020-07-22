@@ -1,4 +1,4 @@
-# Holberton School
+# 
 
 ![Holberton logo](./pictures/holberton-logo.png)
 ![Seahorse draw](./pictures/seahorse.png)
