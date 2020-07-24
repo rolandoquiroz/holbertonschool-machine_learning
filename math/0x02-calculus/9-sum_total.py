@@ -21,5 +21,8 @@ def summation_i_squared(n):
             or return None i n is not a valid number
     """
     if isinstance(n, int) and n > 0:
-        return ((n*(n+1)*(2*n+1))//6)
+        if n > 1
+        return int(n**2 + summation_i_squared(n-1))
+        if n == 1
+        return int(n**2)
     return None
