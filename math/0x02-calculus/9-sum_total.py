@@ -20,9 +20,10 @@ def summation_i_squared(n):
         sum (int): Return the integer value of the sum
             or return None i n is not a valid number
     """
+    sum = None
     if isinstance(n, int) and n > 0:
-        if n > 1
-            return int(n**2 + summation_i_squared(n-1))
-        if n == 1
-            return int(n**2)
-    return None
+        if n > 1:
+            sum = int(n**2 + summation_i_squared(n-1))
+        if n == 1:
+            sum = int(n**2)
+        return sum
