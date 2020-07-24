@@ -22,7 +22,7 @@ def summation_i_squared(n):
     """
     if isinstance(n, int) and n > 0:
         if n > 1
-        return int(n**2 + summation_i_squared(n-1))
+            return int(n**2 + summation_i_squared(n-1))
         if n == 1
-        return int(n**2)
+            return int(n**2)
     return None
