@@ -21,10 +21,5 @@ def summation_i_squared(n):
             or return None i n is not a valid number
     """
     if isinstance(n, int) and n > 0:
-        if n > 1:
-            sum = n**2 + summation_i_squared(n-1)
-            return sum
-        elif n == 1:
-            sum = n**2
-            return sum
+        return ((n*(n+1)*(2*n+1))//6)
     return None
