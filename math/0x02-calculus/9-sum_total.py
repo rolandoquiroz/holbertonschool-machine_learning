@@ -17,8 +17,8 @@ def summation_i_squared(n):
     Args:
         n (int): The stopping condition
     Returns:
-        sum (int): Return the integer value of the sum
-            or return None i n is not a valid number
+        (int): The integer value of the sum
+        None: if n is not a valid number
     """
     if isinstance(n, int) and n > 0:
         return ((n*(n+1)*(2*n+1))//6)
