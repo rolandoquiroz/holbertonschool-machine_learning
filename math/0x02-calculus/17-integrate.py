@@ -36,8 +36,8 @@ def poly_integral(poly, C=0):
         if type(poly[i]) not in [int, float]:
             return None
         if poly[i] % (i+1) == 0:
-            integral_coefficients.insert(i, int(poly[i]/(i+1)))
+            integral_coefficients.append(int(poly[i]/(i+1)))
         else:
-            integral_coefficients.insert(i, poly[i]/(i+1))
+            integral_coefficients.append(poly[i]/(i+1))
     integral_coefficients.insert(0, C)
     return integral_coefficients
