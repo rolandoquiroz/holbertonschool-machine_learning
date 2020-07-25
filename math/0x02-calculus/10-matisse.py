@@ -34,8 +34,8 @@ def poly_derivative(poly):
             return [0]
     if len(poly) > 1:
         derivative_coefficients = []
-        for i in range(1, len(poly)):
+        for i in range(len(poly)):
             if type(poly[i]) not in [int, float]:
                 return None
             derivative_coefficients.append(i*poly[i])
-    return derivative_coefficients
+    return derivative_coefficients[1:]
