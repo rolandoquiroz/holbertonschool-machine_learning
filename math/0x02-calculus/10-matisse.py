@@ -28,7 +28,7 @@ def poly_derivative(poly):
     if type(poly) is not list:
         return None
 
-    if len(poly) == 0:
+    if poly == [] or len(poly) == 0:
         return None
 
     for i in range(len(poly)):
