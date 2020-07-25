@@ -25,7 +25,7 @@ def poly_derivative(poly):
         [0]: If the derivative is 0
         None: If poly is not valid
     """
-    if type(poly) is not list:
+    if (type(poly) is not list):
         return None
 
     if poly is []:
@@ -34,6 +34,17 @@ def poly_derivative(poly):
     for i in range(len(poly)):
         if type(poly[i]) not in [int, float]:
             return None
+
+    reversed_poly = []
+    reversed_poly = poly[::-1]
+
+    for element in reversed_poly:
+        if element == 0:
+            reversed_poly = reversed_poly[1:]
+        else:
+            break
+
+    poly = reversed_poly[::-1]
 
     if len(poly) == 1:
         return [0]
