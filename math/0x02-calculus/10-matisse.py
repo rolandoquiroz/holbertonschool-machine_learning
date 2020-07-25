@@ -25,6 +25,9 @@ def poly_derivative(poly):
         [0]: If the derivative is 0
         None: If poly is not valid
     """
+    if type(poly) is not list:
+        return None
+
     if poly is []:
         return None
 
