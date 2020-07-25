@@ -29,6 +29,9 @@ def poly_integral(poly, C=0):
         return None
     if len(poly) == 0 or poly == []:
         return None
+    if poly == [0]:
+        return [C]
+    integral_coefficients = []
     integral_coefficients = [C]
     for i in range(len(poly)):
         if type(poly[i]) not in [int, float]:
