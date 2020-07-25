@@ -31,14 +31,12 @@ def poly_derivative(poly):
     if poly == [] or len(poly) == 0:
         return None
 
-    for i in range(len(poly)):
-        if type(poly[i]) not in [int, float]:
-            return None
-
-    if len(poly) == 1:
+    if len(poly) == 1 and (type(poly[0]) in [int, float]):
         return [0]
 
     derivative_coefficients = []
     for i in range(1, len(poly)):
+        if type(poly[i]) not in [int, float]:
+            return None
         derivative_coefficients.append(i*poly[i])
     return derivative_coefficients
