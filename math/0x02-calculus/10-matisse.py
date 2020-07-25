@@ -28,15 +28,16 @@ def poly_derivative(poly):
     if type(poly) is not list:
         return None
 
-    if poly == [] or len(poly) == 0:
+    if len(poly) == 0 or poly == []:
         return None
 
-    if len(poly) == 1 and (type(poly[0]) in [int, float]):
-        return [0]
-
-    derivative_coefficients = []
-    for i in range(1, len(poly)):
-        if type(poly[i]) not in [int, float]:
-            return None
-        derivative_coefficients.append(i*poly[i])
+    if len(poly) == 1:
+        if (type(poly[0]) in [int, float]):
+            return [0]
+    if len(poly) > 1:
+        derivative_coefficients = []
+        for i in range(1, len(poly)):
+            if type(poly[i]) not in [int, float]:
+                return None
+            derivative_coefficients.append(i*poly[i])
     return derivative_coefficients
