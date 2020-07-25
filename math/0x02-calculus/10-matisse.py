@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """10-matisse module
 
-This file is executable and was interpreted/compiled on Ubuntu 16.04 LTS
-using python3 (version 3.5.2) and pycodestyle style (version 2.5) was
-used in.
-
-It can also be imported as a module and contains the following functions:
+This file can be imported as a module and contains the following functions:
 
     * summation_i_squared - Calculates the derivative of a polynomial
+
+This is an executable file and was interpreted/compiled on Ubuntu 16.04 LTS
+using python3 (version 3.5.2) and pycodestyle style (version 2.5) was also
+used in.
 """
 
 
