@@ -32,7 +32,7 @@ def poly_derivative(poly):
         return None
 
     for i in range(len(poly)):
-        if type(poly[i]) is not int:
+        if type(poly[i]) not in [int, float]:
             return None
 
     if len(poly) == 1:
