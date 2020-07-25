@@ -31,12 +31,13 @@ def poly_integral(poly, C=0):
         return None
     if poly == [0]:
         return [C]
-    integral_coefficients = [C]
+    integral_coefficients = []
     for i in range(len(poly)):
         if type(poly[i]) not in [int, float]:
             return None
         if poly[i] % (i+1) == 0:
-            integral_coefficients.insert(i+1, int(poly[i]/(i+1)))
+            integral_coefficients.insert(i, int(poly[i]/(i+1)))
         else:
-            integral_coefficients.insert(i+1, poly[i]/(i+1))
+            integral_coefficients.insert(i, poly[i]/(i+1))
+    integral_coefficients.insert(0, C)
     return integral_coefficients
