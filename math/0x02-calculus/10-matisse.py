@@ -7,7 +7,7 @@ used in.
 
 It can also be imported as a module and contains the following functions:
 
-    * summation_i_squared - Calculates the sum of i^2 as i goes from 1 to n
+    * summation_i_squared - Calculates the derivative of a polynomial
 """
 
 
