@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Poisson class module"""
+e = 2.7182818285
 
 
 class Poisson:
@@ -14,7 +15,7 @@ class Poisson:
             Raises:
                 TypeError: If data is not a list
                 ValueError: If data does not contain at least two data points
-                ValueError: If lambtha is not a positive value
+                            If lambtha is not a positive value
         """
         if data is None:
             if lambtha <= 0:
@@ -44,8 +45,28 @@ class Poisson:
         if k < 0:
             return 0
         else:
-            e = 2.7182818285
             k_factorial = 1
             for i in range(1, k+1):
                 k_factorial *= i
             return ((self.lambtha**k)*(e**(-self.lambtha)))/k_factorial
+
+    def cdf(self, k):
+        """Calculates the value of the CDF for a given number of 'successes'
+            Args:
+                k (int): Number of 'successes'
+            Returns:
+                0: If k is out of range
+                CDF (int): CDF value for k
+        """
+        if type(k) is not int:
+            k = int(k)
+        if k < 0:
+            return 0
+        else:
+            k_sumattion = 0
+            for m in range(0, k+1):
+                k_factorial = 1
+                for n in range(1, m+1):
+                    k_factorial *= n
+            k_sumattion += (self.lambtha**m)/k_factorial
+        return ((e**(-self.lambtha))*k_sumattion)
