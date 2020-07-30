@@ -4,7 +4,6 @@
 
 class Poisson:
     """Poisson probability distribution class"""
-
     def __init__(self, data=None, lambtha=1.):
         """Poisson object attributes initialization
             Args:
@@ -31,3 +30,22 @@ class Poisson:
                     if type(value) not in [float, int]:
                         raise ValueError("data must contain multiple values")
                 self.lambtha = sum(data)/len(data)
+
+    def pmf(self, k):
+        """Calculates the value of the PMF for a given number of 'successes'
+            Args:
+                k (int): Number of 'successes'
+            Returns:
+                0: If k is out of range
+                PMF (int): PMF value for k
+        """
+        if type(k) is not int:
+            k = int(k)
+        if k < 0:
+            return 0
+        else:
+            e = 2.7182818285
+            k_factorial = 1
+            for i in range(1, k+1):
+                k_factorial *= i
+            return ((self.lambtha**k)*(e**(-self.lambtha)))/k_factorial
