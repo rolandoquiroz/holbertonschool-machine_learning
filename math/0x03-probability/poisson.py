@@ -21,7 +21,7 @@ class Poisson:
             if lambtha <= 0:
                 raise ValueError("lambtha must be a positive value")
             self.lambtha = float(lambtha)
-        elif data is not None:
+        else:
             if type(data) is not list:
                 raise TypeError("data must be a list")
             if len(data) > 1:
