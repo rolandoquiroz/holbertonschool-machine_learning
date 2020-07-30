@@ -12,11 +12,10 @@ class Poisson:
             Returns:
             Raises:
         """
-        lambtha = float(lambtha)
         if data is None:
             if lambtha < 0:
                 raise ValueError("lambtha must be a positive value")
-            self.lambtha = lambtha
+            self.lambtha = float(lambtha)
         else:
             if type(data) != list:
                 raise TypeError("data must be a list")
@@ -24,4 +23,4 @@ class Poisson:
                 for value in range(len(data)):
                     if type(value) not in [float, int]:
                         raise ValueError("data must contain multiple values")
-                self.lambtha = sum(data)/len(data)
+                self.lambtha = float(sum(data)/len(data))
