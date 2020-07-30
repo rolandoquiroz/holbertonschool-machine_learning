@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """Poisson class module"""
-e = 2.7182818285
 
 
 class Poisson:
     """Poisson probability distribution class"""
+
+    e = 2.7182818285
+
     def __init__(self, data=None, lambtha=1.):
         """Poisson object attributes initialization
             Args:
@@ -48,7 +50,7 @@ class Poisson:
             k_factorial = 1
             for i in range(1, k+1):
                 k_factorial *= i
-            return ((self.lambtha**k)*(e**(-self.lambtha)))/k_factorial
+            return ((self.lambtha**k)*(Poisson.e**(-self.lambtha)))/k_factorial
 
     def cdf(self, k):
         """Calculates the value of the CDF for a given number of 'successes'
@@ -68,5 +70,5 @@ class Poisson:
                 k_factorial = 1
                 for n in range(1, m+1):
                     k_factorial *= n
-            k_sumattion += (self.lambtha**m)/k_factorial
-        return ((e**(-self.lambtha))*k_sumattion)
+                k_sumattion += (self.lambtha**m)/k_factorial
+            return (Poisson.e**(-self.lambtha))*k_sumattion
