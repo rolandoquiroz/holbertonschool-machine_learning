@@ -58,4 +58,4 @@ class Exponential:
         if x < 0:
             return 0
         else:
-            return (1-(self.lambtha)*(Exponential.e**(-self.lambtha*x)))
+            return (1-Exponential.e**(-self.lambtha*x))
