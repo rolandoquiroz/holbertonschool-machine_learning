@@ -35,7 +35,9 @@ class Poisson:
                 self.lambtha = sum(data)/len(data)
 
     def pmf(self, k):
-        """Calculates the value of the PMF for a given number of 'successes'
+        """Calculates the value of the Poisson PMF
+            for a given number of 'successes'
+
             Args:
                 k (int): Number of 'successes'
             Returns:
@@ -53,7 +55,9 @@ class Poisson:
             return ((self.lambtha**k)*(Poisson.e**(-self.lambtha)))/k_factorial
 
     def cdf(self, k):
-        """Calculates the value of the CDF for a given number of 'successes'
+        """Calculates the value of the Poisson CDF
+            for a given number of 'successes'
+
             Args:
                 k (int): Number of 'successes'
             Returns:
