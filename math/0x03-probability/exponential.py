@@ -33,3 +33,29 @@ class Exponential:
                     if type(value) not in [float, int]:
                         raise ValueError("data must contain multiple values")
                 self.lambtha = len(data)/sum(data)
+
+    def pdf(self, x):
+        """Calculates the value of the PDF for a given time period
+            Args:
+                x (float): Time period
+            Returns:
+                0: If x is out of range
+                PDF (float): PDF value for x
+        """
+        if x < 0:
+            return 0
+        else:
+            return ((self.lambtha)*(Exponential.e**(-self.lambtha*x)))
+
+    def cdf(self, x):
+        """Calculates the value of the CDF for a given time period
+            Args:
+                x (float): Time period
+            Returns:
+                0: If x is out of range
+                PDF (float): PDF value for x
+        """
+        if x < 0:
+            return 0
+        else:
+            return (1-(self.lambtha)*(Exponential.e**(-self.lambtha*x)))
