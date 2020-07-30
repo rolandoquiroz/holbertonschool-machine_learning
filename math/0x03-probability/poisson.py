@@ -1,16 +1,21 @@
 #!/usr/bin/env python3
+"""Poisson class module"""
+
+
 class Poisson:
     """Poisson probability distribution class"""
 
     def __init__(self, data=None, lambtha=1.):
         """Poisson object attributes initialization
             Args:
-                data: A list of the data to be used to estimate
+                data (list): A list of the data to be used to estimate
                     the distribution
-                lambtha: Expected number of occurences in a given
+                lambtha (float): Expected number of occurences in a given
                     time frame
-            Returns:
             Raises:
+                TypeError: If data is not a list
+                ValueError: If data does not contain at least two data points
+                ValueError: If lambtha is not a positive value
         """
         if data is None:
             if lambtha <= 0:
