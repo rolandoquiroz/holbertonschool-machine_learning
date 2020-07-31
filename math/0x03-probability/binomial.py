@@ -67,8 +67,8 @@ class Binomial:
         else:
             return ((Binomial.factorial(self.n) /
                      (Binomial.factorial(k) *
-                     Binomial.factorial(self.n - k))) *
-                    self.p ** k * (1 - self.p) ** (self.n - k))
+                     Binomial.factorial(self.n-k))) *
+                    self.p ** k * (1-self.p) ** (self.n-k))
 
     def cdf(self, k):
         """Calculates the value of the Binomial CDF
