@@ -5,6 +5,16 @@
 class Binomial:
     """Binomial probability distribution class"""
 
+    @staticmethod
+    def factorial(n):
+        """
+        Factorial
+        """
+        fact = 1
+        for num in range(2, n + 1):
+            fact *= num
+        return fact
+
     def __init__(self, data=None, n=1, p=0.5):
         """Binomial object attributes initialization
             Args:
@@ -55,16 +65,9 @@ class Binomial:
         if k < 0:
             return 0
         else:
-            factorial_n = 1
-            for x in range(1, self.n + 1):
-                factorial_n *= x
-            factorial_k = 1
-            for x in range(1, k + 1):
-                factorial_k *= x
-            factorial_nk = 1
-            for x in range(1, self.n - k + 1):
-                factorial_nk *= x
-            return ((factorial_n / (factorial_k * factorial_nk)) *
+            return ((Binomial.factorial(self.n) /
+                     (Binomial.factorial(k) *
+                     Binomial.factorial(self.n - k))) *
                     self.p ** k * (1 - self.p) ** (self.n - k))
 
     def cdf(self, k):
