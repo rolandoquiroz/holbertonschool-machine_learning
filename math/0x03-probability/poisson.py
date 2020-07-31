@@ -7,6 +7,16 @@ class Poisson:
 
     e = 2.7182818285
 
+    @staticmethod
+    def factorial(n):
+        """
+        Factorial
+        """
+        fact = 1
+        for num in range(2, n + 1):
+            fact *= num
+        return fact
+
     def __init__(self, data=None, lambtha=1.):
         """Poisson object attributes initialization
             Args:
@@ -49,10 +59,8 @@ class Poisson:
         if k < 0:
             return 0
         else:
-            k_factorial = 1
-            for i in range(1, k+1):
-                k_factorial *= i
-            return ((self.lambtha**k)*(Poisson.e**(-self.lambtha)))/k_factorial
+            return (((self.lambtha**k)*(Poisson.e**(-self.lambtha))) /
+                    Poisson.factorial(k))
 
     def cdf(self, k):
         """Calculates the value of the Poisson CDF
@@ -71,8 +79,5 @@ class Poisson:
         else:
             k_sumattion = 0
             for m in range(0, k+1):
-                k_factorial = 1
-                for n in range(1, m+1):
-                    k_factorial *= n
-                k_sumattion += (self.lambtha**m)/k_factorial
+                k_sumattion += (self.lambtha**m)/Poisson.factorial(m)
             return (Poisson.e**(-self.lambtha))*k_sumattion
