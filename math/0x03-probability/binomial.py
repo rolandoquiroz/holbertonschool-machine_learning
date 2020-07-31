@@ -37,7 +37,7 @@ class Binomial:
                     if type(value) not in [float, int]:
                         raise ValueError("data must contain multiple values")
                 mean = sum(data)/len(data)
-                variance = sum([(mean-xi)**2 for xi in data])/(len(data)-1)
+                variance = sum([(mean-xi)**2 for xi in data])/(len(data))
                 p = 1-variance/mean
                 self.n = round(mean/p)
                 self.p = mean/self.n
