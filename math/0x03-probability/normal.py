@@ -77,7 +77,7 @@ class Normal:
             Returns:
                 (float): CDF value for x
         """
-        x0 = (x-self.mean)/((2 ** 0.5)*self.stddev)
+        x0 = (x-self.mean)/((2**0.5)*self.stddev)
         erfx = ((2/(Normal.π)**0.5)*(x0-((x0**3)/3) +
                                      ((x0**5)/10)-((x0**7)/42)+((x0**9)/216)))
         return ((1 + erfx) / 2)
