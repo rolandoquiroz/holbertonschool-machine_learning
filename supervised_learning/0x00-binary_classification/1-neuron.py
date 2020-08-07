@@ -34,7 +34,7 @@ class Neuron:
     @property
     def b(self):
         """
-        xb getter method
+        b getter method
         """
         return self.__b
 

@@ -9,12 +9,12 @@ class Neuron:
     def __init__(self, nx):
         """Neuron object attributes initialization
 
-            Args:
-                nx (int): Number of input features to the neuron
+        Args:
+            nx (int): Number of input features to the neuron
 
-            Raises:
-                TypeError: If nx is not an integer
-                ValueError: If nx is less than 1
+        Raises:
+            TypeError: If nx is not an integer
+            ValueError: If nx is less than 1
         """
         if type(nx) is not int:
             raise TypeError("nx must be an integer")
@@ -34,7 +34,7 @@ class Neuron:
     @property
     def b(self):
         """
-        xb getter method
+        b getter method
         """
         return self.__b
 
@@ -47,9 +47,18 @@ class Neuron:
 
     def forward_prop(self, X):
         """Calculates the forward propagation of the neuron
+            using sigmoid activation function
 
-            Args:
-                X (numpy.ndarray): Input data with shape (nx, m)
+        Parameters
+        ----------
+        X : numpy.ndarray
+            Input data with shape (nx, m)
+
+        Returns
+        -------
+        float
+            The forward propagation of the neuron using sigmoid
+            activation function
         """
         output = np.matmul(self.__W, X) + self.__b
         self.__A = 1/(1 + np.exp(-output))

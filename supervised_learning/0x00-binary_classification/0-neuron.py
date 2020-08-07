@@ -9,12 +9,12 @@ class Neuron:
     def __init__(self, nx):
         """Neuron object attributes initialization
 
-            Args:
-                nx (int): Number of input features to the neuron
+        Args:
+            nx (int): Number of input features to the neuron
 
-            Raises:
-                TypeError: If nx is not an integer
-                ValueError: If nx is less than 1
+        Raises:
+            TypeError: If nx is not an integer
+            ValueError: If nx is less than 1
         """
         if type(nx) is not int:
             raise TypeError("nx must be an integer")
