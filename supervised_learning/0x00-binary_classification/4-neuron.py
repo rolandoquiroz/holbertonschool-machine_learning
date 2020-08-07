@@ -79,14 +79,12 @@ class Neuron:
         cost : float
             The cost of the model using logistic regression
         """
-        cost = -np.sum((Y*np.log(A)+(1-Y)*np.log(1.0000001 - A)))/Y.shape[1]
+        cost = -np.sum(Y*np.log(A)+(1-Y)*np.log(1.0000001 - A))/Y.shape[1]
         return cost
 
     def evaluate(self, X, Y):
         """Evaluates the neuron’s predictions
 
-        Parameters
-        ----------
         Parameters
         ----------
         X : numpy.ndarray
