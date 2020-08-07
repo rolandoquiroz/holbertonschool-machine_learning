@@ -49,8 +49,6 @@ class Neuron:
         """Calculates the forward propagation of the neuron
 
             Args:
-                nx (int): Number of input features to the neuron
-                m (int): Number of examples
                 X (numpy.ndarray): Input data with shape (nx, m)
         """
         output = np.matmul(self.__W, X) + self.__b
