@@ -185,13 +185,13 @@ class Neuron:
         costs = []
         for i in range(iterations + 1):
             (A, cost_i) = self.evaluate(X, Y)
+            self.gradient_descent(X, Y, self.A, alpha)
             if i % step == 0:
                 if verbose is True:
                     print("Cost after {} iterations: {}".format(i, cost_i))
                 if graph is True:
                     steps.append(i)
                     costs.append(cost_i)
-            self.gradient_descent(X, Y, self.A, alpha)
 
         if graph is True:
             plt.plot(steps, costs)
