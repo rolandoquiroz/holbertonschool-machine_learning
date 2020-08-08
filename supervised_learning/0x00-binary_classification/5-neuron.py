@@ -118,5 +118,9 @@ class Neuron:
         alpha : float
             Learning rate
         """
-        self.__W = self.__W-alpha*(np.matmul(X, (A-Y).T)).T/Y.shape[1]
-        self.__b = self.__b-alpha*np.sum(A-Y)/Y.shape[1]
+        dZ = A-Y
+        m = Y.shape[1]
+        dW = np.matmul(dZ, X.T)/m
+        db = np.sum(dZ)/m
+        self.__W = self.__W-alpha*dW
+        self.__b = self.__b-alpha*db
