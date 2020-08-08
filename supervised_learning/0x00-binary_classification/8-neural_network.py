@@ -15,6 +15,20 @@ class NeuralNetwork:
             nx (int): Number of input features to the NeuralNetwork
             nodes (int) : Number of nodes found in the hidden layer
 
+        Attributes:
+            W1: Weights vector for the hidden layer. Upon instantiation,
+                it should be initialized using a random normal distribution.
+            b1: The bias for the hidden layer. Upon instantiation,
+                it should be initialized with 0’s.
+            A1: The activated output for the hidden layer.
+                Upon instantiation, it should be initialized to 0.
+            W2: The weights vector for the output neuron. Upon instantiation,
+                it should be initialized using a random normal distribution.
+            b2: The bias for the output neuron. Upon instantiation,
+                it should be initialized to 0.
+            A2; The activated output for the output neuron (prediction).
+                Upon instantiation, it should be initialized to 0.
+
         Raises:
             TypeError: If nx is not an integer or if nodes is not an integer
             ValueError: If nx is less than 1 or if nodes is less than 1
