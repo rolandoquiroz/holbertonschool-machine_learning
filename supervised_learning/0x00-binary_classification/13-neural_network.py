@@ -147,7 +147,7 @@ class NeuralNetwork:
         cost : float
             The cost of the model using logistic regression
         """
-        (A1, A2) = self.forward_prop(X)
+        self.forward_prop(X)
         A2 = np.where(self.__A2 >= 0.5, 1, 0)
         J = self.cost(Y, self.__A2)
         return (A2, J)
