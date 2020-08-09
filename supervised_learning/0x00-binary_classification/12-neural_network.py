@@ -106,11 +106,11 @@ class NeuralNetwork:
             activation function in A1 (outputs for the hidden layer)
             and A2 (the output neuron)
         """
-        z1 = np.matmul(self.__W1, X) + self.__b1
-        self.__A1 = 1 / (1 + np.exp(-z1))
-        z2 = np.matmul(self.__W2, self.__A1) + self.__b2
-        self.__A2 = 1 / (1 + np.exp(-z2))
-        return self.__A1, self.__A2
+        Z1 = np.matmul(self.__W1, X) + self.__b1
+        self.__A1 = 1 / (1 + np.exp(-Z1))
+        Z2 = np.matmul(self.__W2, self.__A1) + self.__b2
+        self.__A2 = 1 / (1 + np.exp(-Z2))
+        return (self.__A1, self.__A2)
 
     def cost(self, Y, A):
         """Calculates the cost of the model using logistic regression
@@ -127,8 +127,8 @@ class NeuralNetwork:
         cost : float
             The cost of the model using logistic regression
         """
-        cost = -np.sum(Y*np.log(A)+(1-Y)*np.log(1.0000001 - A))/Y.shape[1]
-        return cost
+        J = -np.sum(Y*np.log(A)+(1-Y)*np.log(1.0000001 - A))/Y.shape[1]
+        return J
 
     def evaluate(self, X, Y):
         """Evaluates the neural network’s predictions
@@ -149,5 +149,5 @@ class NeuralNetwork:
         """
         (A1, A2) = self.forward_prop(X)
         A2 = np.where(self.__A2 >= 0.5, 1, 0)
-        cost = self.cost(Y, self.__A2)
-        return (A2, cost)
+        J = self.cost(Y, self.__A2)
+        return (A2, J)

@@ -102,11 +102,12 @@ class NeuralNetwork:
         Returns
         -------
         float
-            The forward propagation of the neuron using sigmoid
-            activation function
+            The forward propagation of the neural nework using sigmoid
+            activation function in A1 (outputs for the hidden layer)
+            and A2 (the output neuron)
         """
-        z1 = np.matmul(self.__W1, X) + self.__b1
-        self.__A1 = 1 / (1 + np.exp(-z1))
-        z2 = np.matmul(self.__W2, self.__A1) + self.__b2
-        self.__A2 = 1 / (1 + np.exp(-z2))
-        return self.__A1, self.__A2
+        Z1 = np.matmul(self.__W1, X) + self.__b1
+        self.__A1 = 1 / (1 + np.exp(-Z1))
+        Z2 = np.matmul(self.__W2, self.__A1) + self.__b2
+        self.__A2 = 1 / (1 + np.exp(-Z2))
+        return (self.__A1, self.__A2)
