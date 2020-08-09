@@ -175,7 +175,7 @@ class NeuralNetwork:
         m = A1.shape[1]
         dW2 = np.matmul(dZ2, A1.T)/m
         db2 = np.sum(dZ2, axis=1, keepdims=True)/m
-        dZ1 = np.matmul(self.W2.T, dZ2)*(A1*(1-A1))
+        dZ1 = np.matmul(self.__W2.T, dZ2)*(A1*(1-A1))
         dW1 = np.matmul(dZ1, X.T)/m
         db1 = np.sum(dZ1, axis=1, keepdims=True)/m
         self.__W1 = self.__W1-alpha*dW1

@@ -56,12 +56,12 @@ class Neuron:
 
         Returns
         -------
-        self.__A : float
+        A : numpy.ndarray
             The forward propagation of the neuron using sigmoid
-            activation function
+            activation function. Y_hat
         """
-        z = np.matmul(self.__W, X) + self.__b
-        self.__A = 1/(1 + np.exp(-z))
+        Z = np.matmul(self.__W, X) + self.__b
+        self.__A = 1/(1 + np.exp(-Z))
         return self.__A
 
     def cost(self, Y, A):
@@ -76,8 +76,8 @@ class Neuron:
 
         Returns
         -------
-        cost : float
+        J : float
             The cost of the model using logistic regression
         """
-        cost = -np.sum(Y*np.log(A)+(1-Y)*np.log(1.0000001 - A))/Y.shape[1]
-        return cost
+        J = -np.sum(Y*np.log(A)+(1-Y)*np.log(1.0000001 - A))/Y.shape[1]
+        return J

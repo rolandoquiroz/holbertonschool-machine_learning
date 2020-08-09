@@ -56,10 +56,10 @@ class Neuron:
 
         Returns
         -------
-        float
+        A : numpy.ndarray
             The forward propagation of the neuron using sigmoid
-            activation function
+            activation function.  Y_hat
         """
-        z = np.matmul(self.__W, X) + self.__b
-        self.__A = 1/(1 + np.exp(-z))
+        Z = np.matmul(self.__W, X) + self.__b
+        self.__A = 1/(1 + np.exp(-Z))
         return self.__A

@@ -56,12 +56,12 @@ class Neuron:
 
         Returns
         -------
-        self.__A : float
+        A : numpy.ndarray
             The forward propagation of the neuron using sigmoid
-            activation function
+            activation function. Y_hat
         """
-        z = np.matmul(self.__W, X) + self.__b
-        self.__A = 1/(1 + np.exp(-z))
+        Z = np.matmul(self.__W, X) + self.__b
+        self.__A = 1/(1 + np.exp(-Z))
         return self.__A
 
     def cost(self, Y, A):
@@ -71,16 +71,16 @@ class Neuron:
         ----------
         Y : numpy.ndarray
             Correct labels for the input data with shape (1, m)
-        A : numpy.ndarray
+        X : numpy.ndarray
             Activated output of the neuron for each example with shape (1, m)
 
         Returns
         -------
-        cost : float
+        J : float
             The cost of the model using logistic regression
         """
-        cost = -np.sum(Y*np.log(A)+(1-Y)*np.log(1.0000001 - A))/Y.shape[1]
-        return cost
+        J = -np.sum(Y*np.log(A)+(1-Y)*np.log(1.0000001 - A))/Y.shape[1]
+        return J
 
     def evaluate(self, X, Y):
         """Evaluates the neuron’s predictions
@@ -94,14 +94,15 @@ class Neuron:
 
         Returns
         -------
-        prediction : numpy.ndarray
+        A : numpy.ndarray
             Predicted labels for each example with shape (1, m)
-        cost : float
+        J : float
             The cost of the model using logistic regression
         """
-        prediction = np.where(self.forward_prop(X) >= 0.5, 1, 0)
-        cost = self.cost(Y, self.forward_prop(X))
-        return prediction, cost
+        self.forward_prop(X)
+        A = np.where(self.__A >= 0.5, 1, 0)
+        J = self.cost(Y, self.__A)
+        return A, J
 
     def gradient_descent(self, X, Y, A, alpha=0.05):
         """Calculates one pass of gradient descent on the neuron
