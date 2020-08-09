@@ -60,6 +60,6 @@ class Neuron:
             The forward propagation of the neuron using sigmoid
             activation function
         """
-        output = np.matmul(self.__W, X) + self.__b
-        self.__A = 1/(1 + np.exp(-output))
+        z = np.matmul(self.__W, X) + self.__b
+        self.__A = 1/(1 + np.exp(-z))
         return self.__A
