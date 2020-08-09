@@ -138,7 +138,7 @@ class DeepNeuralNetwork:
         J : float
             The cost of the model using logistic regression
         """
-        self.forward_prop(X)
-        A = np.where(self.__A >= 0.5, 1, 0)
-        J = self.cost(Y, self.__A)
+        A = self.forward_prop(X)[0]
+        J = self.cost(Y, A)
+        A = np.where(A >= 0.5, 1, 0)
         return A, J
