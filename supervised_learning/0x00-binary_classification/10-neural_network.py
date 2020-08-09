@@ -16,18 +16,20 @@ class NeuralNetwork:
             nodes (int) : Number of nodes found in the hidden layer
 
         Attributes:
-            W1: Weights vector for the hidden layer. Upon instantiation,
-                it should be initialized using a random normal distribution.
-            b1: The bias for the hidden layer. Upon instantiation,
-                it should be initialized with 0’s.
-            A1: The activated output for the hidden layer.
-                Upon instantiation, it should be initialized to 0.
-            W2: The weights vector for the output neuron. Upon instantiation,
-                it should be initialized using a random normal distribution.
-            b2: The bias for the output neuron. Upon instantiation,
-                it should be initialized to 0.
-            A2: The activated output for the output neuron (prediction).
-                Upon instantiation, it should be initialized to 0.
+            W1 (numpy.ndarray): Weights vector for the hidden layer.
+                Shape (nodes, nx). It is initialized using a random
+                normal distribution.
+            b1 (numpy.ndarray): The bias for the hidden layer.
+                Shape (nodes, 1). It is initialized with 0’s.
+            A1 (float): The activated output for the hidden layer.
+                It is initialized to 0.
+            W2 (numpy.ndarray): The weights vector for the output neuron.
+                Shape (1, nodes). It is initialized using a random normal
+                distribution.
+            b2 (float): The bias for the output neuron.
+                It is initialized to 0.
+            A2 (float): The activated output for the output neuron
+                (prediction). It is initialized to 0.
 
         Raises:
             TypeError: If nx is not an integer or if nodes is not an integer

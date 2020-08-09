@@ -12,6 +12,15 @@ class Neuron:
         Args:
             nx (int): Number of input features to the neuron
 
+        Attributes:
+            W (numpy.ndarray): Weights vector for the neuron.
+                Shape (1, nx). It is initialized using a random
+                normal distribution.
+            b (float): The bias for the neuron.
+                It is initialized to 0.
+            A (float): The activated output of the neuron (prediction).
+                It is initialized to 0.
+
         Raises:
             TypeError: If nx is not an integer
             ValueError: If nx is less than 1
