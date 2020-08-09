@@ -150,9 +150,9 @@ class Neuron:
 
         Returns
         -------
-        prediction : numpy.ndarray
+        A : numpy.ndarray
             Predicted labels for each example with shape (1, m)
-        cost : float
+        J : float
             The cost of the model using logistic regression
 
         Raises
