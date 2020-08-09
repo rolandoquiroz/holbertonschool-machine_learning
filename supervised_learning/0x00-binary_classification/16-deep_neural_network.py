@@ -50,8 +50,8 @@ class DeepNeuralNetwork:
                 raise ValueError("layers must be a list of positive integers")
             self.weights["b{}".format(i + 1)] = np.zeros((layers[i], 1))
             if i == 0:
-                self.weights["W{}".format(i + 1)] = (np.random.randn(layers[i],
-                                                     nx)*np.sqrt(2/nx))
+                self.weights["W{}".format(i + 1)] = np.random.randn(layers[i],
+                                                     nx)*np.sqrt(2/nx)
             else:
                 self.weights["W{}".format(i + 1)] = (np.random.randn(layers[i],
                                                      layers[i - 1]) *
