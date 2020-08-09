@@ -26,7 +26,7 @@ class NeuralNetwork:
                 it should be initialized using a random normal distribution.
             b2: The bias for the output neuron. Upon instantiation,
                 it should be initialized to 0.
-            A2; The activated output for the output neuron (prediction).
+            A2: The activated output for the output neuron (prediction).
                 Upon instantiation, it should be initialized to 0.
 
         Raises:
@@ -101,7 +101,7 @@ class NeuralNetwork:
 
         Returns
         -------
-        float
+        (A1, A2) : tuple
             The forward propagation of the neural nework using sigmoid
             activation function in A1 (outputs for the hidden layer)
             and A2 (the output neuron)
