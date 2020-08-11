@@ -1,18 +1,13 @@
 #!/usr/bin/env python3
 
-import matplotlib.pyplot as plt
+#!/usr/bin/env python3
+
 import numpy as np
 
-lib = np.load('../data/MNIST.npz')
-print(lib.files)
-X_train_3D = lib['X_train']
-Y_train = lib['Y_train']
+oh_encode = __import__('0-one_hot_encode').one_hot_encode
 
-fig = plt.figure(figsize=(10, 10))
-for i in range(100):
-    fig.add_subplot(10, 10, i + 1)
-    plt.imshow(X_train_3D[i])
-    plt.title(str(Y_train[i]))
-    plt.axis('off')
-plt.tight_layout()
-plt.show()
+lib = np.load('../data/MNIST.npz')
+Y = lib['Y_train'][:10]
+print(Y)
+Y_one_hot = oh_encode(Y, 10)
+print(Y_one_hot)
