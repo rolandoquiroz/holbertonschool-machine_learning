@@ -216,21 +216,22 @@ class DeepNeuralNetwork:
 
         steps = []
         costs = []
-        for i in range(iterations + 1):
+        for i in range(iterations):
             A, cache = self.forward_prop(X)
             self.gradient_descent(Y, self.cache, alpha)
-            if i % step == 0 and i < iterations + 1:
-                steps.append(i)
-                costs.append(self.cost(Y, self.cache["A" + str(self.L)]))
-                if verbose:
+            if i % step == 0:
+                if graph is True:
+                    steps.append(i)
+                    costs.append(self.cost(Y, self.cache["A" + str(self.L)]))
+                if verbose is True:
                     print("Cost after {} iterations: {}"
                           .format(i, self.cost(Y, A)))
-            if i == iterations + 1:
-                J = self.evaluate(X, Y)[1]
-                if verbose:
-                    print("Cost after {} iterations: {}".format(i + 1, J))
 
-        if graph:
+        J = self.evaluate(X, Y)[1]
+        if verbose is True:
+            print("Cost after {} iterations: {}".format(i + 1, J))
+
+        if graph is True:
             plt.plot(steps, costs)
             plt.title('Training Cost')
             plt.xlabel('iteration')
