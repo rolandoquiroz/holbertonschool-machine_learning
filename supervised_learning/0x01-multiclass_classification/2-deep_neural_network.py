@@ -180,7 +180,6 @@ class DeepNeuralNetwork:
     def train(self, X, Y, iterations=5000, alpha=0.05,
               verbose=True, graph=True, step=100):
         """Trains the neural network
-
         Parameters
         ----------
         X : numpy.ndarray
@@ -191,14 +190,12 @@ class DeepNeuralNetwork:
             Number of iterations to train over
         alpha : float
             Learning rate
-
         Returns
         -------
         A2 : numpy.ndarray
             Predicted labels for each example with shape (1, m)
         J : float
             The cost of the model using logistic regression
-
         Raises
         ------
         TypeError
@@ -221,20 +218,15 @@ class DeepNeuralNetwork:
         costs = []
         for i in range(iterations + 1):
             (A, J_i) = self.evaluate(X, Y)
+            self.gradient_descent(Y, self.__cache, alpha)
             if i % step == 0:
                 if verbose is True:
                     print("Cost after {} iterations: {}".format(i, J_i))
                 if graph is True:
                     steps.append(i)
                     costs.append(J_i)
-            i += 1
-            self.gradient_descent(Y, self.__cache, alpha)
-
-        A, J_i = self.evaluate(X, Y)
 
         if graph is True:
-            steps.append(i)
-            costs.append(J_i)
             plt.plot(steps, costs)
             plt.xlabel("iteration")
             plt.ylabel("cost")
