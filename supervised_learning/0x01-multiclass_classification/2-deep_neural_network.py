@@ -217,14 +217,13 @@ class DeepNeuralNetwork:
         steps = []
         costs = []
         for i in range(iterations + 1):
-            (A, J_i) = self.evaluate(X, Y)
-            self.gradient_descent(Y, self.__cache, alpha)
+            (A, cache) = self.forward_prop(X)
+            self.gradient_descent(Y, self.cache, alpha)
             if i % step == 0:
+                costs.append(self.cost(Y, self.cache["A" + str(self.L)]))
                 if verbose is True:
-                    print("Cost after {} iterations: {}".format(i, J_i))
-                if graph is True:
-                    steps.append(i)
-                    costs.append(J_i)
+                    print("Cost after {} iterations: {}".
+                          format(i, self.cost(Y, A)))
 
         if graph is True:
             plt.plot(steps, costs)
@@ -233,7 +232,7 @@ class DeepNeuralNetwork:
             plt.title("Training Cost")
             plt.show()
 
-        return (A, J_i)
+        return self.evaluate(X, Y)
 
     def save(self, filename):
         """Saves the instance object to a file in pickle format
