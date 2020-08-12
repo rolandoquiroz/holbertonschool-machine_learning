@@ -219,7 +219,7 @@ class DeepNeuralNetwork:
         for i in range(iterations):
             A, cache = self.forward_prop(X)
             self.gradient_descent(Y, self.cache, alpha)
-            if i % step == 0 or i == iterations:
+            if i % step == 0:
                 steps.append(i)
                 costs.append(self.cost(Y, self.cache["A" + str(self.L)]))
                 if verbose:
