@@ -269,7 +269,7 @@ class DeepNeuralNetwork:
         """
         try:
             with open(filename, 'rb') as f:
-                f = pickle.load(open('f.p','rb'))
+                f = pickle.load(open('f.p', 'rb'))
                 return (f)
         except FileNotFoundError:
             return None
