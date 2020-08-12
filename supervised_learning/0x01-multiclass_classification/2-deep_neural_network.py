@@ -229,6 +229,8 @@ class DeepNeuralNetwork:
                     steps.append(i)
                     costs.append(J_i)
 
+        A, J_i = self.evaluate(X, Y)
+
         if graph is True:
             plt.plot(steps, costs)
             plt.xlabel("iteration")
