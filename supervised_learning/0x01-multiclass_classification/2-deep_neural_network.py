@@ -231,8 +231,6 @@ class DeepNeuralNetwork:
             self.gradient_descent(Y, self.__cache, alpha)
 
         A, J_i = self.evaluate(X, Y)
-        if verbose is True:
-            print('Cost after {} iterations: {}'.format(i, J_i))
 
         if graph is True:
             steps.append(i)
