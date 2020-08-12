@@ -266,8 +266,7 @@ class DeepNeuralNetwork:
         Returns: the loaded object, or None if filename doesn’t exist
         """
         try:
-            open(filename)
+            with open(filename, 'rb') as f:
+                return (pickle.load(f))
         except IOError:
             return None
-        with open(filename, 'rb') as f:
-            return (pickle.load(f))
