@@ -222,7 +222,8 @@ class DeepNeuralNetwork:
             if i % step == 0:
                 if graph is True:
                     steps.append(i)
-                    costs.append(self.cost(Y, self.cache["A" + str(self.L)]))
+                    costs.append(self.cost(Y,
+                                 self.cache["A{}".format(self.L)]))
                 if verbose is True:
                     print("Cost after {} iterations: {}"
                           .format(i, self.cost(Y, A)))
