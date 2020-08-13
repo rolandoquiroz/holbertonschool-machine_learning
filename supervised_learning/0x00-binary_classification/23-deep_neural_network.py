@@ -236,8 +236,7 @@ class DeepNeuralNetwork:
 
         if graph is True:
             steps.append(i+1)
-            costs.append(self.cost(Y,
-                                   self.cache["A{}".format(self.L)]))
+            costs.append(self.cost(Y, self.cache["A{}".format(self.L)]))
             plt.plot(steps, costs)
             plt.xlabel("iteration")
             plt.ylabel("cost")
