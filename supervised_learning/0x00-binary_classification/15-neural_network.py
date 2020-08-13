@@ -228,21 +228,28 @@ class NeuralNetwork:
 
         steps = []
         costs = []
-        for i in range(iterations + 1):
-            (A2, J_i) = self.evaluate(X, Y)
+        for i in range(iterations):
+            self.forward_prop(X)
             self.gradient_descent(X, Y, self.__A1, self.__A2, alpha)
+            J_i = self.cost(Y, self.__A2)
             if i % step == 0:
-                if verbose is True:
-                    print("Cost after {} iterations: {}".format(i, J_i))
                 if graph is True:
                     steps.append(i)
                     costs.append(J_i)
+                if verbose is True:
+                    print("Cost after {} iterations: {}".format(i, J_i))
+
+        J = self.evaluate(X, Y)[1]
+        if verbose is True:
+            print("Cost after {} iterations: {}".format(i + 1, J))
 
         if graph is True:
+            steps.append(i+1)
+            costs.append(J)
             plt.plot(steps, costs)
             plt.xlabel("iteration")
             plt.ylabel("cost")
             plt.title("Training Cost")
             plt.show()
 
-        return (A2, J_i)
+        return self.evaluate(X, Y)
