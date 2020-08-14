@@ -9,15 +9,16 @@ class DeepNeuralNetwork:
     """DeepNeuralNetwork defines a neural network with one hidden layer
         performing binary classification
     """
-
-    def __init__(self, nx, layers):
+    def __init__(self, nx, layers, activation='sig'):
         """DeepNeuralNetwork object attributes initialization
-
         Args:
             nx (int): Number of input features to the DeepNeuralNetwork
-            layers (int) : List representing the number of nodes in each
+            layers (int): List representing the number of nodes in each
                 layer of the network
-
+            activation (str): Represents the type of activation function
+                used in the hidden layers
+                    - sig represents a sigmoid activation
+                    - tanh represents a tanh activation
         Attributes:
             L (int): The number of layers in the neural network.
             cache (dict): Intermediary values of the network.
@@ -30,7 +31,6 @@ class DeepNeuralNetwork:
                 -The biases of the network are initialized to 0’s
                 and saved in the weights dictionary using the key
                 b{l} where {l} is the hidden layer the bias belongs to.
-
         Raises:
             TypeError: If nx is not an integer
                        If layers is not a list
@@ -47,7 +47,6 @@ class DeepNeuralNetwork:
         self.__L = len(layers)
         self.__cache = {}
         self.__weights = {}
-
         for i in range(self.__L):
             if ((type(layers[i]) is not int) or (layers[i] < 1)):
                 raise TypeError("layers must be a list of positive integers")
@@ -59,6 +58,9 @@ class DeepNeuralNetwork:
                 self.weights["W{}".format(i+1)] = (np.random.randn(layers[i],
                                                    layers[i-1]) *
                                                    np.sqrt(2/layers[i-1]))
+        if activation is not "sig" or activation is not "tanh":
+            raise ValueError("activation must be 'sig' or 'tanh'")
+        self.__activation = activation
 
     @property
     def L(self):
@@ -81,15 +83,20 @@ class DeepNeuralNetwork:
         """
         return self.__weights
 
+    @property
+    def activation(self):
+        """
+        activation getter method
+        """
+        return self.__activation
+
     def forward_prop(self, X):
         """Calculates the forward propagation of the neural network
             using sigmoid activation function
-
         Parameters
         ----------
         X : numpy.ndarray
             Input data with shape (nx, m)
-
         Returns
         -------
         A : numpy.ndarray
@@ -101,25 +108,25 @@ class DeepNeuralNetwork:
             Z = (np.matmul(self.__weights["W"+str(i+1)],
                  self.__cache["A"+str(i)]) +
                  self.__weights["b"+str(i+1)])
-            if i == self.__L - 1:
+            if i != self.__L - 1:
+                if self.__activation == 'tanh':
+                    self.__cache["A"+str(i+1)] = np.tanh(Z)
+                if self.__activation == 'sig':
+                    self.__cache["A"+str(i+1)] = 1/(1+np.exp(-Z))
+            else:
                 temp = np.exp(Z)
                 self.__cache["A"+str(i+1)] = (temp/np.sum(temp, axis=0,
                                                           keepdims=True))
-            else:
-                self.__cache["A"+str(i+1)] = 1 / (1 + np.exp(-Z))
-
         return self.__cache["A"+str(i+1)], self.__cache
 
     def cost(self, Y, A):
         """Calculates the cost of the model using logistic regression
-
         Parameters
         ----------
         Y : numpy.ndarray
             Correct labels for the input data with shape (1, m)
         X : numpy.ndarray
             Activated output of the neuron for each example with shape (1, m)
-
         Returns
         -------
         J : float
@@ -130,14 +137,12 @@ class DeepNeuralNetwork:
 
     def evaluate(self, X, Y):
         """Evaluates the neuron’s predictions
-
         Parameters
         ----------
         X : numpy.ndarray
             Input data with shape (nx, m)
         Y : numpy.ndarray
             Correct labels for the input data with shape (1, m)
-
         Returns
         -------
         A : numpy.ndarray
@@ -153,7 +158,6 @@ class DeepNeuralNetwork:
     def gradient_descent(self, Y, cache, alpha=0.05):
         """Calculates one pass of gradient descent on the neural network
             updating __W1, __b1, __W2, and __b2
-
         Parameters
         ----------
         X : numpy.ndarray
@@ -169,16 +173,23 @@ class DeepNeuralNetwork:
         alpha : float
             Learning rate
         """
+        A2 = cache["A{}".format(self.__L)]
+        dA2 = A2-Y
         m = Y.shape[1]
         for i in range(self.__L, 0, -1):
-            Al = cache["A"+str(i)]
+            A2 = cache["A"+str(i)]
+            if self.__activation == 'tanh':
+                g_dot = 1-A2**2
+            if self.__activation == 'sig':
+                g_dot = A2*(1-A2)
             if i == self.__L:
-                dAl = (-1*(Y/Al))+(1-Y)/(1-Al)
-            Al1 = cache["A"+str(i-1)]
-            dZ = dAl*(Al*(1-Al))
-            dW = np.matmul(dZ, Al1.T)/m
+                dZ = dA2
+            if i != self.__L:
+                dZ = dA2*g_dot
+            A1 = cache["A"+str(i-1)]
+            dW = np.matmul(dZ, A1.T)/m
             db = np.sum(dZ, axis=1, keepdims=True)/m
-            dAl = np.matmul((self.__weights["W"+str(i)]).T, dZ)
+            dA2 = np.matmul((self.__weights["W"+str(i)]).T, dZ)
             self.__weights["W"+str(i)] = self.__weights["W"+str(i)]-alpha*dW
             self.__weights["b"+str(i)] = self.__weights["b"+str(i)]-alpha*db
 
@@ -218,7 +229,6 @@ class DeepNeuralNetwork:
             raise TypeError("alpha must be a float")
         if alpha <= 0:
             raise ValueError("alpha must be positive")
-
         steps = []
         costs = []
         for i in range(iterations):
@@ -232,22 +242,18 @@ class DeepNeuralNetwork:
                 if verbose is True:
                     print("Cost after {} iterations: {}"
                           .format(i, self.cost(Y, A)))
-
         J = self.evaluate(X, Y)[1]
         if verbose is True:
             print("Cost after {} iterations: {}".format(i + 1, J))
-
         if graph is True:
             plt.plot(steps, costs)
             plt.title('Training Cost')
             plt.xlabel('iteration')
             plt.ylabel('cost')
-
         return self.evaluate(X, Y)
 
     def save(self, filename):
         """Saves the instance object to a file in pickle format
-
         Args:
         filename : The file to which the object should be saved
             If filename does not have the extension .pkl, add it
@@ -261,15 +267,10 @@ class DeepNeuralNetwork:
     @staticmethod
     def load(filename):
         """Loads a pickled DeepNeuralNetwork object
-
         Args:
         filename : Is the file from which the object should be loaded
-
         Returns: the loaded object, or None if filename doesn’t exist
         """
-        try:
-            with open(filename, 'rb') as f:
-                f = pickle.load(open('f.p','rb'))
-                return (f)
-        except FileNotFoundError:
-            return None
+        with open(filename, 'rb') as file:
+            file_ready_to_go = pickle.load(file)
+            return (file_ready_to_go)
