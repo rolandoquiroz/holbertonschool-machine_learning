@@ -111,7 +111,7 @@ class DeepNeuralNetwork:
             if i != self.__L - 1:
                 if self.__activation == 'tanh':
                     self.__cache["A"+str(i+1)] = np.tanh(Z)
-                if self.__activation == 'sig':
+                else:
                     self.__cache["A"+str(i+1)] = 1/(1+np.exp(-Z))
             else:
                 temp = np.exp(Z)
@@ -180,11 +180,11 @@ class DeepNeuralNetwork:
             A2 = cache["A"+str(i)]
             if self.__activation == 'tanh':
                 g_dot = 1-A2**2
-            if self.__activation == 'sig':
+            else:
                 g_dot = A2*(1-A2)
             if i == self.__L:
                 dZ = dA2
-            if i != self.__L:
+            else:
                 dZ = dA2*g_dot
             A1 = cache["A"+str(i-1)]
             dW = np.matmul(dZ, A1.T)/m
