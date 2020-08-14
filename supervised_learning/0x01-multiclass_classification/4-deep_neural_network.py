@@ -58,7 +58,7 @@ class DeepNeuralNetwork:
                 self.weights["W{}".format(i+1)] = (np.random.randn(layers[i],
                                                    layers[i-1]) *
                                                    np.sqrt(2/layers[i-1]))
-        if activation is not "sig" or activation is not "tanh":
+        if activation is not "sig" and activation is not "tanh":
             raise ValueError("activation must be 'sig' or 'tanh'")
         self.__activation = activation
 
