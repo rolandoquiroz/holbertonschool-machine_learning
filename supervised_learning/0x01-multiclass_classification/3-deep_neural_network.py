@@ -267,9 +267,6 @@ class DeepNeuralNetwork:
 
         Returns: the loaded object, or None if filename doesn’t exist
         """
-        try:
-            with open(filename, 'rb') as f:
-                f = pickle.load(open('f.p', 'rb'))
-                return (f)
-        except FileNotFoundError:
-            return None
+        with open(filename, 'rb') as file:
+            file_ready_to_go = pickle.load(file)
+            return (file_ready_to_go)
