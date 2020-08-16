@@ -16,7 +16,9 @@ def create_layer(prev, n, activation):
     Returns:
         `Tensor`, the tensor output of the layer.
     """
-    model = tf.layers.Dense(units=n, activation=activation, name="layer")
-    y = model(prev)
-    init = tf.contrib.layers.variance_scaling_initializer(mode="FAN_AVG")
+    init = tf.contrib.layers.\
+        variance_scaling_initializer(mode="FAN_AVG")
+    layer = tf.layers.Dense(units=n, activation=activation,
+                            name="layer", kernel_initializer=init)
+    y = layer(prev)
     return y
