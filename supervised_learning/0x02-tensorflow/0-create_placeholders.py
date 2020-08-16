@@ -18,5 +18,4 @@ def create_placeholders(nx, classes):
     """
     x = tf.placeholder("float", [None, nx], name="x")
     y = tf.placeholder("float", [None, classes], name="y")
-
     return x, y
