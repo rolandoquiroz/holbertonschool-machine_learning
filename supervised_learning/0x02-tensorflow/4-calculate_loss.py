@@ -10,7 +10,7 @@ def calculate_loss(y, y_pred):
 
     Args:
         y: `placeholder` for the labels of the input data.
-        y_pred: `Tesor` that contains the network’s predictions
+        y_pred: `Tensor` that contains the network’s predictions
 
     Returns:
         xentropy: `Tensor`, that contains the the softmax cross-entropy
