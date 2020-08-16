@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""0-create_layer module
+"""1-create_layer module
 contains the function create_layer
 """
 import tensorflow as tf
