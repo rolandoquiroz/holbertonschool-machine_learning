@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""0-forward_prop module
+"""2-forward_prop module
 contains the function forward_prop
 """
 import tensorflow as tf
