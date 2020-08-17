@@ -27,7 +27,7 @@ def evaluate(X, Y, save_path):
         loss = tf.get_collection("loss")[0]
         # forward propagation
         ans_prediction = session.run(y_pred, feed_dict={x: X, y: Y})
-        ans_evaluated_accuracy = session.run(accuracy, feed_dict={x: X, y: Y})
+        ans_accuracy = session.run(accuracy, feed_dict={x: X, y: Y})
         ans_cost = session.run(loss, feed_dict={x: X, y: Y})
 
     return ans_prediction, ans_accuracy, ans_cost
