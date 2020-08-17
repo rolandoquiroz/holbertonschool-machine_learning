@@ -36,17 +36,18 @@ def train(X_train, Y_train, X_valid, Y_valid, layer_sizes,
     loss = calculate_loss(y, y_pred)
     train_op = create_train_op(loss, alpha)
     tf.add_to_collection('x', x)
-    tf.add_to_collection('x', x)
+    tf.add_to_collection('y', y)
     tf.add_to_collection('y_pred', y_pred)
     tf.add_to_collection('accuracy', accuracy)
     tf.add_to_collection('loss', loss)
     tf.add_to_collection('train_op', train_op)
+
     saver = tf.train.Saver()
     init = tf.global_variables_initializer()
 
     with tf.Session() as session:
         session.run(init)
-        for i in range(iterations+1):
+        for i in range(iterations + 1):
             training_cost = session.run(loss,
                                         feed_dict={x: X_train, y: Y_train})
             training_accuracy = session.run(accuracy,
