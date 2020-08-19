@@ -18,8 +18,6 @@ def shuffle_data(X, Y):
     Returns:
         X_shuffled, Y_shuffled: `tuple`, Shuffled X and Y matrices.
     """
-    X = np.concatenate((X, Y), axis=1)
-    X = np.random.permutation(X)
-    X_shuffled = X[:, :Y.shape[1]]
-    Y_shuffled = X[:, Y.shape[1]:]
-    return X_shuffled, Y_shuffled
+    # numpy.random.permutation also return a permuted range
+    shufled_rows = np.random.permutation(X.shape[0])
+    return X[shufled_rows], Y[shufled_rows]
