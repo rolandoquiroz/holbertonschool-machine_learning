@@ -82,7 +82,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                     batch_start = batch * batch_size
 
                     if batch < batches - 1:
-                        batch_end = batch * batch_size + batch_size
+                        batch_end = m
                     else:
                         batch_end = batch * batch_size + last_batch_size
 
