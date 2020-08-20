@@ -46,10 +46,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
     batches = m // batch_size
 
     if (batches % batch_size):
-        batches = batches + 1
-        last_batch_size = int(batches % batch_size)
-    else:
-        last_batch_size = batch_size
+        batches += 1
 
     with tf.Session() as session:
 
@@ -84,7 +81,10 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                     if batch < batches - 1:
                         batch_end = batch * batch_size + batch_size
                     else:
-                        batch_end = m
+                        if (batches % batch_size == 0):
+                            batch_end = batch * batch_size + batch_size
+                        else:
+                            batch_end = m
 
                     X_shu_batch = X_shuffled[batch_start:batch_end]
                     Y_shu_batch = Y_shuffled[batch_start:batch_end]
