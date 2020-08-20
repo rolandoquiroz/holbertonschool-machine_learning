@@ -42,11 +42,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
     Note that you have to train at least a (mini-batch) batch
     with size minor that batch size defined'''
 
-    m = X_train.shape[0]
-    batches = m // batch_size
 
-    if (batches % batch_size):
-        batches += 1
 
     with tf.Session() as session:
 
@@ -56,6 +52,12 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
         loss = tf.get_collection("loss")[0]
         accuracy = tf.get_collection("accuracy")[0]
         train_op = tf.get_collection("train_op")[0]
+
+        m = X_train.shape[0]
+        batches = m // batch_size
+
+        if (batches % batch_size):
+            batches += 1
 
         for epoch in range(epochs + 1):
             train_cost = session.run(loss, feed_dict={x: X_train, y: Y_train})
