@@ -3,6 +3,7 @@
 contains the function train_mini_batch
 """
 import tensorflow as tf
+import numpy as np
 shuffle_data = __import__('2-shuffle_data').shuffle_data
 
 
@@ -43,7 +44,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
     with size minor that batch size defined'''
 
     m = X_train.shape[0]
-    batches = int(m / batch_size)
+    batches = int(np.ceil(m / batch_size))
 
     if (m % batch_size):
         last_batch_size = int(m % batch_size)
