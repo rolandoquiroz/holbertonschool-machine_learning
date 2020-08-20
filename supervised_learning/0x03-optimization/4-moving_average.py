@@ -20,6 +20,6 @@ def moving_average(data, beta):
     vt = 0
     for i in range(len(data)):
         vt = beta * vt + (1 - beta) * data[i]
-        exponential_moving_averages.append(value / (1 - beta**(i + 1)))
+        exponential_moving_averages.append(vt / (1 - beta**(i + 1)))
 
     return exponential_moving_averages
