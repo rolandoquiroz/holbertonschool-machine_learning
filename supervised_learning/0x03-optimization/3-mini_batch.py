@@ -45,9 +45,9 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
     m = X_train.shape[0]
     batches = m // batch_size
 
-    if (m % batch_size):
+    if (batches % batch_size):
         batches = batches + 1
-        last_batch_size = int(m % batch_size)
+        last_batch_size = int(batches % batch_size)
     else:
         last_batch_size = batch_size
 
