@@ -51,7 +51,6 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
     else:
         batches = m // batch_size
         last_batch_size = batch_size
-        
 
     with tf.Session() as session:
 
