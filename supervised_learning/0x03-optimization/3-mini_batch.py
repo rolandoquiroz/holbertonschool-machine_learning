@@ -82,9 +82,9 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                     batch_start = batch * batch_size
 
                     if batch < batches - 1:
-                        batch_end = m
+                        batch_end = batch * batch_size + batch_size
                     else:
-                        batch_end = batch * batch_size + last_batch_size
+                        batch_end = m
 
                     X_shu_batch = X_shuffled[batch_start:batch_end]
                     Y_shu_batch = Y_shuffled[batch_start:batch_end]
