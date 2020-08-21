@@ -7,13 +7,14 @@ import numpy as np
 
 def moving_average(data, beta):
     """Calculates the weighted moving average of a data set.
-        Actually exponential moving average is calculated
+        Actually with is beta=0.9 is prctically an exponential
+        moving average is calculated
     Args:
         data: `list` of data to calculate the moving average of.
         beta: `float, the weight used for the moving average.
 
     Returns:
-        `list` containing the moving averages of data.
+        `list` containing the exponential moving averages of data.
     """
     exponential_moving_averages = []
 
