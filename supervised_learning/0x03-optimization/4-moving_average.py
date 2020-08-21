@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """4-moving_average module
-contains the function shuffle_data
+contains the function moving_average
 """
-import numpy as np
 
 
 def moving_average(data, beta):
@@ -11,7 +10,7 @@ def moving_average(data, beta):
         moving average is calculated
     Args:
         data: `list` of data to calculate the moving average of.
-        beta: `float, the weight used for the moving average.
+        beta: `float`, the weight used for the moving average.
 
     Returns:
         `list` containing the exponential moving averages of data.
