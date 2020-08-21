@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""6-momentum module that
-    contains the function create_momentum_op
+"""6-momentum module
+contains the function create_momentum_op
 """
 import tensorflow as tf
 

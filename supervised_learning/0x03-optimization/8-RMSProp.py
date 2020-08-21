@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""8-RMSProp module that
-    contains the function create_RMSProp_op
+"""8-RMSProp module
+contains the function create_RMSProp_op
 """
 import tensorflow as tf
 

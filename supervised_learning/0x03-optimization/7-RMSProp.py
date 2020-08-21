@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""5-momentum module that
-    contains the function update_variables_RMSProp
+"""5-momentum module
+contains the function update_variables_RMSProp
 """
 
 

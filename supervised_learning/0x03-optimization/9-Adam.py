@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """9-Adam module contains
-    the function update_variables_Adam
+the function update_variables_Adam
 """
 
 
