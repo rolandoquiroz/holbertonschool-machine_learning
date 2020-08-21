@@ -15,11 +15,11 @@ def moving_average(data, beta):
     Returns:
         `list` containing the exponential moving averages of data.
     """
-    exponential_moving_averages = []
+    moving_averages = []
 
     vt = 0
     for i in range(len(data)):
         vt = beta * vt + (1 - beta) * data[i]
-        exponential_moving_averages.append(vt / (1 - beta**(i + 1)))
+        moving_averages.append(vt / (1 - beta ** (i + 1)))
 
-    return exponential_moving_averages
+    return moving_averages

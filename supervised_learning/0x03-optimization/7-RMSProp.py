@@ -16,8 +16,8 @@ def update_variables_RMSProp(alpha, beta2, epsilon, var, grad, s):
         s: is the previous second moment of var
 
     Returns:
-        the updated variable and the new moment, respectively
+        `tuple`, the updated variable and the new moment, respectively
     """
     s = beta2 * s + (1 - beta2) * grad ** 2
-    var = var - (alpha / (s ** 0.5 + epsilon)) * grad
+    var = var - alpha * (1 / (s ** 0.5 + epsilon)) * grad
     return var, s
