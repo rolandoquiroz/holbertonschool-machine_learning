@@ -34,5 +34,4 @@ def create_batch_norm_layer(prev, n, activation):
                                   offset=beta, scale=gamma,
                                   variance_epsilon=epsilon, name="Z")
     A = activation(Z)
-
     return A
