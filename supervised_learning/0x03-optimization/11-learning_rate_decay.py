@@ -11,10 +11,12 @@ def learning_rate_decay(alpha, decay_rate, global_step, decay_step):
 
     Args:
         alpha: `float`, the original learning rate
-        decay_rate: `float`,the weight used to determine the rate at which alpha will decay
-        global_step: `int`, the number of passes of gradient descent that have elapsed
-        decay_step: `int`, the number of passes of gradient descent that should occur
-            before alpha is decayed further
+        decay_rate: `float`,the weight used to determine the rate at which
+            alpha will decay
+        global_step: `int`, the number of passes of gradient descent that
+            have elapsed
+        decay_step: `int`, the number of passes of gradient descent that
+            should occur before alpha is decayed further
 
     Returns:
         updated_alpha: `float`, the updated value for alpha.
