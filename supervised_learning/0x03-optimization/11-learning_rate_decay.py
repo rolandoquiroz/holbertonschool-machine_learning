@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""11-learning_rate_decay.py
+"""11-learning_rate_decay module
 contains the function learning_rate_decay
 """
 
