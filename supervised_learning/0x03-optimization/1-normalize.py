@@ -2,7 +2,6 @@
 """1-normalize module
 contains the function normalize
 """
-import numpy as np
 
 
 def normalize(X, m, s):

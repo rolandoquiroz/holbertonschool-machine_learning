@@ -13,9 +13,9 @@ def normalization_constants(X):
             nx: `int`, the number of feature columns in our data.
 
     Returns:
-        me, s: `tuple`, mean and standard deviation of each feature,
-            respectively.
+        mean, standar_deviation: `tuple`, mean and standard deviation
+            of each feature, respectively.
     """
-    me = np.mean(X, axis=0)
-    s = np.std(X, axis=0)
-    return me, s
+    mean = np.mean(X, axis=0)
+    standar_deviation = np.std(X, axis=0)
+    return mean, standar_deviation
