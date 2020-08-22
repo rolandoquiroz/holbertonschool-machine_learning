@@ -15,21 +15,26 @@ def create_batch_norm_layer(prev, n, activation):
             the output of the layer
 
     Returns:
-        `Tensor`, the activated output for the layer
+        A: `Tensor`, the activated output for the layer
     """
-    initializer = tf.contrib.\
-        layers.variance_scaling_initializer(mode="FAN_AVG")
+    initializer = tf.\
+        contrib.layers.variance_scaling_initializer(mode="FAN_AVG")
 
-    layer = tf.layers.Dense(units=n,
-                            activation=None,
-                            name="layer",
-                            kernel_initializer=initializer)
-    x = layer(prev)
-    mean, variance = tf.nn.moments(x, axes=[0])
-    gamma = tf.Variable(tf.constant(1.0, shape=[n]), trainable=True)
-    beta = tf.Variable(tf.constant(0.0, shape=[n]), trainable=True)
+    base_layer = tf.layers.Dense(units=n, kernel_initializer=initializer,
+                                 name="base_layer")
+    X = base_layer(prev)
+    print(X.shape)
+
+    mean, variance = tf.nn.moments(X, axes=[0])
+    gamma = tf.Variable(tf.constant(1.0, shape=[n]), trainable=True,
+                        name="gamma")
+    beta = tf.Variable(tf.constant(0.0, shape=[n]), trainable=True,
+                       name="beta")
+    print(beta.shape)
     epsilon = 1e-8
-    Z = tf.nn.batch_normalization(x=x, mean=mean, variance=variance,
+    Z = tf.nn.batch_normalization(x=X, mean=mean, variance=variance,
                                   offset=beta, scale=gamma,
                                   variance_epsilon=epsilon, name="Z")
-    return activation(Z)
+    A = activation(Z)
+
+    return A
