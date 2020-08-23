@@ -66,7 +66,9 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
             print('\tValidation Cost: {}'.format(valid_cost))
             print('\tValidation Accuracy: {}'.format(valid_accuracy))
 
-            if epoch != epochs:
+            if epoch < epochs:
+
+                X_shuffled, Y_shuffled = shuffle_data(X_train, Y_train)
 
                 if m % batch_size == 0 and m == batch_size:
                     batches = 1
@@ -76,8 +78,6 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                     batches = m // batch_size + 1
                 if m % batch_size and m < batch_size:
                     batches = 1
-
-                X_shuffled, Y_shuffled = shuffle_data(X_train, Y_train)
 
                 for batch in range(batches):
 
@@ -94,7 +94,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                             batch_end = (batch * batch_size +
                                          int(m % batch_size))
                         if m % batch_size and m < batch_size:
-                            batch_end = m
+                            batch_end = int(m % batch_size)
 
                     X_shu_batch = X_shuffled[batch_start:batch_end]
                     Y_shu_batch = Y_shuffled[batch_start:batch_end]
@@ -102,7 +102,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                     session.run(train_op, feed_dict={x: X_shu_batch,
                                                      y: Y_shu_batch})
 
-                    if ((batch + 1) % 100) == 0:
+                    if ((batch != 0) and ((batch + 1) % 100 == 0)):
                         step_cost = session.run(loss,
                                                 feed_dict={x: X_shu_batch,
                                                            y: Y_shu_batch})
