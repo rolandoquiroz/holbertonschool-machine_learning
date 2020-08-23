@@ -231,7 +231,6 @@ def model(Data_train, Data_valid, layers, activations, alpha=0.001, beta1=0.9,
     y_pred = forward_prop(x, layers, activations)
     accuracy = calculate_accuracy(y, y_pred)
     loss = calculate_loss(y, y_pred)
-
     global_step = tf.Variable(0, trainable=False)
     alpha = learning_rate_decay(alpha, decay_rate, global_step, 1)
     train_op = create_Adam_op(loss, alpha, beta1, beta2, epsilon)
