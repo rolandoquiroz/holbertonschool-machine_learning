@@ -33,7 +33,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
     Returns:
         saved_path: `str`, the path where the model was saved.
     """
-    m = X_train.shape[0]
+
     fetcher = tf.train.import_meta_graph(load_path + ".meta")
     saver = tf.train.Saver()
 
@@ -51,6 +51,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
         accuracy = tf.get_collection("accuracy")[0]
         loss = tf.get_collection("loss")[0]
         train_op = tf.get_collection("train_op")[0]
+        m = X_train.shape[0]
 
         for epoch in range(epochs + 1):
             train_accuracy = session.run(accuracy,
@@ -72,16 +73,14 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
 
                 if m <= batch_size:
                     batches = 1
-                if (m > batch_size and (int(m % batch_size) == 0)):
+                if (m > batch_size and (m % batch_size) == 0):
                     batches = m // batch_size
-                if (m > batch_size and (int(m % batch_size) != 0)):
+                if (m > batch_size and (m % batch_size) != 0):
                     batches = (m // batch_size) + 1
 
-                batch = 0
                 batch_start = 0
                 batch_end = batch_size
-
-                while (batch_end <= m):
+                while (batch < batches):
                     session.run(train_op, feed_dict={x: X_shuffled[batch_start:batch_end],
                                                      y: Y_shuffled[batch_start:batch_end]})
 
@@ -97,16 +96,11 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                         print('\t\tAccuracy: {}'.format(step_accuracy))
 
                     batch_start = batch_end
-                    if batch + 1 < batches - 1:
+                    if (batch + 1 < batches):
                         batch_end += batch_size
                     else:
-                        if m <= batch_size:
-                            batch_end = m
-                        if ((m > batch_size) and (int(m % batch_size) == 0)):
-                            batch_end += batch_size
-                        if ((m > batch_size) and (int(m % batch_size) != 0)):
-                            batch_end += int(m % batch_size)
-                    batch +=1           
+                        batch_end += m % batch_size
+                    batch += 1
 
         saved_path = saver.save(session, save_path)
         return saved_path
