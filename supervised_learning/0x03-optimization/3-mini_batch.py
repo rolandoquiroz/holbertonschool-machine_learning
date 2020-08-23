@@ -77,10 +77,11 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                 if (m > batch_size and (int(m % batch_size) != 0)):
                     batches = (m // batch_size) + 1
 
+                batch = 0
                 batch_start = 0
                 batch_end = batch_size
 
-                for batch in range(batches):
+                while (batch_end <= m):
                     session.run(train_op, feed_dict={x: X_shuffled[batch_start:batch_end],
                                                      y: Y_shuffled[batch_start:batch_end]})
 
@@ -95,16 +96,17 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                         print('\t\tCost: {}'.format(step_cost))
                         print('\t\tAccuracy: {}'.format(step_accuracy))
 
-                    batch_start = batch_end + 1
+                    batch_start = batch_end
                     if batch + 1 < batches - 1:
-                        batch_end = batch_start + batch_size
+                        batch_end += batch_size
                     else:
                         if m <= batch_size:
                             batch_end = m
                         if ((m > batch_size) and (int(m % batch_size) == 0)):
-                            batch_end = batch_start + batch_size
+                            batch_end += batch_size
                         if ((m > batch_size) and (int(m % batch_size) != 0)):
-                            batch_end = batch_start + int(m % batch_size)             
+                            batch_end += int(m % batch_size)
+                    batch +=1           
 
         saved_path = saver.save(session, save_path)
         return saved_path
