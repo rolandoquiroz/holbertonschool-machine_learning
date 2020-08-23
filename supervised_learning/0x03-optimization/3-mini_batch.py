@@ -33,7 +33,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
     Returns:
         saved_path: `str`, the path where the model was saved.
     """
-
+    m = X_train.shape[0]
     fetcher = tf.train.import_meta_graph(load_path + ".meta")
     saver = tf.train.Saver()
 
@@ -51,7 +51,6 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
         accuracy = tf.get_collection("accuracy")[0]
         loss = tf.get_collection("loss")[0]
         train_op = tf.get_collection("train_op")[0]
-        m = X_train.shape[0]
 
         for epoch in range(epochs + 1):
             train_accuracy = session.run(accuracy,
@@ -71,30 +70,43 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
 
                 X_shuffled, Y_shuffled = shuffle_data(X_train, Y_train)
 
-                batch = 0
-                batch_start = 0
-                batch_end = batch_size
-                while (batch_end <= m):
-                    session.run(train_op, feed_dict={x: X_shuffled[batch_start:batch_end],
-                                                     y: Y_shuffled[batch_start:batch_end]})
+                if m <= batch_size:
+                    batches = 1
+                if m > batch_size and (int(m % batch_size) == 0):
+                    batches = m // batch_size
+                if m > batch_size and (int(m % batch_size) != 0):
+                    batches = (m // batch_size) + 1
+
+                for batch in range(batches):
+
+                    batch_start = batch * batch_size
+
+                    if batch < batches - 1:
+                        batch_end = batch_start + batch_size
+                    else:
+                        if m <= batch_size:
+                            batch_end = m
+                        if m > batch_size and int(m % batch_size) == 0:
+                            batch_end = batch_start + batch_size
+                        if m > batch_size and int(m % batch_size) != 0:
+                            batch_end = batch_start + int(m % batch_size)
+
+                    X_shu_batch = X_shuffled[batch_start:batch_end]
+                    Y_shu_batch = Y_shuffled[batch_start:batch_end]
+
+                    session.run(train_op, feed_dict={x: X_shu_batch,
+                                                     y: Y_shu_batch})
 
                     if ((batch != 0) and ((batch + 1) % 100 == 0)):
                         step_cost = session.run(loss,
-                                                feed_dict={x: X_shuffled[batch_start:batch_end],
-                                                           y: Y_shuffled[batch_start:batch_end]})
+                                                feed_dict={x: X_shu_batch,
+                                                           y: Y_shu_batch})
                         step_accuracy = session.run(accuracy,
-                                                    feed_dict={x: X_shuffled[batch_start:batch_end],
-                                                               y: Y_shuffled[batch_start:batch_end]})
+                                                    feed_dict={x: X_shu_batch,
+                                                               y: Y_shu_batch})
                         print('\tStep {}:'.format(batch + 1))
                         print('\t\tCost: {}'.format(step_cost))
                         print('\t\tAccuracy: {}'.format(step_accuracy))
-
-                    batch_start = batch_end
-                    if (batch_end + batch_size) <= m:
-                        batch_end += batch_size
-                    else:
-                        batch_end += m % batch_size
-                    batch += 1
 
         saved_path = saver.save(session, save_path)
         return saved_path
