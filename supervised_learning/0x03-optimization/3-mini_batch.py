@@ -97,7 +97,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                     session.run(train_op, feed_dict={x: X_shuffled_batch,
                                                      y: Y_shuffled_batch})
 
-                    if (batch + 1 % 100 == 0):
+                    if ((batch + 1) % 100 == 0):
                         step_cost = session.run(
                             loss, feed_dict={x: X_shuffled_batch,
                                              y: Y_shuffled_batch})
