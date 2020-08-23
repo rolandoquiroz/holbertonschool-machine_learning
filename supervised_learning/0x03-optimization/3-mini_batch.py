@@ -95,11 +95,10 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                         print('\t\tCost: {}'.format(step_cost))
                         print('\t\tAccuracy: {}'.format(step_accuracy))
 
+                    batch_start = batch_end
                     if batch + 1 < batches - 1:
-                        batch_start = batch * (batch + 1)
                         batch_end = batch_start + batch_size
                     else:
-                        batch_start = batch_end
                         if m <= batch_size:
                             batch_end = m
                         if ((m > batch_size) and (int(m % batch_size) == 0)):
