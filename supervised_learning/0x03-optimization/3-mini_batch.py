@@ -33,7 +33,9 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
     Returns:
         saved_path: `str`, the path where the model was saved.
     """
-    saver = tf.train.import_meta_graph(load_path + ".meta")
+    m = X_train.shape[0]
+    fetcher = tf.train.import_meta_graph(load_path + ".meta")
+    saver = tf.train.Saver()
 
     ''' With the (mini-batch) batch size defined computes
     the total number of batches (mini-batches) to train:
@@ -43,39 +45,37 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
 
     with tf.Session() as session:
 
-        saver = tf.train.import_meta_graph(load_path + ".meta")
-        saver.restore(session, save_path)
+        fetcher.restore(session, save_path)
         x = tf.get_collection("x")[0]
         y = tf.get_collection("y")[0]
         accuracy = tf.get_collection("accuracy")[0]
         loss = tf.get_collection("loss")[0]
         train_op = tf.get_collection("train_op")[0]
 
-        m = X_train.shape[0]
-
-        if m % batch_size == 0 and m == batch_size:
-            batches = 1
-        if m % batch_size == 0 and m > batch_size:
-            batches = m // batch_size
-        if m % batch_size and m > batch_size:
-            batches = m // batch_size + 1
-        if m % batch_size and m < batch_size:
-            batches = 1
-
         for epoch in range(epochs + 1):
-            train_cost = session.run(loss, feed_dict={x: X_train, y: Y_train})
             train_accuracy = session.run(accuracy,
                                          feed_dict={x: X_train, y: Y_train})
-            valid_cost = session.run(loss, feed_dict={x: X_valid, y: Y_valid})
+            train_cost = session.run(loss, feed_dict={x: X_train, y: Y_train})
             valid_accuracy = session.run(accuracy,
                                          feed_dict={x: X_valid, y: Y_valid})
+            valid_cost = session.run(loss, feed_dict={x: X_valid, y: Y_valid})
+
             print('After {} epochs:'.format(epoch))
             print('\tTraining Cost: {}'.format(train_cost))
             print('\tTraining Accuracy: {}'.format(train_accuracy))
             print('\tValidation Cost: {}'.format(valid_cost))
             print('\tValidation Accuracy: {}'.format(valid_accuracy))
 
-            if epoch < epochs:
+            if epoch != epochs:
+
+                if m % batch_size == 0 and m == batch_size:
+                    batches = 1
+                if m % batch_size == 0 and m > batch_size:
+                    batches = m // batch_size
+                if m % batch_size and m > batch_size:
+                    batches = m // batch_size + 1
+                if m % batch_size and m < batch_size:
+                    batches = 1
 
                 X_shuffled, Y_shuffled = shuffle_data(X_train, Y_train)
 
@@ -102,7 +102,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                     session.run(train_op, feed_dict={x: X_shu_batch,
                                                      y: Y_shu_batch})
 
-                    if (batch != 0) and ((batch + 1) % 100) == 0:
+                    if ((batch + 1) % 100) == 0:
                         step_cost = session.run(loss,
                                                 feed_dict={x: X_shu_batch,
                                                            y: Y_shu_batch})
