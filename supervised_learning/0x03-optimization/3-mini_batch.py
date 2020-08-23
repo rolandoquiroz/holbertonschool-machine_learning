@@ -37,12 +37,6 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
     fetcher = tf.train.import_meta_graph(load_path + ".meta")
     saver = tf.train.Saver()
 
-    ''' With the (mini-batch) batch size defined computes
-    the total number of batches (mini-batches) to train:
-    total_batches = n_batches = batches = total_stes = iterations
-    Note that you have to train at least a (mini-batch) batch
-    with size minor that batch size defined'''
-
     with tf.Session() as session:
 
         fetcher.restore(session, load_path)
@@ -51,6 +45,19 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
         accuracy = tf.get_collection("accuracy")[0]
         loss = tf.get_collection("loss")[0]
         train_op = tf.get_collection("train_op")[0]
+
+        ''' With the (mini-batch) batch size defined computes
+        the total number of batches (mini-batches) to train:
+        total_batches = n_batches = batches = total_stes = iterations
+        Note that you have to train at least a (mini-batch) batch
+        with size minor that batch size defined'''
+
+        if m <= batch_size:
+            batches = 1
+        if m > batch_size and m % batch_size == 0:
+            batches = m // batch_size
+        if m > batch_size and m % batch_size != 0:
+            batches = (m // batch_size) + 1
 
         for epoch in range(epochs + 1):
             train_accuracy = session.run(accuracy,
@@ -69,13 +76,6 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
             if epoch < epochs:
 
                 X_shuffled, Y_shuffled = shuffle_data(X_train, Y_train)
-
-                if m <= batch_size:
-                    batches = 1
-                if m > batch_size and m % batch_size == 0:
-                    batches = m // batch_size
-                if m > batch_size and m % batch_size != 0:
-                    batches = (m // batch_size) + 1
 
                 for batch in range(batches):
 
@@ -97,7 +97,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                     session.run(train_op, feed_dict={x: X_shuffled_batch,
                                                      y: Y_shuffled_batch})
 
-                    if (batch != 0 and (batch + 1) % 100 == 0):
+                    if (batch + 1 % 100 == 0):
                         step_cost = session.run(
                             loss, feed_dict={x: X_shuffled_batch,
                                              y: Y_shuffled_batch})
