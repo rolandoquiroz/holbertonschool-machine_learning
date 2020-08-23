@@ -42,8 +42,6 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
     Note that you have to train at least a (mini-batch) batch
     with size minor that batch size defined'''
 
-
-
     with tf.Session() as session:
 
         fetcher.restore(session, save_path)
@@ -54,10 +52,11 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
         train_op = tf.get_collection("train_op")[0]
 
         m = X_train.shape[0]
-        batches = m // batch_size
 
-        if (batches % batch_size):
-            batches += 1
+        if (m % batch_size == 0):
+            batches = m // batch_size
+        else:
+            batches = m // batch_size + 1
 
         for epoch in range(epochs + 1):
             train_cost = session.run(loss, feed_dict={x: X_train, y: Y_train})
@@ -83,10 +82,11 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                     if batch < batches - 1:
                         batch_end = batch * batch_size + batch_size
                     else:
-                        if (batches % batch_size == 0):
+                        if m % batch_size == 0:
                             batch_end = batch * batch_size + batch_size
                         else:
-                            batch_end = m
+                            batch_end = batch * batch_size + int(
+                                m % batch_size)
 
                     X_shu_batch = X_shuffled[batch_start:batch_end]
                     Y_shu_batch = Y_shuffled[batch_start:batch_end]
