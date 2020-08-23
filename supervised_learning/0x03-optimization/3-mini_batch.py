@@ -10,7 +10,6 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                      epochs=5, load_path="/tmp/model.ckpt",
                      save_path="/tmp/model.ckpt"):
     """Tains a loaded neural network model using mini-batch gradient descent.
-
     Args:
         X_train: `numpy.ndarray` of shape (m, 784),
             containing the training data.
@@ -29,7 +28,6 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
         load_path: `str`, the path from which to load the model.
         save_path: `str`, the path to where the model should be saved after
             training.
-
     Returns:
         saved_path: `str`, the path where the model was saved.
     """
@@ -57,7 +55,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
         if m > batch_size and m % batch_size == 0:
             batches = m // batch_size
         if m > batch_size and m % batch_size != 0:
-            batches = (m // batch_size) + 1
+            batches = m // batch_size + 1
 
         for epoch in range(epochs + 1):
             train_accuracy = session.run(accuracy,
@@ -89,7 +87,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                         if m > batch_size and m % batch_size == 0:
                             batch_end = batch_start + batch_size
                         if m > batch_size and m % batch_size != 0:
-                            batch_end = batch_start + (m % batch_size)
+                            batch_end = batch_start + m % batch_size
 
                     session.run(
                         train_op,
