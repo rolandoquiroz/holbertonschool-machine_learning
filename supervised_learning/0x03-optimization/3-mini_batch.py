@@ -70,31 +70,26 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
 
                 X_shuffled, Y_shuffled = shuffle_data(X_train, Y_train)
 
-                if m % batch_size == 0 and m == batch_size:
+                if m <= batch_size:
                     batches = 1
-                if m % batch_size == 0 and m > batch_size:
+                if (m > batch_size and (int(m % batch_size) == 0)):
                     batches = m // batch_size
-                if m % batch_size and m > batch_size:
-                    batches = m // batch_size + 1
-                if m % batch_size and m < batch_size:
-                    batches = 1
+                if (m > batch_size and (int(m % batch_size) != 0)):
+                    batches = (m // batch_size) + 1
 
                 for batch in range(batches):
 
                     batch_start = batch * batch_size
 
                     if batch < batches - 1:
-                        batch_end = batch * batch_size + batch_size
+                        batch_end = batch_start + batch_size
                     else:
-                        if m % batch_size == 0 and m == batch_size:
+                        if m <= batch_size:
                             batch_end = m
-                        if m % batch_size == 0 and m > batch_size:
-                            batch_end = batch * batch_size + batch_size
-                        if m % batch_size and m > batch_size:
-                            batch_end = (batch * batch_size +
-                                         int(m % batch_size))
-                        if m % batch_size and m < batch_size:
-                            batch_end = int(m % batch_size)
+                        if m > batch_size and int(m % batch_size) == 0:
+                            batch_end = batch_start + batch_size
+                        if m > batch_size and int(m % batch_size) != 0:
+                            batch_end = batch_start + int(m % batch_size)
 
                     X_shu_batch = X_shuffled[batch_start:batch_end]
                     Y_shu_batch = Y_shuffled[batch_start:batch_end]
