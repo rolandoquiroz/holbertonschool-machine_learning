@@ -33,8 +33,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
     Returns:
         saved_path: `str`, the path where the model was saved.
     """
-    fetcher = tf.train.import_meta_graph(load_path + ".meta")
-    saver = tf.train.Saver()
+    saver = tf.train.import_meta_graph(load_path + ".meta")
 
     ''' With the (mini-batch) batch size defined computes
     the total number of batches (mini-batches) to train:
@@ -44,11 +43,12 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
 
     with tf.Session() as session:
 
-        fetcher.restore(session, save_path)
+        saver = tf.train.import_meta_graph(load_path + ".meta")
+        saver.restore(session, save_path)
         x = tf.get_collection("x")[0]
         y = tf.get_collection("y")[0]
-        loss = tf.get_collection("loss")[0]
         accuracy = tf.get_collection("accuracy")[0]
+        loss = tf.get_collection("loss")[0]
         train_op = tf.get_collection("train_op")[0]
 
         m = X_train.shape[0]
