@@ -77,7 +77,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                 if (m > batch_size and (int(m % batch_size) != 0)):
                     batches = (m // batch_size) + 1
 
-                batch_start = batch
+                batch_start = 0
                 batch_end = batch_size
 
                 for batch in range(batches):
