@@ -77,37 +77,35 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                 if (m > batch_size and (int(m % batch_size) != 0)):
                     batches = (m // batch_size) + 1
 
+                batch_start = batch
+                batch_end = batch_size
+
                 for batch in range(batches):
-
-                    batch_start = batch * batch_size
-
-                    if batch < batches - 1:
-                        batch_end = batch_start + batch_size
-                    else:
-                        if m <= batch_size:
-                            batch_end = m
-                        else:
-                            if (int(m % batch_size) == 0):
-                                batch_end = batch_start + batch_size
-                            else:
-                                batch_end = batch_start + int(m % batch_size)
-
-                    X_shu_batch = X_shuffled[batch_start:batch_end]
-                    Y_shu_batch = Y_shuffled[batch_start:batch_end]
-
-                    session.run(train_op, feed_dict={x: X_shu_batch,
-                                                     y: Y_shu_batch})
+                    session.run(train_op, feed_dict={x: X_shuffled[batch_start:batch_end],
+                                                     y: Y_shuffled[batch_start:batch_end]})
 
                     if ((batch != 0) and ((batch + 1) % 100 == 0)):
                         step_cost = session.run(loss,
-                                                feed_dict={x: X_shu_batch,
-                                                           y: Y_shu_batch})
+                                                feed_dict={x: X_shuffled[batch_start:batch_end],
+                                                           y: Y_shuffled[batch_start:batch_end]})
                         step_accuracy = session.run(accuracy,
-                                                    feed_dict={x: X_shu_batch,
-                                                               y: Y_shu_batch})
+                                                    feed_dict={x: X_shuffled[batch_start:batch_end],
+                                                               y: Y_shuffled[batch_start:batch_end]})
                         print('\tStep {}:'.format(batch + 1))
                         print('\t\tCost: {}'.format(step_cost))
                         print('\t\tAccuracy: {}'.format(step_accuracy))
+
+                    if batch + 1 < batches - 1:
+                        batch_start = batch * (batch + 1)
+                        batch_end = batch_start + batch_size
+                    else:
+                        batch_start = batch_end
+                        if m <= batch_size:
+                            batch_end = m
+                        if ((m > batch_size) and (int(m % batch_size) == 0)):
+                            batch_end = batch_start + batch_size
+                        if ((m > batch_size) and (int(m % batch_size) != 0)):
+                            batch_end = batch_start + int(m % batch_size)             
 
         saved_path = saver.save(session, save_path)
         return saved_path
