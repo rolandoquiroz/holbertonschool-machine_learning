@@ -91,19 +91,21 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                         if m > batch_size and m % batch_size != 0:
                             batch_end = batch_start + (m % batch_size)
 
-                    X_shuffled_batch = X_shuffled[batch_start:batch_end]
-                    Y_shuffled_batch = Y_shuffled[batch_start:batch_end]
-
-                    session.run(train_op, feed_dict={x: X_shuffled_batch,
-                                                     y: Y_shuffled_batch})
+                    session.run(
+                        train_op,
+                        feed_dict={x: X_shuffled[batch_start:batch_end],
+                                   y: Y_shuffled[batch_start:batch_end]})
 
                     if ((batch + 1) % 100 == 0):
                         step_cost = session.run(
-                            loss, feed_dict={x: X_shuffled_batch,
-                                             y: Y_shuffled_batch})
+                            loss,
+                            feed_dict={x: X_shuffled[batch_start:batch_end],
+                                       y: Y_shuffled[batch_start:batch_end]})
                         step_accuracy = session.run(
-                            accuracy, feed_dict={x: X_shuffled_batch,
-                                                 y: Y_shuffled_batch})
+                            accuracy,
+                            feed_dict={x: X_shuffled[batch_start:batch_end],
+                                       y: Y_shuffled[batch_start:batch_end]})
+
                         print('\tStep {}:'.format(batch + 1))
                         print('\t\tCost: {}'.format(step_cost))
                         print('\t\tAccuracy: {}'.format(step_accuracy))
