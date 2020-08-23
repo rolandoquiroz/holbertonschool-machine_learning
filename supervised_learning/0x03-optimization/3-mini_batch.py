@@ -46,11 +46,11 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
         loss = tf.get_collection("loss")[0]
         train_op = tf.get_collection("train_op")[0]
 
-        ''' With the (mini-batch) batch size defined computes
+        ''' With the batch size (mini-batch) defined computes
         the total number of batches (mini-batches) to train:
-        total_batches = n_batches = batches = total_stes = iterations
-        Note that you have to train at least a (mini-batch) batch
-        with size minor that batch size defined'''
+        total_batches = n_batches = batches = total_steps = iterations.
+        Note that you have to train at least a batch (mini-batch)
+        with size minor or equal that batch size defined'''
 
         if m <= batch_size:
             batches = 1
