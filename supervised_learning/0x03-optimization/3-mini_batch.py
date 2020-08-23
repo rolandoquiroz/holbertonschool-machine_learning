@@ -53,10 +53,15 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
 
         m = X_train.shape[0]
 
-        if (m % batch_size == 0):
+        if m % batch_size == 0 and m == batch_size:
+            batches = 1
+        if m % batch_size == 0 and m > batch_size:
             batches = m // batch_size
-        else:
+        if m % batch_size and m > batch_size:
             batches = m // batch_size + 1
+        if m % batch_size and m < batch_size:
+            batches = 1
+1
 
         for epoch in range(epochs + 1):
             train_cost = session.run(loss, feed_dict={x: X_train, y: Y_train})
@@ -82,11 +87,14 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                     if batch < batches - 1:
                         batch_end = batch * batch_size + batch_size
                     else:
-                        if m % batch_size == 0:
+                        if m % batch_size == 0 and m == batch_size:
+                            batch_end = m
+                        if m % batch_size == 0 and m > batch_size:
                             batch_end = batch * batch_size + batch_size
-                        else:
-                            batch_end = batch * batch_size + int(
-                                m % batch_size)
+                        if m % batch_size and m > batch_size:
+                            batch_end = batch * batch_size + int(m % batch_size)
+                        if m % batch_size and m < batch_size:
+                            batch_end = m
 
                     X_shu_batch = X_shuffled[batch_start:batch_end]
                     Y_shu_batch = Y_shuffled[batch_start:batch_end]
