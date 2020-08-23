@@ -45,7 +45,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
 
     with tf.Session() as session:
 
-        fetcher.restore(session, save_path)
+        fetcher.restore(session, load_path)
         x = tf.get_collection("x")[0]
         y = tf.get_collection("y")[0]
         accuracy = tf.get_collection("accuracy")[0]
@@ -71,16 +71,10 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
 
                 X_shuffled, Y_shuffled = shuffle_data(X_train, Y_train)
 
-                if m <= batch_size:
-                    batches = 1
-                if (m > batch_size and (m % batch_size) == 0):
-                    batches = m // batch_size
-                if (m > batch_size and (m % batch_size) != 0):
-                    batches = (m // batch_size) + 1
-
+                batch = 0
                 batch_start = 0
                 batch_end = batch_size
-                while (batch < batches):
+                while (batch_end <= m):
                     session.run(train_op, feed_dict={x: X_shuffled[batch_start:batch_end],
                                                      y: Y_shuffled[batch_start:batch_end]})
 
@@ -96,7 +90,7 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                         print('\t\tAccuracy: {}'.format(step_accuracy))
 
                     batch_start = batch_end
-                    if (batch + 1 < batches):
+                    if (batch_end + batch_size) <= m:
                         batch_end += batch_size
                     else:
                         batch_end += m % batch_size
