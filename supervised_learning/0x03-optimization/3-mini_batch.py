@@ -61,7 +61,6 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
             batches = m // batch_size + 1
         if m % batch_size and m < batch_size:
             batches = 1
-1
 
         for epoch in range(epochs + 1):
             train_cost = session.run(loss, feed_dict={x: X_train, y: Y_train})
@@ -92,7 +91,8 @@ def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
                         if m % batch_size == 0 and m > batch_size:
                             batch_end = batch * batch_size + batch_size
                         if m % batch_size and m > batch_size:
-                            batch_end = batch * batch_size + int(m % batch_size)
+                            batch_end = (batch * batch_size +
+                                         int(m % batch_size))
                         if m % batch_size and m < batch_size:
                             batch_end = m
 
