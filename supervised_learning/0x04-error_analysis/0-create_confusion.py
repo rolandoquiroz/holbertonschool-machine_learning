@@ -6,7 +6,8 @@ import numpy as np
 
 
 def create_confusion_matrix(labels, logits):
-    """Creates a confusion matrix.
+    """Creates a confusion matrix
+
     Args:
         labels: one-hot encodod `numpy.ndarray` of shape (m, classes)
             that contain the correct labels for each data point

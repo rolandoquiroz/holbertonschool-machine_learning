@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""1-sensitivity module
-contains the function sensitivity
+"""4-f1_score module
+contains the function f1_score
 """
 import numpy as np
 
 
-def sensitivity(confusion):
-    """Calculates the sensitivity for each class in a confusion matrix
+def f1_score(confusion):
+    """Calculates the f1_score for each class in a confusion matrix
 
     Args:
         confusion: A confusion `numpy.ndarray` of shape (classes, classes)
@@ -15,10 +15,11 @@ def sensitivity(confusion):
             classes: `int`, the number of classes
 
     Returns:
-        sensitivity: `numpy.ndarray` of shape (classes,) containing the
-            sensitivity of each class
+        f1_score: `numpy.ndarray` of shape (classes,) containing the
+            f1_score of each class
     """
     TP = np.diag(confusion)
+    FP = confusion.sum(axis=0) - TP
     FN = confusion.sum(axis=1) - TP
-    sensitivity = TP / (TP + FN)
-    return sensitivity
+    f1_score = (2*TP) / (2*TP + FP + FN)
+    return f1_score
