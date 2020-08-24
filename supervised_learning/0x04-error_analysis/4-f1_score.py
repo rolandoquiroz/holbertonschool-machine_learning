@@ -20,5 +20,7 @@ def f1_score(confusion):
         f1_score: `numpy.ndarray` of shape (classes,) containing the
             f1_score of each class
     """
-    f1_score = 2 * ((precision * sensitivity) / (precision + sensitivity))
+    TPR = sensitivity(confusion)
+    PPV = precision(confusion)
+    f1_score = 2 * (PPV * TPR / (PPV + TPR))
     return f1_score
