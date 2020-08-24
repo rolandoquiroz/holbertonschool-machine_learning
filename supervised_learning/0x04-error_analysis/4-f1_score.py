@@ -21,5 +21,5 @@ def f1_score(confusion):
     TP = np.diag(confusion)
     FP = confusion.sum(axis=0) - TP
     FN = confusion.sum(axis=1) - TP
-    f1_score = (2*TP) / (2*TP + FP + FN)
+    f1_score = 2*TP / (2*TP + FP + FN)
     return f1_score
