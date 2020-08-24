@@ -19,8 +19,10 @@ def specificity(confusion):
             specificity of each class
     """
     TP = np.diag(confusion)
-    FP = confusion.sum(axis=0) - TP
-    FN = confusion.sum(axis=1) - TP
+    ACTUAL = confusion.sum(axis=1)
+    FN = ACTUAL - TP
+    PREDICTED = confusion.sum(axis=0)
+    FP = PREDICTED - TP
     TN = confusion.sum() - (FP + FN + TP)
     specificity = TN / (TN + FP)
     return specificity

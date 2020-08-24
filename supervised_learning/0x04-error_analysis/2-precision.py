@@ -19,6 +19,7 @@ def precision(confusion):
             precision of each class
     """
     TP = np.diag(confusion)
-    FP = confusion.sum(axis=0) - TP
+    PREDICTED = confusion.sum(axis=0)
+    FP = PREDICTED - TP
     precision = TP / (TP + FP)
     return precision
