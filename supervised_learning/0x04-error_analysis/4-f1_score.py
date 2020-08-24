@@ -19,7 +19,9 @@ def f1_score(confusion):
             f1_score of each class
     """
     TP = np.diag(confusion)
-    FP = confusion.sum(axis=0) - TP
-    FN = confusion.sum(axis=1) - TP
+    ACTUAL = confusion.sum(axis=1)
+    FN = ACTUAL - TP
+    PREDICTED = confusion.sum(axis=0)
+    FP = PREDICTED - TP
     f1_score = 2*TP / (2*TP + FP + FN)
     return f1_score
