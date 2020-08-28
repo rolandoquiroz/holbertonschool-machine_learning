@@ -28,15 +28,14 @@ def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
     weights_copied = weights.copy()
     m = Y.shape[1]
     for i in range(L, 0, -1):
-        A = cache["A"+str(i+1)]
+        A = cache["A"+str(i)]
         if i == L:
-            dZ = A-Y
-        if i != L:
-            W = weights_copied["W"+str(i)]
-            dZ = np.matmul(W.T, dZ)*(1-(A**2))
-        Al1 = cache["A"+str(i-1)]
-        dW = np.matmul(dZ, Al1.T)/m
-        db = np.sum(dZ, axis=1, keepdims=True)/m
-        dW_L2_reg = dW+(lambtha/m)*weights_copied["W"+str(i)]
-        weights["W"+str(i)] = weights_copied["W"+str(i)]-alpha*dW_L2_reg
-        weights["b"+str(i)] = weights_copied["b"+str(i)]-alpha*db
+            dZ = A - Y
+        else:
+            W = weights_copied["W"+str(i+1)]
+            dZ = np.matmul(W.T, dZ) * (1-A**2)
+        dW = np.matmul(dZ, cache["A"+str(i-1)].T) / m
+        db = np.sum(dZ, axis=1, keepdims=True) / m
+        dW_reg = dW + ((lambtha / m) * weights_copied["W" + str(i)])
+        weights["W" + str(i)] = weights_copied["W" + str(i)]-alpha*dW_reg
+        weights["b" + str(i)] = weights_copied["b"+str(i)]-alpha*db
