@@ -17,11 +17,11 @@ def l2_reg_cost(cost, lambtha, weights, L, m):
         m: `int`, is the number of data points used
 
     Returns:
-       l2_regularization_cost: `numpy.ndarray`, cost of the network accounting
+        J: `numpy.ndarray`, cost of the network accounting
             for L2 regularization
     """
     Frobenius_norm = 0
     for layer in range(1, L + 1):
         Frobenius_norm += np.linalg.norm(weights['W{}'.format(layer)])
-    l2_regularization_cost = cost + (lambtha/(2*m)) * Frobenius_norm
-    return l2_regularization_cost
+    J = cost + (lambtha/(2*m)) * Frobenius_norm
+    return J
