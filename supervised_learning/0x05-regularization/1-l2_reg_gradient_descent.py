@@ -30,12 +30,12 @@ def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
     for i in range(L, 0, -1):
         A = cache["A"+str(i)]
         if i == L:
-            dZ = A - Y
+            dZ = A-Y
         else:
             W = weights_copied["W"+str(i+1)]
-            dZ = np.matmul(W.T, dZ) * (1-A**2)
-        dW = np.matmul(dZ, cache["A"+str(i-1)].T) / m
-        db = np.sum(dZ, axis=1, keepdims=True) / m
-        dW_reg = dW + ((lambtha / m) * weights_copied["W" + str(i)])
+            dZ = np.matmul(W.T, dZ)*(1-A**2)
+        dW = np.matmul(dZ, cache["A"+str(i-1)].T)/m
+        db = np.sum(dZ, axis=1, keepdims=True)/m
+        dW_reg = dW+((lambtha / m) * weights_copied["W" + str(i)])
         weights["W"+str(i)] = weights_copied["W"+str(i)]-alpha*dW_reg
         weights["b"+str(i)] = weights_copied["b"+str(i)]-alpha*db
