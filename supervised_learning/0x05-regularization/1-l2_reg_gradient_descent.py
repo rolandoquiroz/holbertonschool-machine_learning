@@ -25,16 +25,18 @@ def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
         lambtha: `float`, is the L2 regularization parameter
         L: `int`, is the number of layers of the network
     """
+    weights_copied = weights.copy()
     m = Y.shape[1]
     for i in range(L, 0, -1):
-        Al = cache["A"+str(i)]
+        A = cache["A"+str(i+1)]
         if i == L:
-            dAl = (-1*(Y/Al))+(1-Y)/(1-Al)
+            dZ = A-Y
+        if i != L:
+            W = weights_copied["W"+str(i)]
+            dZ = np.matmul(W.T, dZ)*(1-(A**2))
         Al1 = cache["A"+str(i-1)]
-        dZ = dAl*(Al*(1-Al))
         dW = np.matmul(dZ, Al1.T)/m
-        dW_L2_reg = dW+(lambtha/m)*weights["W"+str(i)]
         db = np.sum(dZ, axis=1, keepdims=True)/m
-        dAl = np.matmul((weights["W"+str(i)]).T, dZ)
-        weights["W"+str(i)] = weights["W"+str(i)]-alpha*dW_L2_reg
-        weights["b"+str(i)] = weights["b"+str(i)]-alpha*dW_L2_reg
+        dW_L2_reg = dW+(lambtha/m)*weights_copied["W"+str(i)]
+        weights["W"+str(i)] = weights_copied["W"+str(i)]-alpha*dW_L2_reg
+        weights["b"+str(i)] = weights_copied["b"+str(i)]-alpha*db
