@@ -25,17 +25,17 @@ def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
         lambtha: `float`, is the L2 regularization parameter
         L: `int`, is the number of layers of the network
     """
-    weights_copied = weights.copy()
+    auxiliar_weights = weights.copy()
     m = Y.shape[1]
     for i in range(L, 0, -1):
         A = cache["A"+str(i)]
         if i == L:
             dZ = A-Y
         else:
-            W = weights_copied["W"+str(i+1)]
+            W = auxiliar_weights["W"+str(i+1)]
             dZ = np.matmul(W.T, dZ)*(1-A**2)
         dW = np.matmul(dZ, cache["A"+str(i-1)].T)/m
         db = np.sum(dZ, axis=1, keepdims=True)/m
-        dW_reg = dW+((lambtha / m) * weights_copied["W" + str(i)])
-        weights["W"+str(i)] = weights_copied["W"+str(i)]-alpha*dW_reg
-        weights["b"+str(i)] = weights_copied["b"+str(i)]-alpha*db
+        dW_reg = dW+((lambtha / m) * auxiliar_weights["W" + str(i)])
+        weights["W"+str(i)] = auxiliar_weights["W"+str(i)]-alpha*dW_reg
+        weights["b"+str(i)] = auxiliar_weights["b"+str(i)]-alpha*db
