@@ -23,10 +23,6 @@ def dropout_gradient_descent(Y, weights, cache, alpha, keep_prob, L):
         alpha: `float`, is the learning rate
         keep_prob: `float`, is the probability that a node will be kept
         L: `int`, is the number of layers of the network
-
-    Returns:
-        cache: `dict`, a dictionary containing the outputs of each layer
-        and the dropout mask used on each layer
     """
     auxiliar_weights = weights.copy()
     m = Y.shape[1]
