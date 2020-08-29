@@ -28,16 +28,16 @@ def dropout_forward_prop(X, weights, L, keep_prob):
     cache = {}
     cache['A0'] = X
     for i in range(L):
-        Z = (np.matmul(weights["W{}".format(i+1)],
-             cache["A{}".format(i)]) +
-             weights["b{}".format(i+1)])
+        Z = (np.matmul(weights["W"+str(i+1)],
+             cache["A"+str(i)]) +
+             weights["b"+str(i+1)])
         drop = np.random.binomial(1, keep_prob, size=Z.shape)
         if i == L-1:
-            cache["A{}".format(i+1)] = np.exp(Z)/np.sum(np.exp(Z),
-                                                        axis=0, keepdims=True)
+            cache["A"+str(i+1)] = np.exp(Z)/np.sum(np.exp(Z),
+                                                   axis=0, keepdims=True)
         else:
-            cache["A{}".format(i+1)] = np.tanh(Z)
-            cache["D{}".format(i+1)] = drop
-            cache["A{}".format(i+1)] = (cache["A{}".format(i+1)] *
-                                        cache["D{}".format(i+1)])/keep_prob
+            cache["A"+str(i+1)] = np.tanh(Z)
+            cache["D"+str(i+1)] = drop
+            cache["A"+str(i+1)] = (cache["A"+str(i+1)] *
+                                   cache["D"+str(i+1)])/keep_prob
     return cache
