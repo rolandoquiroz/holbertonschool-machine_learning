@@ -5,7 +5,7 @@ contains the function dropout_create_layer
 import tensorflow as tf
 
 
-def l2_reg_create_layer(prev, n, activation, lambtha):
+def dropout_create_layer(prev, n, activation, keep_prob):
     """Creates a tensorflow layer that includes L2 regularization
 
     Args:
