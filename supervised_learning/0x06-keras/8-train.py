@@ -52,8 +52,8 @@ def train_model(network, data, labels, batch_size,
         Args:
             epoch: `int`
 
-        Returns:
-            lr: `float`, the updated learning rate
+            Returns:
+                lr: `float`, the updated learning rate
         """
         lr = alpha/(1+decay_rate*epoch)
         return lr
