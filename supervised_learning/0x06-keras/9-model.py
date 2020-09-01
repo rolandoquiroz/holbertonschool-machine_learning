@@ -17,7 +17,7 @@ def save_model(network, filename):
     Returns:
         None
     """
-    network.save(filename)
+    network.save(filepath=filename)
     return None
 
 
@@ -31,5 +31,5 @@ def load_model(filename):
     Returns:
         network: the loaded model
     """
-    network = K.models.load_model(filename)
+    network = K.models.load_model(filepath=filename)
     return network
