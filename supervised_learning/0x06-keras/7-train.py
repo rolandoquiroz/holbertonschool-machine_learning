@@ -31,7 +31,7 @@ def train_model(network, data, labels, batch_size,
         learning_rate_decay: `bool`, indicates whether learning rate decay
             should be used
         alpha: `float`, is the initial learning rate
-        decay_rate: is the decay rate
+        decay_rate: `int`, is the decay rate
         verbose: `bool`, determines if output should be printed during
             training
         shuffle: `bool`, determines whether to shuffle the batches every
@@ -44,11 +44,11 @@ def train_model(network, data, labels, batch_size,
     def scheduler(epoch):
         """Callback to update the learning rate decay
 
-            Args:
-                epoch: `int`
+        Args:
+            epoch: `int`
 
-            Returns:
-                lr: `float`, the updated learning rate
+        Returns:
+            lr: `float`, the updated learning rate
         """
         lr = alpha/(1+decay_rate*epoch)
         return lr
