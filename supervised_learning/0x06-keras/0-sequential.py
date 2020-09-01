@@ -8,7 +8,7 @@ import tensorflow.keras as K
 
 def build_model(nx, layers, activations, lambtha, keep_prob):
     """Builds a neural network with the Keras library with the Sequential
-    class
+    class: Sequential API
 
     Args:
         nx: `int`, is the number of input features to the network
@@ -23,7 +23,7 @@ def build_model(nx, layers, activations, lambtha, keep_prob):
         model: The keras model
     """
     regularizer = K.regularizers.l2(lambtha)
-    # Sequential constructor 
+    # Sequential constructor
     model = K.Sequential()
     # You can create a Sequential model incrementally via the add() method
     model.add(K.layers.Dense(units=layers[0], activation=activations[0],
