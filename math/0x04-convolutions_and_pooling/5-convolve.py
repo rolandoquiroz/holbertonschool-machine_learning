@@ -66,7 +66,7 @@ def convolve(images, kernels, padding='same', stride=(1, 1)):
     for j in range(h_custom_padded):
         for i in range(w_custom_padded):
             for k in range(nc):
-                output[:, j, i, k] = ((kernel[:, :, :, k] *
+                output[:, j, i, k] = ((kernels[:, :, :, k] *
                                       custom_padded_images[:,
                                       j*sh: j*sh + kh,
                                       i*sw: i*sw + kw,
