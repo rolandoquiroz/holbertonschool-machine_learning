@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-module 0-convolve_grayscale_valid
-contains function convolve_grayscale_valid
+module 2-convolve_grayscale_padding
+contains function convolve_grayscale_padding
 """
 import numpy as np
 
