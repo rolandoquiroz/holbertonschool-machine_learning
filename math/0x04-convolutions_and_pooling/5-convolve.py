@@ -36,7 +36,7 @@ def convolve(images, kernels, padding='same', stride=(1, 1)):
     """
     c = images.shape[3]
     m, h, w = images.shape[0], images.shape[1], images.shape[2]
-    kh, kw, nc = kernel.shape[0], kernel.shape[1], kernel.shape[3]
+    kh, kw, nc = kernels.shape[0], kernels.shape[1], kernels.shape[3]
     sh, sw = stride[0], stride[1]
 
     if type(padding) is tuple:
