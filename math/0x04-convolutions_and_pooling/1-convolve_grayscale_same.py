@@ -20,7 +20,7 @@ def convolve_grayscale_same(images, kernel):
             kh: `int`, is the height of the kernel
             kw: `int`, is the width of the kernel
     Returns:
-         containing the convolved images
+         output: `numpy.ndarray` containing the convolved images
     """
     m, h, w = images.shape[0], images.shape[1], images.shape[2]
     kh, kw = kernel.shape[0], kernel.shape[1]
