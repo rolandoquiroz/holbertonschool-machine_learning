@@ -32,5 +32,6 @@ def convolve_grayscale_valid(images, kernel):
 
     for i in range(output_width):
         for j in range(output_height):
-            output[:, i, j] = (kernel * images[:, i: i + kh, j: j + kw]).sum(axis=())
+            output[:, j, i] = ((kernel * images[:, j: j + kh, i: i + kw]).
+                               sum())
     return output
