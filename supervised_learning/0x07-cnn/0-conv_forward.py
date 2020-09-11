@@ -67,7 +67,6 @@ def conv_forward(A_prev, W, b, activation, padding="same", stride=(1, 1)):
                 convoluted[:, j, i, k] = np.sum(padded_imgs[:,
                                                             j*sh: j*sh + kh,
                                                             i*sw: i*sw + kw] *
-                                                W[:, :, :, k],
-                                                axis=(1, 2, 3))
+                                                W[:, :, :, k], axis=(1, 2, 3))
     output = activation(convoluted + b)
     return output
