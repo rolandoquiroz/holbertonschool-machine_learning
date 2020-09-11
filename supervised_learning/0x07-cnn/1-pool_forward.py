@@ -7,7 +7,8 @@ import numpy as np
 
 
 def pool_forward(A_prev, kernel_shape, stride=(1, 1), mode='max'):
-    """Performs a convolution on images using multiple kernels
+    """Performs forward propagation over a pooling layer of a neural network
+
     Args:
         A_prev is a numpy.ndarray of shape (m, h_prev, w_prev, c_prev)
         containing the output of the previous layer
@@ -25,6 +26,7 @@ def pool_forward(A_prev, kernel_shape, stride=(1, 1), mode='max'):
         mode: `str`, indicates the type of pooling
             max: indicates max pooling
             avg: indicates average pooling
+
     Returns:
         output: `numpy.ndarray` containing the convolved images
     """
@@ -32,10 +34,10 @@ def pool_forward(A_prev, kernel_shape, stride=(1, 1), mode='max'):
     kh, kw = kernel_shape[0], kernel_shape[1]
     sh, sw = stride[0], stride[1]
 
-    output_h = (h - kh)//sh + 1
-    output_w = (w - kw)//sw + 1
+    output_h = (h_prev - kh)//sh + 1
+    output_w = (w_prev - kw)//sw + 1
 
-    output = np.zeros((m, output_h, output_w, c))
+    output = np.zeros((m, output_h, output_w, c_prev))
 
     for j in range(output_h):
         for i in range(output_w):
