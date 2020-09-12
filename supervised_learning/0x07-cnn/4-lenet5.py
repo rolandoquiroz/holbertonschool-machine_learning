@@ -62,23 +62,23 @@ def lenet5(x, y):
     fully_connected_layer_6 = tf.\
         layers.Dense(units=84,
                      kernel_initializer=initializer,
-                     name='fully_connected_layer_4')(fully_connected_layer_5)
+                     name='fully_connected_layer_6')(fully_connected_layer_5)
 
     output = tf.layers.Dense(units=10,
                              kernel_initializer=initializer,
                              name='output')(fully_connected_layer_6)
 
-    loss = tf.losses.softmax_cross_entropy(onehot_labels=y, logits=output)
+    loss = tf.losses.softmax_cross_entropy(y, output)
 
-    y_pred = tf.nn.softmax(logits=output)
+    y_pred = tf.nn.softmax(output)
 
     train_op = tf.train.AdamOptimizer().minimize(loss)
 
-    y_tag = tf.argmax(input=y, axis=1)
+    y_tag = tf.argmax(y, 1)
 
-    y_pred_tag = tf.argmax(input=y_pred, axis=1)
+    y_pred_tag = tf.argmax(y_pred, 1)
 
-    equality = tf.equal(y_tag, y_pred_tag, name='equality')
+    equality = tf.equal(y_tag, y_pred_tag)
 
     accuracy = tf.reduce_mean(tf.cast(equality, dtype=tf.float32))
 
