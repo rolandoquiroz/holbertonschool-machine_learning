@@ -13,15 +13,10 @@ def lenet5(x):
         x is a K.placeholder of shape (m, 28, 28, 1) containing the input
         images for the network
             m is the number of images
-        y is a K.placeholder of shape (m, 10) containing the one-hot labels
-        for the network
 
     Returns:
-        a tensor for the softmax activated output_layer
-        a training operation that utilizes Adam optimization
-            (with default hyperparameters)
-        a tensor for the loss of the netowrk
-        a tensor for the accuracy of the network
+        K.Model compiled to use Adam optimization
+            (with default hyperparameters) and accuracy metrics
     """
     initializer = K.initializers.he_normal(seed=None)
 
@@ -50,7 +45,7 @@ def lenet5(x):
     fc_layer_6 = K.layers.Dense(units=84, activation='relu',
                                 kernel_initializer=initializer)(fc_layer_5)
 
-    output_layer = K.layers.Dense(units=10,
+    output_layer = K.layers.Dense(units=10, activation='softmax',
                                   kernel_initializer=initializer)(fc_layer_6)
 
     model = K.Model(inputs=x, outputs=output_layer)
