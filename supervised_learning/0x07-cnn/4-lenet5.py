@@ -49,7 +49,7 @@ def lenet5(x, y):
     fc_layer_5 = tf.layers.Dense(units=120, activation=activation,
                                  kernel_initializer=initializer)(flatten_layer)
 
-    fc_layer_6 = tf.layers.Dense(units=84,
+    fc_layer_6 = tf.layers.Dense(units=84, activation=activation,
                                  kernel_initializer=initializer)(fc_layer_5)
 
     output_layer = tf.layers.Dense(units=10,
