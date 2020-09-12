@@ -31,6 +31,7 @@ def conv_forward(A_prev, W, b, activation, padding="same", stride=(1, 1)):
         convolution
             sh is the stride for the height
             sw is the stride for the width
+
     Returns:
         the output of the convolutional layer
     """
