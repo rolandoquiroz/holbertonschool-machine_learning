@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 1-inception_network module
-that contains the function inception_network
+contains the function inception_network
 """
 import tensorflow.keras as K
 inception_block = __import__('0-inception_block').inception_block

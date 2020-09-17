@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-0-inception_block module
-that contains the function inception_block
+2-identity_block module
+contains the function identity_block
 """
 import tensorflow.keras as K
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 0-inception_block module
-that contains the function inception_block
+contains the function inception_block
 """
 import tensorflow.keras as K
 
@@ -12,8 +12,8 @@ def inception_block(A_prev, filters):
 
         Args:
             - A_prev is the output from the previous layer
-            - filters: is a tuple or list containing import tensorflow.keras
-                as K, respectively:
+            - filters: is a tuple or list containing F1, F3R, F3,F5R, F5,
+                FPP, respectively:
                 - F1: is the number of filters in the 1x1 convolution
                 - F3R: is the number of filters in the 1x1 convolution before
                     the 3x3 convolution
