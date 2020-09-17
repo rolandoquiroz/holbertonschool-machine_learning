@@ -9,7 +9,6 @@ import tensorflow.keras as K
 def projection_block(A_prev, filters, s=2):
     """Builds a projection block as described in Deep Residual Learning for
         Image Recognition (2015): https://arxiv.org/pdf/1512.03385.pdf
-
         Args:
             - A_prev is the output from the previous layer
             - filters: is a tuple or list containing F11, F3, F12,
@@ -24,7 +23,6 @@ def projection_block(A_prev, filters, s=2):
                 normalization along the channels axis and a rectified linear
                 activation (ReLU), respectively.
             - All weights should use he normal initialization
-
         Returns:
             - the activated output of the projection block
     """
