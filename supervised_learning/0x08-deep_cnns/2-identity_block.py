@@ -55,7 +55,8 @@ def identity_block(A_prev, filters):
 
     BN_F12_conv = K.layers.BatchNormalization(axis=3)(F12_conv)
 
-    addition = K.layers.Add()([BN_F12_conv, A_prev])
+    addition = K.layers.Add()([BN_F12_conv,
+                               A_prev])
 
     output = K.layers.Activation('relu')(addition)
 
