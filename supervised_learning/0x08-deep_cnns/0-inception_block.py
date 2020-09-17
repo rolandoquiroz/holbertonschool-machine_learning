@@ -62,7 +62,7 @@ def inception_block(A_prev, filters):
                                activation='relu')(A_prev)
 
     # 5x5 convolution
-    F5_conv = K.layers.Conv2D(filters=F5,
+    F5_conv = K.layers.Conv2D(F5,
                               kernel_size=(5, 5),
                               padding='same',
                               kernel_initializer=he_normal,
