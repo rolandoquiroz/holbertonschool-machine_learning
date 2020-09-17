@@ -57,16 +57,16 @@ def projection_block(A_prev, filters, s=2):
 
     BN_F12_conv = K.layers.BatchNormalization(axis=3)(F12_conv)
 
-    shortcut_connection = K.layers.Conv2D(filters=F12,
-                                          kernel_size=(1, 1),
-                                          strides=s,
-                                          padding='same',
-                                          kernel_initializer=initializer)(A_prev)
+    skip_connection = K.layers.Conv2D(filters=F12,
+                                      kernel_size=(1, 1),
+                                      strides=s,
+                                      padding='same',
+                                      kernel_initializer=initializer)(A_prev)
 
-    BN_shortcut_connection = K.layers.BatchNormalization(axis=3)(shortcut_connection)
+    BN_skip_connection = K.layers.BatchNormalization(axis=3)(skip_connection)
 
     addition = K.layers.Add()([BN_F12_conv,
-                               BN_shortcut_connection])
+                               BN_skip_connection])
 
     output = K.layers.Activation('relu')(addition)
 
