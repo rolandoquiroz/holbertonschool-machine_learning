@@ -34,48 +34,48 @@ def inception_block(A_prev, filters):
     he_normal = K.initializers.he_normal(seed=None)
 
     # 1x1 convolution
-    F1_conv = K.layers.Conv2D(filters=F1,
-                              kernel_size=1,
+    F1_conv = K.layers.Conv2D(F1,
+                              kernel_size=(1, 1),
                               padding='same',
                               kernel_initializer=he_normal,
                               activation='relu')(A_prev)
 
     # 1x1 convolution before the 3x3 convolution
-    F3R_conv = K.layers.Conv2D(filters=F3R,
-                               kernel_size=1,
+    F3R_conv = K.layers.Conv2D(F3R,
+                               kernel_size=(1, 1),
                                padding='same',
                                kernel_initializer=he_normal,
                                activation='relu')(A_prev)
 
     # 3x3 convolution
-    F3_conv = K.layers.Conv2D(filters=F3,
-                              kernel_size=3,
+    F3_conv = K.layers.Conv2D(F3,
+                              kernel_size=(3, 3),
                               padding='same',
                               kernel_initializer=he_normal,
                               activation='relu')(F3R_conv)
 
     # 1x1 convolution before the 5x5 convolution
-    F5R_conv = K.layers.Conv2D(filters=F5R,
-                               kernel_size=1,
+    F5R_conv = K.layers.Conv2D(F5R,
+                               kernel_size=(1, 1),
                                padding='same',
                                kernel_initializer=he_normal,
                                activation='relu')(A_prev)
 
     # 5x5 convolution
     F5_conv = K.layers.Conv2D(filters=F5,
-                              kernel_size=5,
+                              kernel_size=(5, 5),
                               padding='same',
                               kernel_initializer=he_normal,
                               activation='relu')(F5R_conv)
 
     # max pooling
-    max_pooling = K.layers.MaxPooling2D(pool_size=3,
-                                        strides=1,
+    max_pooling = K.layers.MaxPooling2D((3, 3),
+                                        strides=(1, 1),
                                         padding='same')(A_prev)
 
     # 1x1 convolution after the max pooling
-    FPP_conv = K.layers.Conv2D(filters=FPP,
-                               kernel_size=1,
+    FPP_conv = K.layers.Conv2D(FPP,
+                               kernel_size=(1, 1),
                                padding='same',
                                kernel_initializer=he_normal,
                                activation='relu')(max_pooling)
