@@ -71,6 +71,7 @@ def inception_block(A_prev, filters):
     inception_block = K.layers.concatenate([F1_conv,
                                             F3_conv,
                                             F5_conv,
-                                            FPP_conv])
+                                            FPP_conv],
+                                           axis=-1)
 
     return inception_block
