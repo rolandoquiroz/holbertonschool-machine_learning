@@ -38,7 +38,7 @@ def densenet121(growth_rate=32, compression=1.0):
                                padding='same')(layer)
 
     layer, nb_filters = dense_block(X=layer,
-                                    nb_filters=growth_rate * 2,
+                                    nb_filters=2*growth_rate,
                                     growth_rate=growth_rate,
                                     layers=6)
 
