@@ -47,7 +47,7 @@ def densenet121(growth_rate=32, compression=1.0):
                                          compression=compression)
 
     layer, nb_filters = dense_block(X=layer,
-                                    nb_filters=growth_rate,
+                                    nb_filters=nb_filters,
                                     growth_rate=growth_rate,
                                     layers=12)
 
@@ -56,7 +56,7 @@ def densenet121(growth_rate=32, compression=1.0):
                                          compression=compression)
 
     layer, nb_filters = dense_block(X=layer,
-                                    nb_filters=growth_rate,
+                                    nb_filters=nb_filters,
                                     growth_rate=growth_rate,
                                     layers=24)
 
@@ -65,7 +65,7 @@ def densenet121(growth_rate=32, compression=1.0):
                                          compression=compression)
 
     layer, nb_filters = dense_block(X=layer,
-                                    nb_filters=growth_rate,
+                                    nb_filters=nb_filters,
                                     growth_rate=growth_rate,
                                     layers=16)
 
