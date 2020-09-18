@@ -23,7 +23,7 @@ def densenet121(growth_rate=32, compression=1.0):
             the keras model
     """
     init = K.initializers.he_normal(seed=None)
-    input_layer = K.layers.Input(shape=(224, 224, 3))
+    input_layer = K.Input(shape=(224, 224, 3))
 
     layer = K.layers.BatchNormalization(axis=3)(input_layer)
     layer = K.layers.Activation('relu')(layer)
