@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
 import tensorflow.keras as K
+import tensorflow as tf
+
+
 preprocess_data = __import__('0-transfer').preprocess_data
 
 # to fix issue with saving keras applications
