@@ -5,7 +5,6 @@ CIFAR 10 dataset
 contains the function preprocess_data
 """
 import tensorflow.keras as K
-import tensorflow as tf
 
 
 def preprocess_data(X, Y):
@@ -57,7 +56,7 @@ if __name__ == '__main__':
     # loads CIFAR 10 dataset
     (x_train, y_train), (x_test, y_test) = K.datasets.cifar10.load_data()
 
-    # pre-procces data
+    # prepare data
     x_train, y_train = preprocess_data(x_train, y_train)
     x_test, y_test = preprocess_data(x_test, y_test)
 
