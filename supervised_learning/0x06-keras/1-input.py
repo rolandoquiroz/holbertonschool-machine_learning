@@ -8,7 +8,7 @@ import tensorflow.keras as K
 
 def build_model(nx, layers, activations, lambtha, keep_prob):
     """Builds a neural network with the Keras library with the Input
-    class
+    class (Functional API)
 
     Args:
         nx: `int`, is the number of input features to the network
