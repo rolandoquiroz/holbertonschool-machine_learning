@@ -168,6 +168,6 @@ class Yolo:
         """
         Load images
         """
-        image_paths = glob.glob(folder_path + '/*')
+        image_paths = glob.glob(folder_path + '/*.jpg')
         images = [cv2.imread(image) for image in image_paths]
         return images, image_paths
