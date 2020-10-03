@@ -5,6 +5,8 @@
 """
 import tensorflow.keras as K
 import numpy as np
+import cv2
+import glob
 
 
 class Yolo:
@@ -166,6 +168,6 @@ class Yolo:
         """
         Load images
         """
-        img_paths = glob.glob(folder_path + '/*')
-        img_files = [cv2.imread(path, 1) for path in img_paths]
-        return img_files, img_paths
+        image_paths = glob.glob(folder_path + '/*')
+        images = [cv2.imread(image) for image in image_paths]
+        return images, image_paths
