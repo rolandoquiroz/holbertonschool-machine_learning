@@ -91,10 +91,9 @@ class Yolo:
         for box_conf, box_class_prob in zip(box_confidences, box_class_probs):
             scores.append(box_conf * box_class_prob)
 
-        box_scores_list = [score.max(axis=3) for score in scores]
-        box_scores_list = [score.reshape(-1) for score in box_scores_list]
-        box_scores = np.concatenate(box_scores_list)
-
+        max_scores = [score.max(axis=3) for score in scores]
+        max_scores = [score.reshape(-1) for score in max_scores]
+        box_scores = np.concatenate(max_scores)
         index_to_delete = np.where(box_scores < self.class_t)
         box_scores = np.delete(box_scores, index_to_delete)
 
@@ -103,8 +102,8 @@ class Yolo:
         box_classes = np.concatenate(box_classes_list)
         box_classes = np.delete(box_classes, index_to_delete)
 
-        boxes_list = [box.reshape(-1, 4) for box in boxes]
-        boxes = np.concatenate(boxes_list, axis=0)
-        filtered_boxes = np.delete(boxes, index_to_delete, axis=0)
+        filtered_boxes_list = [box.reshape(-1, 4) for box in boxes]
+        filtered_boxes_box = np.concatenate(filtered_boxes_list, axis=0)
+        filtered_boxes = np.delete(filtered_boxes_box, index_to_delete, axis=0)
 
         return filtered_boxes, box_classes, box_scores
