@@ -5,6 +5,8 @@
 """
 import tensorflow.keras as K
 import numpy as np
+import cv2
+import glob
 
 
 class Yolo:
@@ -166,6 +168,31 @@ class Yolo:
         """
         Load images
         """
-        img_paths = glob.glob(folder_path + '/*')
-        img_files = [cv2.imread(path, 1) for path in img_paths]
-        return img_files, img_paths
+        image_paths = glob.glob(folder_path + '/*.jpg')
+        images = [cv2.imread(image) for image in image_paths]
+        return images, image_paths
+
+    def preprocess_images(self, images):
+        """
+        Preprocess images
+        """
+        input_w = self.model.input.shape[1].value
+        input_h = self.model.input.shape[2].value
+
+        processed_images_list = []
+        image_shapes_list = []
+
+        for image in images:
+            image_shape = image.shape[0], image.shape[1]
+            image_shapes_list.append(image_shape)
+
+            dim = (input_w, input_h)
+            resized = cv2.resize(image, dim, interpolation=cv2.INTER_CUBIC)
+
+            processed_image = resized / 255
+            processed_images_list.append(processed_image)
+
+        processed_images = np.array(processed_images_list)
+        image_shapes = np.array(image_shapes_list)
+
+        return processed_images, image_shapes
