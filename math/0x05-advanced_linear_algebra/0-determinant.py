@@ -27,9 +27,8 @@ def recursive_determinant(M, det=0):
         for i in range(j):
             sub_M[i] = sub_M[i][0:cur_col] + sub_M[i][cur_col+1:]
 
-        sign = (-1) ** (cur_col % 2)
         sub_det = recursive_determinant(sub_M)
-        det += sign * M[0][cur_col] * sub_det
+        det += ((-1) ** (cur_col % 2)) * M[0][cur_col] * sub_det
 
     return det
 
