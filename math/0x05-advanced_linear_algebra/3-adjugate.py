@@ -96,12 +96,8 @@ def cofactor(matrix):
 
     my_min = minor(matrix)
 
-    cof = []
-    for i in range(n):
-        row = []
-        cof.append(row)
-        for j in range(n):
-            row.append(((-1)**(i+j)) * my_min[i][j])
+    cof = [[((-1)**(i+j)) * my_min[i][j] for j in range(n)]
+           for i in range(n)]
     return cof
 
 
