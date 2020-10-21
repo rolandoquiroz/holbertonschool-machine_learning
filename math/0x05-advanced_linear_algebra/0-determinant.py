@@ -19,8 +19,8 @@ def recursive_determinant(M, det=0):
 
     i = list(range(len(M)))
     for cur_col in i:
-        sub_M = [row[:] for row in M]
-        sub_M = sub_M[1:]
+        copied_matrix = [row[:] for row in M]
+        sub_M = copied_matrix[1:]
         j = len(sub_M)
 
         for i in range(j):
