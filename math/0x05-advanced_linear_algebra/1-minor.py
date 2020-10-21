@@ -67,7 +67,6 @@ def minor(matrix):
 
     if n == 1:
         return [[1]]
-
     my_min = [[determinant(matmin(matrix, i, j)) for j in range(n)]
               for i in range(n)]
     return my_min
