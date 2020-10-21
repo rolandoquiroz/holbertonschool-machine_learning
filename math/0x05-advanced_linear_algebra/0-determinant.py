@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 0-determinant module
-contains determinant function and recursive_determinan function
+contains determinant function and recursive_determinant function
 """
 
 
