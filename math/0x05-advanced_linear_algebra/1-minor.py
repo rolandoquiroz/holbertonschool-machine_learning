@@ -67,10 +67,10 @@ def minor(matrix):
 
     if n == 1:
         return [[1]]
-    min = []
+    my_minor = []
     for i in range(n):
         row = []
-        min.append(row)
+        my_minor.append(row)
         for j in range(n):
             row.append(determinant(matmin(matrix, i, j)))
-    return min
+    return my_minor
