@@ -67,12 +67,8 @@ def minor(matrix):
 
     if n == 1:
         return [[1]]
-    my_min = []
-    for i in range(n):
-        row = []
-        my_min.append(row)
-        for j in range(n):
-            row.append(determinant(matmin(matrix, i, j)))
+    my_min = [[determinant(matmin(matrix, i, j)) for j in range(n)]
+              for i in range(n)]
     return my_min
 
 
@@ -96,10 +92,6 @@ def cofactor(matrix):
 
     my_min = minor(matrix)
 
-    cof = []
-    for i in range(n):
-        row = []
-        cof.append(row)
-        for j in range(n):
-            row.append(((-1)**(i+j)) * my_min[i][j])
+    cof = [[((-1)**(i+j)) * my_min[i][j] for j in range(n)]
+           for i in range(n)]
     return cof
