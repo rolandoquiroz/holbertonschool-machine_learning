@@ -28,7 +28,7 @@ def definiteness(matrix):
     if matrix.shape[0] != matrix.shape[1]:
         return None
 
-    if (matrix != matrix.T).any():
+    if any(matrix != matrix.T):
         return None
 
     w, _ = np.linalg.eig(matrix)
