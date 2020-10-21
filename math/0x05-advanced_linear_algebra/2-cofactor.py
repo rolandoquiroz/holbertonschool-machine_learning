@@ -67,13 +67,13 @@ def minor(matrix):
 
     if n == 1:
         return [[1]]
-    my_cof = []
+    my_min = []
     for i in range(n):
         row = []
-        my_cof.append(row)
+        my_min.append(row)
         for j in range(n):
             row.append(determinant(matmin(matrix, i, j)))
-    return my_cof
+    return my_min
 
 
 def cofactor(matrix):
@@ -94,12 +94,12 @@ def cofactor(matrix):
     if any((not row or n != len(row)) for row in matrix):
         raise ValueError("matrix must be a non-empty square matrix")
 
-    if n == 1:
-        return [[1]]
-    my_cof = []
+    my_min = minor(matrix)
+
+    cof = []
     for i in range(n):
         row = []
-        my_cof.append(row)
+        cof.append(row)
         for j in range(n):
-            row.append(((-1)**(i+j))*determinant(matmin(matrix, i, j)))
-    return my_cof
+            row.append(((-1)**(i+j)) * my_min[i][j])
+    return cof
