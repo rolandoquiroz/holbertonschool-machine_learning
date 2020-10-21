@@ -7,16 +7,16 @@ contains determinant function and recursive_determinant function
 
 def recursive_determinant(M, det=0):
     """Calculates the determinant of a matrix
-
     Args:
         M (list): list of lists whose determinant should be calculated
-
     Returns:
         det (float): the determinant of matrix
     """
+    if len(M) == 1:
+        return M[0][0]
+
     if len(M) == 2:
-        value = M[0][0] * M[1][1] - M[1][0] * M[0][1]
-        return value
+        return M[0][0] * M[1][1] - M[1][0] * M[0][1]
 
     i = list(range(len(M)))
     for cur_col in i:
@@ -36,13 +36,10 @@ def recursive_determinant(M, det=0):
 
 def determinant(matrix):
     """Calculates the determinant of a matrix
-
     Args:
         matrix (list): list of lists whose determinant should be calculated
-
     Returns:
         (float): the determinant of matrix
-
     Raises:
         TypeError: If matrix is not a list of lists
         ValueError: If matrix is not square
