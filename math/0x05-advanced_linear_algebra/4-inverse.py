@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-3-adjugate module
-contains functions: matmin, determinant, minor, cofactor and adjugate
+4-inverse module
+contains functions: matmin, determinant, minor, cofactor, adjugate and inverse
 """
 
 
@@ -67,12 +67,8 @@ def minor(matrix):
 
     if n == 1:
         return [[1]]
-    my_min = []
-    for i in range(n):
-        row = []
-        my_min.append(row)
-        for j in range(n):
-            row.append(determinant(matmin(matrix, i, j)))
+    my_min = [[determinant(matmin(matrix, i, j)) for j in range(n)]
+              for i in range(n)]
     return my_min
 
 
@@ -96,12 +92,8 @@ def cofactor(matrix):
 
     my_min = minor(matrix)
 
-    cof = []
-    for i in range(n):
-        row = []
-        cof.append(row)
-        for j in range(n):
-            row.append(((-1)**(i+j)) * my_min[i][j])
+    cof = [[((-1)**(i+j)) * my_min[i][j] for j in range(n)]
+           for i in range(n)]
     return cof
 
 
@@ -152,10 +144,5 @@ def inverse(matrix):
 
     my_adj = adjugate(matrix)
 
-    inv = []
-    for i in range(n):
-        row = []
-        inv.append(row)
-        for j in range(n):
-            row.append(my_adj[i][j]/my_det)
+    inv = [[my_adj[i][j]/my_det for j in range(n)] for i in range(n)]
     return inv
