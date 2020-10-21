@@ -14,7 +14,6 @@ def recursive_determinant(M, det=0):
     """
     if len(M) == 1:
         return M[0][0]
-
     if len(M) == 2:
         return M[0][0] * M[1][1] - M[1][0] * M[0][1]
 
