@@ -59,7 +59,7 @@ class MultiNormal(object):
         cov_inv = np.linalg.inv(c)
         expo = (-0.5 * np.matmul(np.matmul((x - m).T, cov_inv), x - self.mean))
 
-        pdf = (np.exp(expo[0][0] /
-               np.sqrt(((2 * np.pi) ** n) * np.linalg.det(c))))
+        pdf = (1 / np.sqrt(((2 * np.pi) ** n) *
+               np.linalg.det(c))) * np.exp(expo[0][0])
 
         return pdf
