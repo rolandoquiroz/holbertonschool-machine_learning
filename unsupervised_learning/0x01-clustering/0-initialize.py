@@ -31,7 +31,9 @@ def initialize(X, k):
     if type(k) is not int or not 0 < k < n:
         return None
 
-    centroids = np.random.uniform(low=np.amin(X, axis=0),
-                                  high=np.amax(X, axis=0),
+    minimum_values = np.amin(X, axis=0)
+    maximum_values = np.amax(X, axis=0)
+    centroids = np.random.uniform(low=minimum_values,
+                                  high=maximum_values,
                                   size=(k, d))
     return centroids
