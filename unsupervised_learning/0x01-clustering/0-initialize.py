@@ -20,9 +20,9 @@ def initialize(X, k):
 
     Returns
     -------
-    numpy.ndarray of shape (k, d)
-        contains the initialized centroids for each cluster
-        None on failure
+    centroids : numpy.ndarray of shape (k, d)
+        containing the initialized centroids for each cluster,
+        or None on failure
     """
     if type(X) is not np.ndarray or len(X.shape) is not 2:
         return None
