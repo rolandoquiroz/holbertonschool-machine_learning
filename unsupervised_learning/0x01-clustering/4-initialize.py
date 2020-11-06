@@ -11,7 +11,7 @@ def initialize(X, k):
     """Initializes cluster centroids for K-means"""
     if type(X) is not np.ndarray or len(X.shape) is not 2:
         return None, None, None
-    if type(k) is not int or X.shape[0] <= k < 1:
+    if type(k) is not int or k < 1 or k >= X.shape[0]:
         return None, None, None
 
     d = X.shape[1]
