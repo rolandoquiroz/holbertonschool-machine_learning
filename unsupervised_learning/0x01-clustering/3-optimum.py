@@ -30,6 +30,6 @@ def optimum_k(X, kmin=1, kmax=None, iterations=1000):
         var = variance(X, C)
         if kmin == k:
             var_min = variance(X, C)
-        results.insert(len(results), (C, clss))
-        d_vars.insert(len(d_vars), var_min - var)
+        results.append((C, clss))
+        d_vars.append(var_min - var)
     return results, d_vars
