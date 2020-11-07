@@ -32,8 +32,11 @@ def BIC(X, kmin=1, kmax=None, iterations=1000, tol=1e-5, verbose=False):
     k_results, results, l_total, b = [], [], [], []
 
     for k in range(kmin, kmax + 1):
-        pi, m, S, _, like = expectation_maximization(
-            X, k, iterations, tol, verbose)
+        pi, m, S, _, like = expectation_maximization(X,
+                                                     k,
+                                                     iterations,
+                                                     tol,
+                                                     verbose)
         k_results += [k]
         results += [(pi, m, S)]
         l_total += [like]
