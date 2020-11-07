@@ -17,9 +17,9 @@ def optimum_k(X, kmin=1, kmax=None, iterations=1000):
         return None, None
     if kmax is None:
         kmax = X.shape[0]
-    if type(kmin) is not int or kmin < 1 or X.shape[0] <= kmin:
+    if type(kmin) is not int or kmin < 1 or kmin >= X.shape[0]:
         return None, None
-    if type(kmax) is not int or kmax < 1 or X.shape[0] < kmax:
+    if type(kmax) is not int or kmax < 1 or kmax > X.shape[0]:
         return None, None
     if kmax <= kmin:
         return None, None
@@ -28,9 +28,9 @@ def optimum_k(X, kmin=1, kmax=None, iterations=1000):
     d_vars = []
     for k in range(kmin, kmax + 1):
         C, clss = kmeans(X, k, iterations)
-        var = variance(X, C)
+        results.append((C, clss))
         if kmin == k:
             var_min = variance(X, C)
-        results.append((C, clss))
+        var = variance(X, C)
         d_vars.append(var_min - var)
     return results, d_vars
