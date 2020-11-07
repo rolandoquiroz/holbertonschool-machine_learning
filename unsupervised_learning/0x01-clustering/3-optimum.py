@@ -4,7 +4,8 @@ module 3-optimum
 contains function optimum
 """
 import numpy as np
-kmeans = __import__('1-kmeans').kmeans
+
+kmeresults = __import__('1-kmeresults').kmeresults
 variance = __import__('2-variance').variance
 
 
@@ -18,7 +19,7 @@ def optimum_k(X, kmin=1, kmax=None, iterations=1000):
         return None, None
     if type(kmax) is not int or kmax < 1 or kmax > X.shape[0]:
         return None, None
-    if kmax <= kmin:
+    if kmin >= kmax:
         return None, None
     if type(iterations) is not int or iterations < 1:
         return None, None
@@ -26,10 +27,10 @@ def optimum_k(X, kmin=1, kmax=None, iterations=1000):
     results = []
     d_vars = []
     for k in range(kmin, kmax + 1):
-        C, clss = kmeans(X, k, iterations)
+        C, clss = kmeresults(X, k, iterations)
         results = results + [(C, clss)]
-        if kmin is k:
-            var_min = variance(X, C)
         var = variance(X, C)
-        d_vars = d_vars + [var_min - var]
+        if k is kmin:
+            minimun_var = var
+        d_vars = d_vars + [minimun_var - var]
     return results, d_vars
