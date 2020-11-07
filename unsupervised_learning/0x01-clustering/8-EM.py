@@ -30,12 +30,12 @@ def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
             g, likelihood = expectation(X, pi, m, S)
             pi, m, S = maximization(X, g)
             if verbose:
-                message = 'Log Likelihood after {} iterations: {}'\
-                    .format(i, likelihood.round(5))
                 if (i % 10 == 0) or (i == 0):
-                    print(message)
+                    print('Log Likelihood after {} iterations: {}'
+                          .format(i, likelihood.round(5)))
                 if abs(likelihood - prev_likelihood) <= tol:
-                    print(message)
+                    print('Log Likelihood after {} iterations: {}'
+                          .format(i, likelihood.round(5)))
                     break
             if abs(likelihood - prev_likelihood) <= tol:
                 break
