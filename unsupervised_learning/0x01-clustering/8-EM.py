@@ -22,21 +22,23 @@ def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
         return None, None, None, None, None
     if type(verbose) is not bool:
         return None, None, None, None, None
-
-    pi, m, S = initialize(X, k)
-    g, likelihood = expectation(X, pi, m, S)
-    likelihood_prev = 0
-    for i in range(iterations):
-        if i % 10 == 0 and verbose is True:
-            print("Log Likelihood after {} iterations: {}"
-                  .format(i, likelihood))
-        pi, m, S = maximization(X, g)
+    try:
+        pi, m, S = initialize(X, k)
         g, likelihood = expectation(X, pi, m, S)
-        if np.abs(likelihood - likelihood_prev) <= tol:
-            if verbose is True:
+        likelihood_prev = 0
+        for i in range(iterations):
+            if i % 10 == 0 and verbose is True:
                 print("Log Likelihood after {} iterations: {}"
-                      .format(i + 1, likelihood))
-            break
-        likelihood_prev = likelihood
+                      .format(i, likelihood))
+            pi, m, S = maximization(X, g)
+            g, likelihood = expectation(X, pi, m, S)
+            if np.abs(likelihood - likelihood_prev) <= tol:
+                if verbose is True:
+                    print("Log Likelihood after {} iterations: {}"
+                          .format(i + 1, likelihood))
+                    break
+            likelihood_prev = likelihood
 
-    return pi, m, S, g, likelihood
+        return pi, m, S, g, likelihood
+    except Exception:
+        return None, None, None, None
