@@ -5,7 +5,7 @@ contains function optimum
 """
 import numpy as np
 
-kmeresults = __import__('1-kmeresults').kmeresults
+kmeans = __import__('1-kmeans').kmeans
 variance = __import__('2-variance').variance
 
 
@@ -27,7 +27,7 @@ def optimum_k(X, kmin=1, kmax=None, iterations=1000):
     results = []
     d_vars = []
     for k in range(kmin, kmax + 1):
-        C, clss = kmeresults(X, k, iterations)
+        C, clss = kmeans(X, k, iterations)
         results = results + [(C, clss)]
         var = variance(X, C)
         if k is kmin:
