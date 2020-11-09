@@ -31,11 +31,14 @@ def markov_chain(P, s, t=1):
     """
     if type(P) is not np.ndarray or len(P.shape) is not 2:
         return None
-    if P.shape[0] != P.shape[1]:
+    r, c = P.shape
+    if r != c:
         return None
-    if type(s) is not np.ndarray or len(P.shape) is not 2:
+    if np.sum(P, axis=1).all() != 1:
         return None
-    if s.shape[0] is not 1 or s.shape[1] != P.shape[0]:
+    if type(s) is not np.ndarray or s.shape != (1, c):
+        return None
+    if np.sum(s) != 1:
         return None
     if type(t) is not int or t < 0:
         return None
