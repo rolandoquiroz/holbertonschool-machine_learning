@@ -33,7 +33,7 @@ def regular(P):
         return None
     if not np.all(P):
         return None
-    
+
     A = np.append(P.T-np.eye(n), np.ones((1, n)), axis=0)
     b = np.append(np.zeros((1, n)), 1)
     ans = np.linalg.solve(np.matmul(A.T, A), np.matmul(A.T, b))
