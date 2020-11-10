@@ -37,3 +37,43 @@ def viterbi(Observation, Emission, Transition, Initial):
         None, None
             On failure
     """
+    if type(Observation) is not np.ndarray or len(Observation.shape) is not 1:
+        return None, None
+    T = Observation.shape[0]
+    if type(Emission) is not np.ndarray or len(Emission.shape) is not 2:
+        return None, None
+    N = Emission.shape[0]
+    if type(Transition) is not np.ndarray or len(Transition.shape) is not 2:
+        return None, None
+    if Transition.shape != (N, N):
+        return None, None
+    if type(Initial) is not np.ndarray or len(Initial.shape) is not 2:
+        return None, None
+    if Initial.shape != (N, 1):
+        return None, None
+    if not np.sum(Emission, axis=1).all():
+        return None, None
+    if not np.sum(Transition, axis=1).all():
+        return None, None
+    if not np.sum(Initial) == 1:
+        return None, None
+
+    bp, vt = np.zeros((N, T)), np.zeros((N, T))
+    vt[:, 0] = Initial.T * Emission[:, Observation[0]]
+    for i in range(1, T):
+        for j in range(N):
+            vt[j, i] = np.max(vt[:, i - 1] *
+                              Transition[:, j] *
+                              Emission[j, Observation[i]])
+            bp[j, i] = np.argmax(vt[:, i - 1] *
+                                 Transition[:, j] *
+                                 Emission[j, Observation[i]])
+    S = np.argmax(vt[:, -1])
+    path = [S]
+    k = T - 1
+    while (k > 0):
+        S = int(bp[S, k])
+        path.append(S)
+        k -= 1
+
+    return path[::-1], np.max(vt[:, -1])
