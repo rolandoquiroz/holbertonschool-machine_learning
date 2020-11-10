@@ -23,3 +23,27 @@ def absorbing(P):
         False
             On failure
     """
+    if type(P) is not np.ndarray or len(P.shape) is not 2:
+        return False
+    n, columns = P.shape
+    if n != columns:
+        return False
+    if np.sum(P, axis=1).all() != 1:
+        return False
+    Pdiag = np.diagonal(P)
+    if not np.any(Pdiag == 1):
+        return False
+    if np.all(Pdiag == 1):
+        return True
+
+    i = 0
+    while(i < n):
+        j = 0
+        while(j < n):
+            if (i == j) and (i + 1 < len(P)):
+                if (P[i + 1][j] == 0) and (P[i][j + 1] == 0):
+                    return False
+            j += 1
+        i += 1
+
+    return True
