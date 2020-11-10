@@ -38,3 +38,38 @@ def backward(Observation, Emission, Transition, Initial):
         None, None
             On failure
     """
+    if type(Observation) is not np.ndarray or len(Observation.shape) is not 1:
+        return None, None
+    T = Observation.shape[0]
+    if type(Emission) is not np.ndarray or len(Emission.shape) is not 2:
+        return None, None
+    N = Emission.shape[0]
+    if type(Transition) is not np.ndarray or len(Transition.shape) is not 2:
+        return None, None
+    if Transition.shape != (N, N):
+        return None, None
+    if type(Initial) is not np.ndarray or len(Initial.shape) is not 2:
+        return None, None
+    if Initial.shape != (N, 1):
+        return None, None
+    if not np.sum(Emission, axis=1).all():
+        return None, None
+    if not np.sum(Transition, axis=1).all():
+        return None, None
+    if not np.sum(Initial) == 1:
+        return None, None
+
+    B = np.zeros((N, T))
+    B[:, T - 1] = np.ones((N))
+    for i in range(T - 2, -1, -1):
+        for j in range(N):
+            Transitions = Transition[j, :]
+            Emissions = Emission[:, Observation[i + 1]]
+            B[j, i] = np.sum((Transitions *
+                              B[:, i + 1]) *
+                             Emissions)
+    P = np.sum(Initial[:, 0] *
+               Emission[:, Observation[0]] *
+               B[:, 0])
+
+    return P, B
