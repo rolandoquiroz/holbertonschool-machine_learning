@@ -27,8 +27,8 @@ def initialize(X, k):
     """
     if type(X) is not np.ndarray or len(X.shape) is not 2:
         return None
-    n = X.shape[0]
-    if type(k) is not int or not 1 < k <= n:
+    n, d = X.shape
+    if type(k) is not int or not 0 < k <= n:
         return None
 
     minimum_values = np.amin(X, axis=0)
