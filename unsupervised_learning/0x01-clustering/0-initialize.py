@@ -27,13 +27,13 @@ def initialize(X, k):
     """
     if type(X) is not np.ndarray or len(X.shape) is not 2:
         return None
+    n, d = X.shape
     if type(k) is not int or k < 1:
         return None
 
-    _, d = X.shape
-    minimum_values = np.amin(X, axis=0)
-    maximum_values = np.amax(X, axis=0)
-    centroids = np.random.uniform(low=minimum_values,
-                                  high=maximum_values,
+    minimum_value = np.amin(X, axis=0)
+    maximum_value = np.amax(X, axis=0)
+    centroids = np.random.uniform(low=minimum_value,
+                                  high=maximum_value,
                                   size=(k, d))
     return centroids
