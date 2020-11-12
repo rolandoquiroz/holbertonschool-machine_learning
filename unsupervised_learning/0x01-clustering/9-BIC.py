@@ -39,7 +39,7 @@ def BIC(X, kmin=1, kmax=None, iterations=1000, tol=1e-5, verbose=False):
                                                       verbose)
         results.append((pi, m, S))
         l_b.append(lklhd)
-        p = k - 1 + k * d + k * d * (d + 1) / 2
+        p = (k * d * (d + 1) / 2) + (d * k) + k - 1
         bic = p * np.log(n) - 2 * lklhd
         b.append(bic)
 
