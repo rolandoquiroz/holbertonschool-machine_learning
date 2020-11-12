@@ -7,7 +7,8 @@ import numpy as np
 
 
 def initialize(X, k):
-    """Initializes cluster centroids for K-means
+    """
+    Initializes cluster centroids for K-means
 
     Parameters
     ----------
