@@ -28,23 +28,23 @@ def BIC(X, kmin=1, kmax=None, iterations=1000, tol=1e-5, verbose=False):
     if type(verbose) is not bool:
         return None, None, None, None
 
-    n, d = X.shape
-    k_results, results, l_total, b = [], [], [], []
+    b, results, ks, l_b = [], [], [], []
 
     for k in range(kmin, kmax + 1):
-        pi, m, S, _, like = expectation_maximization(X,
-                                                     k,
-                                                     iterations,
-                                                     tol,
-                                                     verbose)
-        k_results += [k]
-        results += [(pi, m, S)]
-        l_total += [like]
-        p = (k * d * (d + 1) / 2) + (d * k) + k - 1
-        bic = p * np.log(n) - 2 * like
-        b += [bic]
-    b = np.array(b)
-    best = np.argmin(b)
-    l_total = np.array(l_total)
+        ks.append(k)
+        pi, m, S, _, lklhd = expectation_maximization(X,
+                                                      k,
+                                                      iterations,
+                                                      tol,
+                                                      verbose)
+        results.append((pi, m, S))
+        l_b.append(lklhd)
+        p = k - 1 + k * d + k * d * (d + 1) / 2
+        bic = p * np.log(n) - 2 * lklhd
+        b.append(bic)
 
-    return k_results[best], results[best], l_total[best], b[best]
+    l_b = np.array(l_b)
+    b = np.array(b)
+    i = np.argmin(b)
+
+    return ks[i], results[i], l_b, b
