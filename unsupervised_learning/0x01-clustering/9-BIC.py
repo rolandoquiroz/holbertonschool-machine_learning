@@ -15,15 +15,15 @@ def BIC(X, kmin=1, kmax=None, iterations=1000, tol=1e-5, verbose=False):
     if type(X) is not np.ndarray or len(X.shape) is not 2:
         return None, None, None, None
     n, d = X.shape
-    if type(kmin) is not int or kmin < 1 or kmin >= n:
+    if type(kmin) is not int or kmin <= 0 or kmin >= n:
         return None, None, None, None
-    if type(kmax) is not int or kmax < 1 or kmax >= n:
+    if type(kmax) is not int or kmax <= 0 or kmax >= n:
         return None, None, None, None
     if kmin >= kmax:
         return None, None, None, None
     if type(iterations) is not int or iterations < 1:
         return None, None, None, None
-    if type(tol) is not float or tol < 1:
+    if type(tol) is not float or tol <= 0:
         return None, None, None, None
     if type(verbose) is not bool:
         return None, None, None, None
