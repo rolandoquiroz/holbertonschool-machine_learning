@@ -30,20 +30,22 @@ def absorbing(P):
         return False
     if np.sum(P, axis=1).all() != 1:
         return False
-    Pdiag = np.diagonal(P)
-    if not np.any(Pdiag == 1):
+    if not np.any(np.diagonal(P) == 1):
         return False
-    if np.all(Pdiag == 1):
+    if np.all(np.diagonal(P) == 1):
         return True
 
-    i = 0
-    while(i < n):
-        j = 0
-        while(j < n):
-            if (i == j) and (i + 1 < len(P)):
-                if (P[i + 1][j] == 0) and (P[i][j + 1] == 0):
-                    return False
-            j += 1
-        i += 1
+    bigI = np.eye(n)
+    count = 0
+    for row in range(n):
+        if np.array_equal(P[row], bigI[row]):
+            count += 1
+    B = P[count:, count:]
 
-    return True
+    Id = np.eye(B.shape[0])
+
+    try:
+        if (np.linalg.inv(Id - B)).any():
+            return True
+    except np.linalg.LinAlgError:
+        return False
