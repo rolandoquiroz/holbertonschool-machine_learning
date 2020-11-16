@@ -42,14 +42,16 @@ def forward(Observation, Emission, Transition, Initial):
     N = Emission.shape[0]
 
     F = np.zeros((N, T))
-    F[:, 0] = Initial.T * Emission[:, Observation[0]]
+
+    prob = np.multiply(Initial[:, 0], Emission[:, Observation[0]])
+    F[:, 0] = prob
+
     for i in range(1, T):
-        for j in range(N):
-            F[j, i] = np.sum(F[:, i - 1] *
-                             Transition[:, j] *
-                             Emission[j, Observation[i]])
-    P = np.sum(F[:, -1])
-    return P, F
+        state = np.matmul(F[:, i - 1], Transition)
+        prob = np.multiply(state, Emission[:, Observation[i]])
+        F[:, i] = prob
+
+    return F
 
 
 def backward(Observation, Emission, Transition, Initial):
@@ -88,20 +90,15 @@ def backward(Observation, Emission, Transition, Initial):
     N = Emission.shape[0]
 
     B = np.zeros((N, T))
-    B[:, T - 1] = np.ones((N))
 
-    for i in range(T - 2, -1, -1):
-        for j in range(N):
-            Transitions = Transition[j, :]
-            Emissions = Emission[:, Observation[i + 1]]
-            B[j, i] = np.sum(B[:, i + 1] *
-                             Transitions *
-                             Emissions)
-    P = np.sum(B[:, 0] *
-               Initial[:, 0] *
-               Emission[:, Observation[0]])
+    B[:, T - 1] = np.ones(N)
 
-    return P, B
+    for t in range(T - 2, -1, -1):
+        B[:, t] = np.sum(Transition *
+                         Emission[:, Observation[t + 1]] *
+                         B[:, t + 1], axis=1)
+
+    return B
 
 
 def baum_welch(Observations, Transition, Emission, Initial, iterations=1000):
@@ -157,33 +154,28 @@ def baum_welch(Observations, Transition, Emission, Initial, iterations=1000):
     if not np.sum(Initial) == 1:
         return None, None
 
-    for n in range(iterations):
-        P_f, alpha = forward(Observations, Emission, Transition, Initial)
-        P_b, beta = backward(Observations, Emission, Transition, Initial)
+    for _ in range(iterations):
+        alpha = forward(Observations, Emission, Transition, Initial)
+        beta = backward(Observations, Emission, Transition, Initial)
 
         xi = np.zeros((N, N, T - 1))
         for i in range(T - 1):
-            f1 = np.matmul(alpha[:, i].T, Transition)
-            f2 = Emission[:, Observations[i + 1]].T
-            f3 = beta[:, i + 1]
-            deno = np.matmul(f1 * f2, f3)
+            deno = np.matmul(np.matmul(alpha[:, i].T, Transition) *
+                             Emission[:, Observations[i + 1]].T,
+                             beta[:, i + 1])
 
             for j in range(N):
-                f1 = alpha[j, i]
-                f2 = Transition[j]
-                f3 = Emission[:, Observations[i + 1]].T
-                f4 = beta[:, i + 1].T
-                nume = f1 * f2 * f3 * f4
+                nume = alpha[j, i] * \
+                       Transition[j] * \
+                       Emission[:, Observations[i + 1]].T * \
+                       beta[:, i + 1].T
                 xi[j, :, i] = nume / deno
 
         gamma = np.sum(xi, axis=1)
 
-        num = np.sum(xi, 2)
-        den = np.sum(gamma, axis=1).reshape((-1, 1))
-        Transition = num / den
+        Transition = np.sum(xi, 2) / np.sum(gamma, axis=1).reshape((-1, 1))
 
-        xi_sum = np.sum(xi[:, :, T - 2], axis=0)
-        xi_sum = xi_sum.reshape((-1, 1))
+        xi_sum = (np.sum(xi[:, :, T - 2], axis=0)).reshape((-1, 1))
         gamma = np.hstack((gamma, xi_sum))
 
         deno = np.sum(gamma, axis=1)
