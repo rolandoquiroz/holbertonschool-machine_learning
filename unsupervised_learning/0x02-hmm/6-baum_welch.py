@@ -171,25 +171,20 @@ def baum_welch(Observations, Transition, Emission, Initial, iterations=1000):
     """
     if type(Observations) is not np.ndarray:
         return None, None
-
     if len(Observations.shape) is not 1:
         return None, None
-
     T = Observations.shape[0]
     if type(Emission) is not np.ndarray or len(Emission.shape) is not 2:
         return None, None
-
     N, M = Emission.shape
     if type(Transition) is not np.ndarray or len(Transition.shape) is not 2:
         return None, None
     if Transition.shape != (N, N):
         return None, None
-
     if type(Initial) is not np.ndarray or len(Initial.shape) is not 2:
         return None, None
     if Initial.shape != (N, 1):
         return None, None
-
     if not np.sum(Emission, axis=1).all():
         return None, None
     if not np.sum(Transition, axis=1).all():
@@ -197,9 +192,9 @@ def baum_welch(Observations, Transition, Emission, Initial, iterations=1000):
     if not np.sum(Initial) == 1:
         return None, None
 
-    for l in range(iterations):
-        _, alpha = forward(Observations, Emission, Transition, Initial)
-        _, beta = backward(Observations, Emission, Transition, Initial)
+    while True:
+        P_f, alpha = forward(Observations, Emission, Transition, Initial)
+        P_b, beta = backward(Observations, Emission, Transition, Initial)
 
         xi = np.zeros((N, N, T - 1))
         for i in range(T - 1):
@@ -227,13 +222,14 @@ def baum_welch(Observations, Transition, Emission, Initial, iterations=1000):
         gamma = np.hstack((gamma, xi_sum))
 
         deno = np.sum(gamma, axis=1)
-        deno = deno.reshape((-1, 1))
 
         k = 0
         while k < M:
             gamma_i = gamma[:, Observations == k]
             Emission[:, k] = np.sum(gamma_i, axis=1)
             k += 1
-        Emission = Emission / deno
+        Emission = np.divide(Emission, deno.reshape((-1, 1)))
+        if np.isclose(P_f, P_b):
+            break
 
     return Transition, Emission
