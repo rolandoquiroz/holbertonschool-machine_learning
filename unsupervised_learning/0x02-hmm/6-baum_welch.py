@@ -197,10 +197,10 @@ def baum_welch(Observations, Transition, Emission, Initial, iterations=1000):
     if not np.sum(Initial) == 1:
         return None, None
 
-    for _ in range(iterations):
-        alpha = (forward(Observations, Emission, Transition, Initial))[1]
-        beta = (backward(Observations, Emission, Transition, Initial))[1]
-        
+    for l in range(iterations):
+        _, alpha = forward(Observations, Emission, Transition, Initial)
+        _, beta = backward(Observations, Emission, Transition, Initial)
+
         xi = np.zeros((N, N, T - 1))
         for i in range(T - 1):
             f1 = np.matmul(alpha[:, i].T, Transition)
