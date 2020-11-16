@@ -197,30 +197,43 @@ def baum_welch(Observations, Transition, Emission, Initial, iterations=1000):
     if not np.sum(Initial) == 1:
         return None, None
 
-    N, M = Emission.shape
-    T = Observations.shape[0]
-
     for _ in range(iterations):
         alpha = (forward(Observations, Emission, Transition, Initial))[1]
         beta = (backward(Observations, Emission, Transition, Initial))[1]
+        
         xi = np.zeros((N, N, T - 1))
         for i in range(T - 1):
-            d = np.matmul(np.matmul(alpha[:, i].T, Transition) *
-                          Emission[:, Observations[i + 1]].T,
-                          beta[:, i + 1])
+            f1 = np.matmul(alpha[:, i].T, Transition)
+            f2 = Emission[:, Observations[i + 1]].T
+            f3 = beta[:, i + 1]
+            deno = np.matmul(f1 * f2, f3)
+
             for j in range(N):
-                n = alpha[j, i] * \
-                    Transition[j] * \
-                    Emission[:, Observations[i + 1]].T * \
-                    beta[:, i + 1].T
-                xi[j, :, i] = n / d
+                f1 = alpha[j, i]
+                f2 = Transition[j]
+                f3 = Emission[:, Observations[i + 1]].T
+                f4 = beta[:, i + 1].T
+                nume = f1 * f2 * f3 * f4
+                xi[j, :, i] = nume / deno
+
         gamma = np.sum(xi, axis=1)
-        Transition = np.sum(xi, 2) / np.sum(gamma, axis=1).reshape((-1, 1))
-        gamma = np.hstack((gamma, np.sum(xi[:, :, T - 2],
-                                         axis=0).reshape((-1, 1))))
-        d = np.sum(gamma, axis=1)
-        for k in range(M):
-            Emission[:, k] = np.sum(gamma[:, Observations == k], axis=1)
-        Emission = np.divide(Emission, d.reshape((-1, 1)))
+
+        num = np.sum(xi, 2)
+        den = np.sum(gamma, axis=1).reshape((-1, 1))
+        Transition = num / den
+
+        xi_sum = np.sum(xi[:, :, T - 2], axis=0)
+        xi_sum = xi_sum.reshape((-1, 1))
+        gamma = np.hstack((gamma, xi_sum))
+
+        deno = np.sum(gamma, axis=1)
+        deno = deno.reshape((-1, 1))
+
+        k = 0
+        while k < M:
+            gamma_i = gamma[:, Observations == k]
+            Emission[:, k] = np.sum(gamma_i, axis=1)
+            k += 1
+        Emission = Emission / deno
 
     return Transition, Emission
