@@ -169,6 +169,34 @@ def baum_welch(Observations, Transition, Emission, Initial, iterations=1000):
         None, None
             On failure
     """
+    if type(Observations) is not np.ndarray:
+        return None, None
+
+    if len(Observations.shape) is not 1:
+        return None, None
+
+    T = Observations.shape[0]
+    if type(Emission) is not np.ndarray or len(Emission.shape) is not 2:
+        return None, None
+
+    N, M = Emission.shape
+    if type(Transition) is not np.ndarray or len(Transition.shape) is not 2:
+        return None, None
+    if Transition.shape != (N, N):
+        return None, None
+
+    if type(Initial) is not np.ndarray or len(Initial.shape) is not 2:
+        return None, None
+    if Initial.shape != (N, 1):
+        return None, None
+
+    if not np.sum(Emission, axis=1).all():
+        return None, None
+    if not np.sum(Transition, axis=1).all():
+        return None, None
+    if not np.sum(Initial) == 1:
+        return None, None
+
     N, M = Emission.shape
     T = Observations.shape[0]
 
