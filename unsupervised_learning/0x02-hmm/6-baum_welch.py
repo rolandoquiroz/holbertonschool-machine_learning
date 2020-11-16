@@ -38,33 +38,15 @@ def forward(Observation, Emission, Transition, Initial):
         None, None
             On failure
     """
-    if type(Observation) is not np.ndarray or len(Observation.shape) is not 1:
-        return None, None
     T = Observation.shape[0]
-    if type(Emission) is not np.ndarray or len(Emission.shape) is not 2:
-        return None, None
     N = Emission.shape[0]
-    if type(Transition) is not np.ndarray or len(Transition.shape) is not 2:
-        return None, None
-    if Transition.shape != (N, N):
-        return None, None
-    if type(Initial) is not np.ndarray or len(Initial.shape) is not 2:
-        return None, None
-    if Initial.shape != (N, 1):
-        return None, None
-    if not np.sum(Emission, axis=1).all():
-        return None, None
-    if not np.sum(Transition, axis=1).all():
-        return None, None
-    if not np.sum(Initial) == 1:
-        return None, None
 
     F = np.zeros((N, T))
     F[:, 0] = Initial.T * Emission[:, Observation[0]]
     for i in range(1, T):
         for j in range(N):
-            F[j, i] = np.sum(Transition[:, j] *
-                             F[:, i - 1] *
+            F[j, i] = np.sum(F[:, i - 1] *
+                             Transition[:, j] *
                              Emission[j, Observation[i]])
     P = np.sum(F[:, -1])
     return P, F
@@ -102,39 +84,22 @@ def backward(Observation, Emission, Transition, Initial):
         None, None
             On failure
     """
-    if type(Observation) is not np.ndarray or len(Observation.shape) is not 1:
-        return None, None
     T = Observation.shape[0]
-    if type(Emission) is not np.ndarray or len(Emission.shape) is not 2:
-        return None, None
     N = Emission.shape[0]
-    if type(Transition) is not np.ndarray or len(Transition.shape) is not 2:
-        return None, None
-    if Transition.shape != (N, N):
-        return None, None
-    if type(Initial) is not np.ndarray or len(Initial.shape) is not 2:
-        return None, None
-    if Initial.shape != (N, 1):
-        return None, None
-    if not np.sum(Emission, axis=1).all():
-        return None, None
-    if not np.sum(Transition, axis=1).all():
-        return None, None
-    if not np.sum(Initial) == 1:
-        return None, None
 
     B = np.zeros((N, T))
     B[:, T - 1] = np.ones((N))
+
     for i in range(T - 2, -1, -1):
         for j in range(N):
             Transitions = Transition[j, :]
             Emissions = Emission[:, Observation[i + 1]]
-            B[j, i] = np.sum((Transitions *
-                              B[:, i + 1]) *
+            B[j, i] = np.sum(B[:, i + 1] *
+                             Transitions *
                              Emissions)
-    P = np.sum(Initial[:, 0] *
-               Emission[:, Observation[0]] *
-               B[:, 0])
+    P = np.sum(B[:, 0] *
+               Initial[:, 0] *
+               Emission[:, Observation[0]])
 
     return P, B
 
@@ -192,7 +157,7 @@ def baum_welch(Observations, Transition, Emission, Initial, iterations=1000):
     if not np.sum(Initial) == 1:
         return None, None
 
-    while True:
+    for n in range(iterations):
         P_f, alpha = forward(Observations, Emission, Transition, Initial)
         P_b, beta = backward(Observations, Emission, Transition, Initial)
 
@@ -229,7 +194,5 @@ def baum_welch(Observations, Transition, Emission, Initial, iterations=1000):
             Emission[:, k] = np.sum(gamma_i, axis=1)
             k += 1
         Emission = np.divide(Emission, deno.reshape((-1, 1)))
-        if np.isclose(P_f, P_b):
-            break
 
     return Transition, Emission
