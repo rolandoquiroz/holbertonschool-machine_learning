@@ -42,13 +42,10 @@ def forward(Observation, Emission, Transition, Initial):
     N = Emission.shape[0]
 
     F = np.zeros((N, T))
-    F[:, 0] = Initial.T * Emission[:, Observation[0]]
+    F[:, 0] = np.multiply(Initial[:, 0], Emission[:, Observation[0]])
     for i in range(1, T):
-        for j in range(N):
-            F[j, i] = np.sum(Transition[:, j] *
-                             F[:, i - 1] *
-                             Emission[j, Observation[i]])
-
+        F[:, i] = np.multiply(np.matmul(F[:, i - 1], Transition),
+                              Emission[:, Observation[i]])
     return F
 
 
@@ -88,12 +85,11 @@ def backward(Observation, Emission, Transition, Initial):
     N = Emission.shape[0]
 
     B = np.zeros((N, T))
-    B[:, T - 1] = np.ones((N))
-    for i in range(T - 2, -1, -1):
-        for j in range(N):
-            B[j, i] = np.sum((Transition[j, :] *
-                              B[:, i + 1]) *
-                             Emission[:, Observation[i + 1]])
+    B[:, T - 1] = np.ones(N)
+    for t in range(T - 2, -1, -1):
+        B[:, t] = np.sum(Transition *
+                         Emission[:, Observation[t + 1]] *
+                         B[:, t + 1], axis=1)
 
     return B
 
