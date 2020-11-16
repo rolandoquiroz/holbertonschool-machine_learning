@@ -11,7 +11,7 @@ def forward(Observation, Emission, Transition, Initial):
     Function that performs the forward algorithm for a hidden markov model
 
     Arguments:
-        Observation: a numpy.ndarray of shape (T,)
+        Observation: numpy.ndarray of shape (T,)
             Contains the index of the observation
                 T is the number of observations
         Emission: numpy.ndarray of shape (N, M)
@@ -29,14 +29,10 @@ def forward(Observation, Emission, Transition, Initial):
             Contains the probability of starting in a particular hidden state
 
     Returns:
-        P, F: (Tuple)
-            P is the likelihood of the observations given the model
-            F is a numpy.ndarray of shape (N, T)
-                Contains the forward path probabilities
+        F: numpy.ndarray of shape (N, T)
+            Contains the forward path probabilities
                 F[i, j] is the probability of being in hidden state i at time j
                 given the previous observations
-        None, None
-            On failure
     """
     T = Observation.shape[0]
     N = Emission.shape[0]
@@ -72,14 +68,10 @@ def backward(Observation, Emission, Transition, Initial):
             Contains the probability of starting in a particular hidden state
 
     Returns:
-        P, B: (Tuple)
-            P is the likelihood of the observations given the model
-            B is a numpy.ndarray of shape (N, T)
-                Contains the backward path probabilities
-                    B[i, j] is the probability of generating the future
-                    observations from hidden state i at time j
-        None, None
-            On failure
+        B: numpy.ndarray of shape (N, T)
+            Contains the backward path probabilities
+                B[i, j] is the probability of generating the future
+                observations from hidden state i at time j
     """
     T = Observation.shape[0]
     N = Emission.shape[0]
