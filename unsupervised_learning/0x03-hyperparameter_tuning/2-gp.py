@@ -6,7 +6,7 @@ contains class GaussianProcess
 import numpy as np
 
 
-class GaussianProcess():
+class GaussianProcess:
     """Class that represents a noiseless 1D Gaussian process"""
 
     def __init__(self, X_init, Y_init, l=1, sigma_f=1):
@@ -22,7 +22,7 @@ class GaussianProcess():
                 for each input in X_init
             t: int
                 the number of initial samples
-            l: int
+            l: float
                 the length parameter for the kernel
             sigma_f: float
                 the standard deviation given to the output of
