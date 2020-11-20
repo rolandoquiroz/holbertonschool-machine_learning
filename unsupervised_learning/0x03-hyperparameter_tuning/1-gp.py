@@ -82,8 +82,9 @@ class GaussianProcess():
         K_s = self.kernel(self.X, X_s)
         K_ss = self.kernel(X_s, X_s)
         K_inv = np.linalg.inv(self.K)
-        mu_s = K_s.T.dot(K_inv).dot(self.Y)
+        mu_s = np.matmul(np.matmul(K_s.T, K_inv), self.Y)
         mu = np.reshape(mu_s, -1)
-        c_s = K_ss - K_s.T.dot(K_inv).dot(K_s)
+        c_s = K_ss - np.matmul(np.matmul(K_s.T, K_inv), K_s)
         sigma = np.diagonal(c_s)
+
         return mu, sigma
