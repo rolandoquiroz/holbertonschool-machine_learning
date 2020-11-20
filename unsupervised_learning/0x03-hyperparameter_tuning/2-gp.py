@@ -36,7 +36,6 @@ class GaussianProcess():
             K: float
                 Representing the current covariance kernel matrix
                 for the Gaussian process
-
         """
         self.X = X_init
         self.Y = Y_init

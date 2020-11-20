@@ -36,7 +36,6 @@ class GaussianProcess():
             K: float
                 Representing the current covariance kernel matrix
                 for the Gaussian process
-
         """
         self.X = X_init
         self.Y = Y_init
@@ -87,5 +86,4 @@ class GaussianProcess():
         mu = np.reshape(mu_s, -1)
         c_s = K_ss - K_s.T.dot(K_inv).dot(K_s)
         sigma = np.diagonal(c_s)
-
         return mu, sigma
