@@ -60,4 +60,5 @@ class GaussianProcess:
                   np.sum(X2 ** 2, 1) -
                   2 * np.matmul(X1, X2.T))
         K = self.sigma_f**2 * np.exp(-0.5 / self.l**2 * sqdist)
-        return 
+        return K
+    
