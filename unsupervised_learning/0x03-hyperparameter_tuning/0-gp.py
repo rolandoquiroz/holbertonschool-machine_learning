@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 module 0-gp
-contains function
+contains class GaussianProcess
 """
 import numpy as np
 
@@ -36,7 +36,6 @@ class GaussianProcess:
             K: float
                 Representing the current covariance kernel matrix
                 for the Gaussian process
-
         """
         self.X = X_init
         self.Y = Y_init
