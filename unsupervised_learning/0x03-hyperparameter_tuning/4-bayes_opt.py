@@ -83,12 +83,11 @@ class BayesianOptimization:
             Y_sample = np.max(self.gp.Y)
             imp = mu_sample - Y_sample - self.xsi
 
-        Z = np.zeros(sigma_sample.shape[0])
-        for i in range(sigma_sample.shape[0]):
-            if sigma_sample[i] > 0:
-                Z[i] = imp[i] / sigma_sample[i]
-        EI = imp * norm.cdf(Z) + sigma_sample * norm.pdf(Z)
+        with np.errstate(divide='ignore'):
+            Z = imp / sigma_sample
+            EI = (imp * norm.cdf(Z)) + (sigma_sample * norm.pdf(Z))
         EI[np.isclose(sigma_sample, 0)] = 0.0
+
         X_next = self.X_s[np.argmax(EI)]
 
         return X_next, EI
