@@ -16,22 +16,21 @@ def autoencoder(input_dims, filters, latent_dims):
     upsampling of size (2, 2).
         The second to last convolution use instead use valid padding.
         The last convolution has the same number of filters as the number
-            of channels in input_dims with sigmoid activation and no upsampling
+            of channels in input_dims with sigmoid activation and
+            no upsampling.
 
     Arguments:
         input_dims: `tuple` of integers containing the dimensions
-                    of the model input.
+            of the model input.
         filters: `list` containing the number of filters for each
-                 convolutional layer in the encoder, respectively.
-                 the filters should be reversed for the decoder.
+            convolutional layer in the encoder, respectively.
+            the filters should be reversed for the decoder.
         latent_dims: `tuple` of integers containing  the dimensions
-                     of the latent space representation.
-        lambtha: `float`, the regularization parameter used for
-                 L1 regularization on the encoded output.
+            of the latent space representation.
 
     Returns:
         encoder, decoder, auto: `tuple`,
-                                encoder is the encoder model.
-                                decoder is the decoder model.
-                                auto is the convolutional autoencoder model.
+            encoder is the encoder model.
+            decoder is the decoder model.
+            auto is the full autoencoder model.
     """
