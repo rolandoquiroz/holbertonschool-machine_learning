@@ -37,6 +37,7 @@ def autoencoder(input_dims, hidden_layers, latent_dims, lambtha):
         encoder_layers = keras.layers.Dense(units=layer,
                                             activation='relu')(encoder_layers)
 
+    # Adding a sparsity constraint on the encoded representations
     act_reg = keras.regularizers.l1(lambtha)
     # "encoded" is the encoded representation of the input
     encoded = keras.layers.Dense(units=latent_dims,
