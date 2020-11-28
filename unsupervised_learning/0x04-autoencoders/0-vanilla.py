@@ -25,38 +25,44 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
             decoder is the decoder model.
             auto is the full autoencoder model.
     """
+    # This is our input placeholder
     inputs = keras.Input(shape=(input_dims, ))
 
     encoder_layers = keras.layers.Dense(units=hidden_layers[0],
-                                        activation='relu',
-                                        input_shape=(input_dims, ))(inputs)
+                                        activation='relu')(inputs)
 
     for layer in hidden_layers[1:]:
         encoder_layers = keras.layers.Dense(units=layer,
                                             activation='relu')(encoder_layers)
 
+    # "encoded" is the encoded representation of the input
     encoded = keras.layers.Dense(units=latent_dims,
                                  activation='relu')(encoder_layers)
 
-    deco_ins = keras.Input(shape=(latent_dims,))
+    encoded_inputs = keras.Input(shape=(latent_dims,))
 
     decoder_layers = keras.layers.Dense(units=hidden_layers[-1],
-                                        activation='relu',
-                                        input_shape=(latent_dims, ))(deco_ins)
+                                        activation='relu')(encoded_inputs)
 
     for layer in reversed(hidden_layers[:-1]):
         decoder_layers = keras.layers.Dense(units=layer,
                                             activation='relu')(decoder_layers)
 
+    # "decoded" is the lossy reconstruction of the input
     decoded = keras.layers.Dense(units=input_dims,
                                  activation='sigmoid')(decoder_layers)
 
+    # Next model maps an input to its encoded representation
+    # also called latent space representation
     encoder = keras.Model(inputs=inputs, outputs=encoded)
-    decoder = keras.Model(inputs=deco_ins, outputs=decoded)
+    # Next model maps a encoded representation
+    # to its lossy reconstruction of the input
+    decoder = keras.Model(inputs=encoded_inputs, outputs=decoded)
 
     code = encoder(inputs)
     outputs = decoder(code)
 
+    # This model maps an input to its reconstruction
     auto = keras.Model(inputs=inputs, outputs=outputs)
 
     auto.compile(optimizer='adam', loss='binary_crossentropy')
