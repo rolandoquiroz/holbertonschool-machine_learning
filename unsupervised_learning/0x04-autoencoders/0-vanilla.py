@@ -39,6 +39,7 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     encoded = keras.layers.Dense(units=latent_dims,
                                  activation='relu')(encoder_layers)
 
+    # This is our encoded input placeholder
     encoded_inputs = keras.Input(shape=(latent_dims,))
 
     decoder_layers = keras.layers.Dense(units=hidden_layers[-1],
