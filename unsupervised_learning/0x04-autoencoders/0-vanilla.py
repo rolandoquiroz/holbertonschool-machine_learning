@@ -54,7 +54,7 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
                                  activation='sigmoid')(decoder_layers)
 
     # Next model maps an input to its encoded representation
-    # also called latent space representation
+    # also called latent space representation or code
     encoder = keras.Model(inputs=inputs, outputs=encoded)
     # Next model maps a encoded representation
     # to its lossy reconstruction of the input
