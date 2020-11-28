@@ -20,7 +20,7 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
         latent_dims: `int`, dimensions of the latent space representation.
 
     Returns:
-        encoder, decoder, auto: `tuple`,
+        (encoder, decoder, auto): `tuple`,
             encoder is the encoder model.
             decoder is the decoder model.
             auto is the full autoencoder model.
