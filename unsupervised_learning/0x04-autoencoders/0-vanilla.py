@@ -26,6 +26,7 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
             auto is the full autoencoder model.
     """
     # This is our original inputs placeholder
+    # This is our original inputs placeholder
     enco_ins = keras.Input(shape=(input_dims, ))
 
     encoder_layers = keras.layers.Dense(units=hidden_layers[0],
