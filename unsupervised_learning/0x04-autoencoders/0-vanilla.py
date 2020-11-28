@@ -25,8 +25,6 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
             decoder is the decoder model.
             auto is the full autoencoder model.
     """
-    # This is our original inputs placeholder
-    # This is our original inputs placeholder
     enco_ins = keras.Input(shape=(input_dims, ))
 
     encoder_layers = keras.layers.Dense(units=hidden_layers[0],
@@ -48,7 +46,7 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
                                         activation='relu',
                                         input_shape=(latent_dims, ))(deco_ins)
 
-    for layer in reversed(hidden_layers[:-1]):
+    for layer in reversed(hidden_layers[:-2]):
         decoder_layers = keras.layers.Dense(units=layer,
                                             activation='relu')(decoder_layers)
 
@@ -73,7 +71,7 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     layers = keras.layers.Dense(units=hidden_layers[-1],
                                 activation='relu')(layers)
 
-    for layer in reversed(hidden_layers[:-1]):
+    for layer in reversed(hidden_layers[:-2]):
         layers = keras.layers.Dense(units=layer,
                                     activation='relu')(layers)
 
