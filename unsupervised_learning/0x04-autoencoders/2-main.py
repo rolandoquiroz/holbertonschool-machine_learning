@@ -31,3 +31,4 @@ for i in range(10):
     ax.axis('off')
     plt.imshow(reconstructed[i])
 plt.show()
+print(auto.summary())
