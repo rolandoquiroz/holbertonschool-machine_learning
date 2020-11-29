@@ -65,7 +65,7 @@ def autoencoder(input_dims, filters, latent_dims):
 
     deco_lay = keras.layers.UpSampling2D(size=(2, 2))(deco_lay)
 
-    for fltr in reversed(filters[:-1]):
+    for fltr in reversed(filters[1:-1]):
         deco_lay = keras.layers.Conv2D(filters=fltr,
                                        kernel_size=(3, 3),
                                        padding='same',
