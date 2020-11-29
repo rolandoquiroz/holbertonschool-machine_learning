@@ -34,7 +34,7 @@ def autoencoder(input_dims, filters, latent_dims):
             decoder is the decoder model.
             auto is the full autencoded model.
     """
-    # Encoder
+    # This is our input placeholder
     inputs = keras.Input(shape=input_dims)
 
     enco_lay = keras.layers.Conv2D(filters=filters[0],
@@ -42,51 +42,61 @@ def autoencoder(input_dims, filters, latent_dims):
                                    padding='same',
                                    activation='relu')(inputs)
 
-    for i in range(1, len(filters)):
+    for fltr in filters[1:]:
         enco_lay = keras.layers.MaxPooling2D(pool_size=(2, 2),
                                              padding='same')(enco_lay)
-        enco_lay = keras.layers.Conv2D(filters=filters[i],
+
+        enco_lay = keras.layers.Conv2D(filters=fltr,
                                        kernel_size=(3, 3),
                                        padding='same',
                                        activation='relu')(enco_lay)
 
+    # "encoded" is the encoded representation of the input
     encoded = keras.layers.MaxPooling2D(pool_size=(2, 2),
                                         padding='same')(enco_lay)
 
-    # Decoder
+    # This is our encoded input placeholder
     encoded_inputs = keras.Input(shape=latent_dims)
 
-    decoder_layers = keras.layers.Conv2D(filters=filters[-1],
-                                         kernel_size=(3, 3),
-                                         padding='same',
-                                         activation='relu')(encoded_inputs)
-    decoder_layers = keras.layers.UpSampling2D(size=(2, 2))(decoder_layers)
+    deco_lay = keras.layers.Conv2D(filters=filters[-1],
+                                   kernel_size=(3, 3),
+                                   padding='same',
+                                   activation='relu')(encoded_inputs)
 
-    for i in range(len(filters)-2, 0, -1):
-        decoder_layers = keras.layers.Conv2D(filters=filters[i],
-                                             kernel_size=(3, 3),
-                                             padding='same',
-                                             activation='relu')(decoder_layers)
-        decoder_layers = keras.layers.UpSampling2D(size=(2, 2))(decoder_layers)
+    deco_lay = keras.layers.UpSampling2D(size=(2, 2))(deco_lay)
 
-    decoder_layers = keras.layers.Conv2D(filters=filters[0],
-                                         kernel_size=(3, 3),
-                                         padding='valid',
-                                         activation='relu')(decoder_layers)
-    decoder_layers = keras.layers.UpSampling2D(size=(2, 2))(decoder_layers)
+    for fltr in reversed(filters[1:-1]):
+        deco_lay = keras.layers.Conv2D(filters=fltr,
+                                       kernel_size=(3, 3),
+                                       padding='same',
+                                       activation='relu')(deco_lay)
 
+        deco_lay = keras.layers.UpSampling2D(size=(2, 2))(deco_lay)
+
+    deco_lay = keras.layers.Conv2D(filters=filters[0],
+                                   kernel_size=(3, 3),
+                                   padding='valid',
+                                   activation='relu')(deco_lay)
+
+    deco_lay = keras.layers.UpSampling2D(size=(2, 2))(deco_lay)
+
+    # "decoded" is the lossy reconstruction of the input
     decoded = keras.layers.Conv2D(filters=input_dims[-1],
                                   kernel_size=(3, 3),
                                   padding='same',
-                                  activation='sigmoid')(decoder_layers)
+                                  activation='sigmoid')(deco_lay)
 
+    # Next model maps an input to its encoded representation
+    # also called latent space representation or code
     encoder = keras.models.Model(inputs=inputs, outputs=encoded)
+    # Next model maps a encoded representation
+    # to its lossy reconstruction of the input
     decoder = keras.models.Model(inputs=encoded_inputs, outputs=decoded)
 
     code = encoder(inputs)
     outputs = decoder(code)
 
-    # Autencoder
+    # This model maps an input to its reconstruction
     auto = keras.models.Model(inputs=inputs, outputs=outputs)
     auto.compile(optimizer='Adam', loss='binary_crossentropy')
 
