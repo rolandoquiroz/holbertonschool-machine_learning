@@ -6,7 +6,7 @@ contains function autencoded
 import tensorflow.keras as keras
 
 
-def autencoded(input_dims, filters, latent_dims):
+def autoencoder(input_dims, filters, latent_dims):
     """Function that creates a convolutional autencoded. The autencoded model
     is compiled using adam optimization and binary cross-entropy loss.
     Each convolution in the encoder uses a kernel size of (3, 3) with
