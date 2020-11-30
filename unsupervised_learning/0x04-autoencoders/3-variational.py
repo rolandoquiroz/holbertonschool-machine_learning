@@ -18,7 +18,7 @@ def sampling(inputs):
         z: distribution sample
     """
     mean, log_var = inputs
-    epsilon = keras.backend.random_normal(shape=keras.backend.shape(log_var))
+    epsilon = keras.backend.random_normal(shape=keras.backend.shape(mean))
     z = mean + keras.backend.exp(log_var) * epsilon
     return z
 
