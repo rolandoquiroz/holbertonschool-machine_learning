@@ -49,10 +49,11 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
         m = keras.backend.shape(z_mean)[0]
         dims = keras.backend.int_shape(z_mean)[1]
         epsilon = keras.backend.random_normal(shape=(m, dims))
-        return z_mean + keras.backend.exp(z_log_sigma) * epsilon
+        return z_mean + keras.backend.exp(0.5 * z_log_sigma) * epsilon
 
     z = keras.layers.Lambda(sampling,
-                            output_shape=(latent_dims,))([z_mean, z_log_sigma])
+                            output_shape=(latent_dims, ))([z_mean,
+                                                           z_log_sigma])
 
     # This is our encoded input placeholder
     encoded_inputs = keras.Input(shape=(latent_dims, ))
@@ -87,17 +88,13 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
 
     def variational_autoencoder_loss(inputs, outputs):
         """variational autoencoder loss function implementation"""
-
-        reconstruction_i = keras.backend.binary_crossentropy(inputs,
-                                                             outputs)
-        reconstruction_loss = keras.backend.sum(reconstruction_i, axis=1)
-
-        kl_i = 1 + z_log_sigma - keras.backend.square(z_mean) \
+        reconstruction_loss = keras.losses.binary_crossentropy(inputs, outputs)
+        reconstruction_loss *= input_dims
+        kl_loss = 1 + z_log_sigma - keras.backend.square(z_mean)\
             - keras.backend.exp(z_log_sigma)
-        kl_loss = - 0.5 * keras.backend.mean(kl_i, axis=-1)
-
-        vae_loss = reconstruction_loss + kl_loss
-
+        kl_loss = keras.backend.sum(kl_loss, axis=-1)
+        kl_loss *= -0.5
+        vae_loss = keras.backend.mean(reconstruction_loss + kl_loss)
         return vae_loss
 
     auto.compile(optimizer='Adam', loss=variational_autoencoder_loss)
