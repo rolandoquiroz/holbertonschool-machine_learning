@@ -19,7 +19,7 @@ def sampling(inputs):
     """
     mean, log_var = inputs
     epsilon = keras.backend.random_normal(shape=keras.backend.shape(log_var))
-    z = mean + keras.backend.exp(0.5 * log_var) * epsilon
+    z = mean + keras.backend.exp(log_var) * epsilon
     return z
 
 
