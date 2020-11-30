@@ -6,23 +6,6 @@ contains function autoencoder
 import tensorflow.keras as keras
 
 
-def sampling(inputs):
-    """Function that does the reparametrization trick:
-    Sample from a normal distribution , ε ∼ N(0, I)
-
-    Alguments:
-        args:
-            mean: mean from previous layer
-            log_var: standard deviation from previous layer
-    Returns:
-        z: distribution sample
-    """
-    mean, log_var = inputs
-    epsilon = keras.backend.random_normal(shape=keras.backend.shape(log_var))
-    z = mean + keras.backend.exp(log_var) * epsilon
-    return z
-
-
 def autoencoder(input_dims, hidden_layers, latent_dims):
     """Function that creates a variational autoencoder. The autoencoder model
     is compiled using adam optimization and binary cross-entropy loss.
@@ -57,6 +40,16 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
 
     z_mean = keras.layers.Dense(latent_dims)(encoder_layers)
     z_log_sigma = keras.layers.Dense(latent_dims)(encoder_layers)
+
+    def sampling(args):
+        """
+        Sampling the data from the data set using the z_mean and z_stand_dev
+        """
+        z_mean, z_log_sigma = args
+        m = keras.backend.shape(z_mean)[0]
+        dims = keras.backend.int_shape(z_mean)[1]
+        epsilon = keras.backend.random_normal(shape=(m, dims))
+        return z_mean + keras.backend.exp(0.5 * z_log_sigma) * epsilon
 
     z = keras.layers.Lambda(sampling,
                             output_shape=(latent_dims,))([z_mean, z_log_sigma])
