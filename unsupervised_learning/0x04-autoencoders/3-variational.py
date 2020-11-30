@@ -45,6 +45,7 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
         """
         Reparametrization trick: Sample from a normal standard distribution
         Uses (z_mean, z_log_sigma) to sample z, the vector encoding a digit
+        https://keras.io/examples/generative/vae/
         """
         z_mean, z_log_sigma = inputs
         batch = keras.backend.shape(z_mean)[0]
@@ -89,7 +90,10 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
                               name="autoencoder")
 
     def variational_autoencoder_loss(inputs, outputs):
-        """variational autoencoder loss function implementation"""
+        """
+        variational autoencoder loss function implementation
+        https://blog.keras.io/building-autoencoders-in-keras.html
+        """
         reconstruction_loss = keras.losses.binary_crossentropy(inputs, outputs)
         reconstruction_loss *= input_dims
         kl_loss = 1 + z_log_sigma - keras.backend.square(z_mean)\
