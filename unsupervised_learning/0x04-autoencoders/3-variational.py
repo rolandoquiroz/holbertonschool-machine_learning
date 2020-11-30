@@ -44,11 +44,12 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     def sampling(inputs):
         """
         Reparametrization trick: Sample from a normal standard distribution
-        Uses (z_mean, z_log_sigma) to sample z, the vector encoding a digit.
+        Uses (z_mean, z_log_sigma) to sample z, the vector encoding a digit
         """
         z_mean, z_log_sigma = inputs
-        batch_size, dim = keras.backend.int_shape(z_mean)
-        epsilon = keras.backend.random_normal(shape=(batch_size, dim))
+        batch_size = keras.backend.shape(z_mean)[0]
+        dims = keras.backend.int_shape(z_mean)[1]
+        epsilon = keras.backend.random_normal(shape=(batch_size, dims))
         z = z_mean + keras.backend.exp(0.5 * z_log_sigma) * epsilon
         return z
 
