@@ -55,16 +55,18 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
 
     # Next model maps an input to its encoded representation
     # also called latent space representation or code
-    encoder = keras.Model(inputs=inputs, outputs=encoded)
+    encoder = keras.Model(inputs=inputs, outputs=encoded, name="encoder")
     # Next model maps a encoded representation
     # to its lossy reconstruction of the input
-    decoder = keras.Model(inputs=encoded_inputs, outputs=decoded)
+    decoder = keras.Model(inputs=encoded_inputs, outputs=decoded,
+                          name="decoder")
 
     code = encoder(inputs)
     outputs = decoder(code)
 
     # This model maps an input to its reconstruction
-    auto = keras.Model(inputs=inputs, outputs=outputs)
+    auto = keras.models.Model(inputs=inputs, outputs=outputs,
+                              name="autoencoder")
 
     auto.compile(optimizer='adam', loss='binary_crossentropy')
 
