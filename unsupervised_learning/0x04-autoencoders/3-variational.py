@@ -49,7 +49,7 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
         m = keras.backend.shape(z_mean)[0]
         dims = keras.backend.int_shape(z_mean)[1]
         epsilon = keras.backend.random_normal(shape=(m, dims))
-        return z_mean + keras.backend.exp(0.5 * z_log_sigma) * epsilon
+        return z_mean + keras.backend.exp(z_log_sigma) * epsilon
 
     z = keras.layers.Lambda(sampling,
                             output_shape=(latent_dims,))([z_mean, z_log_sigma])
