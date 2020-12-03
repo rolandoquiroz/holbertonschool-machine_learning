@@ -13,8 +13,6 @@ class RNNCell():
     def __init__(self, i, h, o):
         """
         Constructor
-        The weights will be used on the right side for matrix multiplication
-        The biases should be initialized as zeros
         Arguments:
             i is the dimensionality of the data
             h is the dimensionality of the hidden state
@@ -22,7 +20,8 @@ class RNNCell():
         Public instance attributes:
             Wh, Wy, bh, by that represent the weights and biases of the cell.
             The weights are initialized using a random normal distribution in
-            the order listed above and the biases are initialized as zeros
+            the order listed above and the biases are initialized as zeros.
+            The weights are used on the right side for matrix multiplication
                 Wh and bh are for the concatenated hidden state and input data
                 Wy and by are for the output
         """
@@ -46,9 +45,13 @@ class RNNCell():
                 h_next is the next hidden state
                 y is the output of the cell
         """
+        # current hidden state
         h_x = np.concatenate((h_prev, x_t), axis=1)
+        # update hidden state: Note Wh is used on the right side of np.matmul
         h_next = np.tanh(np.matmul(h_x, self.Wh) + self.bh)
+        # compute output of the current state: : Again Wy on the right side
         z = np.matmul(h_next, self.Wy) + self.by
+        # y = σ(z) = e^z / (1 + e^(-z))
         y = np.exp(z)/np.sum(np.exp(z), axis=1, keepdims=True)
 
         return h_next, y
