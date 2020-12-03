@@ -28,7 +28,7 @@ def rnn(rnn_cell, X, h_0):
     H.append(h_0)
 
     for k in range(t):
-        h_next, y = rnn_cell.forward(H[-1], X[k, :, :])
+        h_next, y = rnn_cell.forward(H[k], X[k, :, :])
         H.append(h_next)
         Y.append(y)
 
