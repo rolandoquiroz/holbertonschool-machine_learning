@@ -47,9 +47,9 @@ class RNNCell():
         """
         # current hidden state
         h_x = np.concatenate((h_prev, x_t), axis=1)
-        # update hidden state: Note Wh is used on the right side of np.matmul
+        # update hidden state: Wh is used on the right side of np.matmul
         h_next = np.tanh(np.matmul(h_x, self.Wh) + self.bh)
-        # compute output of the current state: : Again Wy on the right side
+        # compute output of the current state: Wy on the right side
         z = np.matmul(h_next, self.Wy) + self.by
         # y = σ(z) = e^z / (1 + e^(-z))
         y = np.exp(z)/np.sum(np.exp(z), axis=1, keepdims=True)
