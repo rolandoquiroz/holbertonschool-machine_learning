@@ -21,18 +21,17 @@ def rnn(rnn_cell, X, h_0):
         Y is a numpy.ndarray containing all of the outputs
     """
     t, m, i = X.shape
+    m, h = h_0.shape
 
-    H = []
+    H = np.zeros((t + 1, m, h))
+    H[0] = h_0
     Y = []
-
-    H.append(h_0)
 
     for k in range(t):
         h_next, y = rnn_cell.forward(H[k], X[k])
-        H.append(h_next)
+        H[k + 1] = h_next
         Y.append(y)
 
-    H = np.array(H)
     Y = np.array(Y)
 
     return H, Y
