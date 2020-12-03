@@ -29,7 +29,7 @@ def rnn(rnn_cell, X, h_0):
 
     for k in range(t):
         h_next, y = rnn_cell.forward(H[-1], X[k, :, :])
-        H.append(h_next)
+        H[k + 1, :, :] = h_next
         Y.append(y)
 
     Y = np.array(Y)
