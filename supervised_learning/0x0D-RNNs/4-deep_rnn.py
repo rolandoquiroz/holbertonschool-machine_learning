@@ -33,10 +33,10 @@ def deep_rnn(rnn_cells, X, h_0):
     for k in range(t):
         for layer in range(l):
             if layer == 0:
-                h_next, y = rnn_cells[layer].forward(H[k, layer, :, :], X[k])
+                h_next, y = rnn_cells[layer].forward(H[k, layer], X[k])
             else:
-                h_next, y = rnn_cells[layer].forward(H[k, layer, :, :], h_next)
-            H[k + 1, layer, :, :] = h_next
+                h_next, y = rnn_cells[layer].forward(H[k, layer], h_next)
+            H[k + 1, layer] = h_next
         Y.append(y)
 
     Y = np.array(Y)
