@@ -26,26 +26,23 @@ def bi_rnn(bi_cell, X, h_0, h_t):
                 states
             Y is a numpy.ndarray containing all of the outputs
     """
-    t = X.shape[0]
-    m, h = h_0.shape
+    t, m, i = X.shape
 
-    H_f = np.zeros((t, m, h))
-    H_b = np.zeros((t, m, h))
+    h = h_0.shape[1]
 
-    H_f[0] = h_0
-    H_b[t - 1] = h_t
+    H_f = np.zeros((t + 1, m, h))
+    H_b = np.zeros((t + 1, m, h))
 
-    H_next = h_0
-    H_prev = h_t
+    H_f[0], H_b[t] = h_0, h_t
 
-    for k in range(t):
-        H_next = bi_cell.forward(H_next, X[k])
-        H_brev = bi_cell.backward(H_prev, X[-k - 1])
+    for j in range(t):
+        H_f[j + 1] = bi_cell.forward(H_f[j], X[j])
 
-        H_f[k] = H_next
-        H_b[-k - 1] = H_prev
+    for k in range(t - 1, -1, -1):
+        H_b[k] = bi_cell.backward(H_b[k + 1], X[k])
 
-    H = np.concatenate((H_f, H_b), axis=-1)
+    H = np.concatenate((H_f[1:], H_b[:t]), axis=-1)
+
     Y = bi_cell.output(H)
 
     return H, Y
