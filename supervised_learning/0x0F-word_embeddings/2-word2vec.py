@@ -34,6 +34,6 @@ def word2vec_model(sentences, size=100, min_count=5, window=5, negative=5,
                      iter=iterations, seed=seed, workers=workers)
 
     model.train(sentences=sentences, total_examples=model.corpus_count,
-                epochs=model.epochs)
+                epochs=model.iter)
 
     return model
