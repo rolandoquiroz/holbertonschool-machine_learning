@@ -97,6 +97,6 @@ def uni_bleu(references, sentence):
     UNIBLEU = bp * mp
 
     if UNIBLEU > 0.4:
-        return round(UNIBLEU, 7)
+        UNIBLEU = round(UNIBLEU, 7)
 
     return UNIBLEU
