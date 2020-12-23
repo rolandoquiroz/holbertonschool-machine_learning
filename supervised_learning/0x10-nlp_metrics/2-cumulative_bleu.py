@@ -70,7 +70,7 @@ def brevity_penalty(translation_u, list_of_reference_u):
     if c > r:
         return 1
     else:
-        return np.exp(1 - r/c)
+        return np.exp(1 - float(r)/c)
 
 
 def ngram_bleu(references, sentence, n):
@@ -114,8 +114,5 @@ def cumulative_bleu(references, sentence, n):
     geo_mean = np.exp(np.mean(np.log(ngram_bleu_scores)))
     bp = brevity_penalty(sentence, references)
     CUMULATIVE_BLEU = bp * geo_mean
-
-    if CUMULATIVE_BLEU > 0.4:
-        return round(CUMULATIVE_BLEU, 7)
 
     return CUMULATIVE_BLEU
