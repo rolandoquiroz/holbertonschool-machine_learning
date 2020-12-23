@@ -96,4 +96,7 @@ def uni_bleu(references, sentence):
     mp = modified_precision(sentence, references)
     UNIBLEU = bp * mp
 
+    if UNIBLEU > 0.4:
+        return round(UNIBLEU, 7)
+
     return UNIBLEU
