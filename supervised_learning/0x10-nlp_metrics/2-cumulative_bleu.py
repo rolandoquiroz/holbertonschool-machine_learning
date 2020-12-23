@@ -6,15 +6,8 @@ import numpy as np
 
 
 def count_ngram(translation_u, ngram=1):
-    """Function that counts n-grams in a sentence
-
-        Arguments:
-            sentence : a list containing the model proposed sentence
-            ngram: is the size of the n-grams to be counted in sentence
-
-        Returns:
-            ngram_counter: a dictionary containing ngram as key,
-                and count as value
+    """
+    Function that counts n-grams in a sentence
     """
     tokens = zip(*[translation_u[i:] for i in range(ngram)])
     ngrams = [" ".join(token) for token in tokens]
@@ -23,6 +16,7 @@ def count_ngram(translation_u, ngram=1):
     for n_gram in ngrams:
         if n_gram not in ngram_counter:
             ngram_counter[n_gram] = ngrams.count(n_gram)
+
     return ngram_counter
 
 
@@ -41,10 +35,23 @@ def count_clip_ngram(translation_u, list_of_reference_u, ngram=1):
             else:
                 res[k] = ct_reference_u[k]
 
-    clipped = {k: min(ct_translation_u.get(k, 0), res.get(k, 0))
-               for k in ct_translation_u}
+    clipped_counter = {k: min(ct_translation_u.get(k, 0), res.get(k, 0))
+                       for k in ct_translation_u}
 
-    return clipped
+    return clipped_counter
+
+
+def modified_precision(translation_u, list_of_reference_u, ngram=1):
+    """
+    Function that calculates modified precision
+    """
+    ct_clip = count_clip_ngram(translation_u, list_of_reference_u, ngram)
+    ct = count_ngram(translation_u, ngram)
+
+    modified_precision_value = (sum(ct_clip.values()) /
+                                float(max(sum(ct.values()), 1)))
+
+    return modified_precision_value
 
 
 def closest_ref_length(translation_u, list_of_reference_u):
@@ -55,9 +62,9 @@ def closest_ref_length(translation_u, list_of_reference_u):
     closest_ref_idx = np.argmin([abs(len(x) - len_trans)
                                  for x in list_of_reference_u])
 
-    closest_reference_lenght = len(list_of_reference_u[closest_ref_idx])
+    closest_reference_length = len(list_of_reference_u[closest_ref_idx])
 
-    return closest_reference_lenght
+    return closest_reference_length
 
 
 def brevity_penalty(translation_u, list_of_reference_u):
@@ -70,32 +77,11 @@ def brevity_penalty(translation_u, list_of_reference_u):
     if c > r:
         return 1
     else:
-        return np.exp(1 - float(r)/float(c))
-
-
-def ngram_bleu(references, sentence, n):
-    """Function that calculates the n-gram BLEU score for a sentence
-
-    Arguments:
-        references is a list of reference translations
-            each reference translation is a list of the words
-            in the translation
-        sentence is a list containing the model proposed sentence
-        n is the size of the largest n-gram to use for evaluation
-
-    Returns:
-        the n-gram BLEU score
-    """
-    clipped = count_clip_ngram(sentence, references, n)
-    clipped_count = sum(clipped.values())
-    ct = count_ngram(sentence, n)
-    modified_precision = clipped_count / float(max(sum(ct.values()), 1))
-    return modified_precision
+        return np.exp(1 - r/c)
 
 
 def cumulative_bleu(references, sentence, n):
     """Function that calculates the cumulative n-gram BLEU score for a sentence
-
     Arguments:
         references is a list of reference translations
             each reference translation is a list of the words
@@ -103,13 +89,13 @@ def cumulative_bleu(references, sentence, n):
         sentence is a list containing the model proposed sentence
         n is the size of the largest n-gram to use for evaluation
         All n-gram scores are weighted evenly
-
     Returns:
         the cumulative n-gram BLEU score
     """
-    ngram_bleu_scores = []
+    modified_precisions = []
     for i in range(n):
-        ngram_bleu_scores.append(ngram_bleu(references, sentence, i + 1))
+        modified_precisions.append(modified_precision(sentence,
+                                                      references, i + 1))
 
     geo_mean = np.exp(np.mean(np.log(ngram_bleu_scores)))
     bp = brevity_penalty(sentence, references)
