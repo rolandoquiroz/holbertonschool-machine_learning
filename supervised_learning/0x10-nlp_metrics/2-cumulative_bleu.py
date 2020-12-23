@@ -107,9 +107,9 @@ def cumulative_bleu(references, sentence, n):
     Returns:
         the cumulative n-gram BLEU score
     """
-    ngram_bleu_scores = [0] * n
+    ngram_bleu_scores = []
     for i in range(0, n):
-        ngram_bleu_scores[i] = ngram_bleu(references, sentence, i + 1)
+        ngram_bleu_scores.append(ngram_bleu(references, sentence, i + 1))
 
     geo_mean = np.exp(np.sum((1 / n) * np.log(ngram_bleu_scores)))
     bp = brevity_penalty(sentence, references)
