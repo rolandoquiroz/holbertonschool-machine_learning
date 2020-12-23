@@ -59,6 +59,7 @@ def closest_ref_length(translation_u, list_of_reference_u):
 
 def brevity_penalty(translation_u, list_of_reference_u):
     """
+    Something
     """
     c = len(translation_u)
     r = closest_ref_length(translation_u, list_of_reference_u)
