@@ -115,4 +115,7 @@ def cumulative_bleu(references, sentence, n):
     bp = brevity_penalty(sentence, references)
     CUMULATIVE_BLEU = bp * geo_mean
 
+    if CUMULATIVE_BLEU > 0.4:
+        return round(CUMULATIVE_BLEU, 7)
+
     return CUMULATIVE_BLEU
