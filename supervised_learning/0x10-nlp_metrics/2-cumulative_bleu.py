@@ -92,12 +92,8 @@ def cumulative_bleu(references, sentence, n):
     Returns:
         the cumulative n-gram BLEU score
     """
-    modified_precisions = []
-    for i in range(n):
-        modified_precisions.append(modified_precision(sentence,
-                                                      references, i + 1))
-
-    geometric_mean = np.exp(np.mean(np.log(modified_precisions)))
+    mps = [modified_precision(sentence, references, i + 1) for i in range(n)]
+    geometric_mean = np.exp(np.mean(np.log(mps)))
     bp = brevity_penalty(sentence, references)
     CUMULATIVE_BLEU = bp * geometric_mean
 
