@@ -103,6 +103,6 @@ def uni_bleu(references, sentence):
     else:
         bp = np.exp(1 - float(r) / float(c))
 
-    BLEU = bp * np.exp(np.log(clipped_count / c))
+    BLEU = bp * np.exp(np.log(clipped_count / float(c)))
 
     return BLEU
