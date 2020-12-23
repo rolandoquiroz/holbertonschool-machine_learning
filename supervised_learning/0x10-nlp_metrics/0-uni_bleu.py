@@ -91,4 +91,6 @@ def uni_bleu(references, sentence):
     clipped_count = sum(clipped.values())
     BLEU = bp * np.exp(np.log(clipped_count / c))
 
-    return round(BLEU, 7)
+    if BLEU > 0.4:
+        return round(BLEU, 7)
+    return BLEU
