@@ -82,10 +82,27 @@ def uni_bleu(references, sentence):
     Returns:
         the unigram BLEU score
     """
-    c = len(sentence)
-    bp = brevity_penalty(sentence, references)
-    clipped = count_clip_ngram(sentence, references)
-    clipped_count = sum(clipped.values())
-    BLEU_score = bp * np.exp(np.log(clipped_count / c))
+    references_lenghts = []
+    clipped = {}
+    for unigram in sentence:
+        foo = []
+        for reference in references:
+            references_lenghts.append(len(reference))
+            foo.append(reference.count(unigram))
+        if max(foo) > 0:
+            clipped[unigram] = max(foo)
 
-    return BLEU_score
+    c = len(sentence)
+    clipped_count = sum(clipped.values())
+    closest_reference_index = np.argmin([abs(len(reference) - c)
+                                         for reference in references])
+    r = len(references[closest_reference_index])
+
+    if c > r:
+        bp = 1
+    else:
+        bp = np.exp(1 - r / c)
+
+    BLEU = bp * np.exp(np.log(clipped_count / c))
+
+    return BLEU
