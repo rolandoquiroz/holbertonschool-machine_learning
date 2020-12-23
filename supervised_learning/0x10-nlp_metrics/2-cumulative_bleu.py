@@ -97,8 +97,8 @@ def cumulative_bleu(references, sentence, n):
         modified_precisions.append(modified_precision(sentence,
                                                       references, i + 1))
 
-    geo_mean = np.exp(np.mean(np.log(modified_precisions)))
+    geometric_mean = np.exp(np.mean(np.log(modified_precisions)))
     bp = brevity_penalty(sentence, references)
-    CUMULATIVE_BLEU = bp * geo_mean
+    CUMULATIVE_BLEU = bp * geometric_mean
 
     return CUMULATIVE_BLEU
