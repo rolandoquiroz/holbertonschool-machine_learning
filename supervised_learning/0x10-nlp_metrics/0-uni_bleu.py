@@ -28,9 +28,7 @@ def count_ngram(translation_u, ngram=1):
 
 def count_clip_ngram(translation_u, list_of_reference_u, ngram=1):
     """
-    Return
-    ----
-
+    Function that counts clipped ngrams
     """
     res = {}
     ct_translation_u = count_ngram(translation_u, ngram)
@@ -43,23 +41,28 @@ def count_clip_ngram(translation_u, list_of_reference_u, ngram=1):
             else:
                 res[k] = ct_reference_u[k]
 
-    return {k: min(ct_translation_u.get(k, 0), res.get(k, 0))
-            for k in ct_translation_u}
+    clipped = {k: min(ct_translation_u.get(k, 0), res.get(k, 0))
+               for k in ct_translation_u}
+
+    return clipped
 
 
 def closest_ref_length(translation_u, list_of_reference_u):
     """
-    determine the closest reference length from translation length
+    Determine the closest reference length from translation length
     """
     len_trans = len(translation_u)
     closest_ref_idx = np.argmin([abs(len(x) - len_trans)
                                  for x in list_of_reference_u])
-    return len(list_of_reference_u[closest_ref_idx])
+
+    closest_reference_lenght = len(list_of_reference_u[closest_ref_idx])
+
+    return closest_reference_lenght
 
 
 def brevity_penalty(translation_u, list_of_reference_u):
     """
-    Something
+    Calculates brevety penalty
     """
     c = len(translation_u)
     r = closest_ref_length(translation_u, list_of_reference_u)
@@ -67,7 +70,7 @@ def brevity_penalty(translation_u, list_of_reference_u):
     if c > r:
         return 1
     else:
-        return np.exp(1 - float(r/c))
+        return np.exp(1 - r/c)
 
 
 def uni_bleu(references, sentence):
