@@ -20,64 +20,66 @@ def count_ngram(translation_u, ngram=1):
     return ngram_counter
 
 
-def count_clip_ngram(translation_u, list_of_reference_u, ngram=1):
+def count_clip_ngram(sentence, references, ngram=1):
     """
     Function that counts clipped ngrams
     """
-    res = {}
-    ct_translation_u = count_ngram(translation_u, ngram)
+    clipped = {}
+    sentence_ngrams_cntr = count_ngram(sentence, ngram)
 
-    for reference_u in list_of_reference_u:
-        ct_reference_u = count_ngram(reference_u, ngram)
-        for k in ct_reference_u:
-            if k in res:
-                res[k] = max(ct_reference_u[k], res[k])
+    for reference in references:
+        reference_ngrams_counter = count_ngram(reference, ngram)
+        for n_gram in reference_ngrams_counter:
+            if n_gram in clipped:
+                clipped[n_gram] = max(reference_ngrams_counter[n_gram],
+                                      clipped[n_gram])
             else:
-                res[k] = ct_reference_u[k]
+                clipped[n_gram] = reference_ngrams_counter[n_gram]
 
-    clipped_counter = {k: min(ct_translation_u.get(k, 0), res.get(k, 0))
-                       for k in ct_translation_u}
+    clipped_ngrams_counter = {n_gram: min(sentence_ngrams_cntr.get(n_gram, 0),
+                              clipped.get(n_gram, 0))
+                              for n_gram in sentence_ngrams_cntr}
 
-    return clipped_counter
+    return clipped_ngrams_counter
 
 
-def modified_precision(translation_u, list_of_reference_u, ngram=1):
+def modified_precision(sentence, references, ngram=1):
     """
     Function that calculates modified precision
     """
-    ct_clip = count_clip_ngram(translation_u, list_of_reference_u, ngram)
-    ct = count_ngram(translation_u, ngram)
+    clipped_ngrams_cntr = count_clip_ngram(sentence, references, ngram)
+    ngram_cntr = count_ngram(sentence, ngram)
 
-    modified_precision_value = (sum(ct_clip.values()) /
-                                float(max(sum(ct.values()), 1)))
+    modified_precision_value = (sum(clipped_ngrams_cntr.values()) /
+                                float(max(sum(ngram_cntr.values()), 1)))
 
     return modified_precision_value
 
 
-def closest_ref_length(translation_u, list_of_reference_u):
+def closest_reference_length(sentence, references):
     """
     Determine the closest reference length from translation length
     """
-    len_trans = len(translation_u)
-    closest_ref_idx = np.argmin([abs(len(x) - len_trans)
-                                 for x in list_of_reference_u])
+    sentence_length = len(sentence)
+    closest_reference_index = np.argmin([abs(len(reference) - sentence_length)
+                                         for reference in references])
 
-    closest_reference_lenght = len(list_of_reference_u[closest_ref_idx])
+    closest_reference_length = len(references[closest_reference_index])
 
-    return closest_reference_lenght
+    return closest_reference_length
 
 
-def brevity_penalty(translation_u, list_of_reference_u):
+def brevity_penalty(sentence, references):
     """
     Calculates brevety penalty
     """
-    c = len(translation_u)
-    r = closest_ref_length(translation_u, list_of_reference_u)
+    c = len(sentence)
+    r = closest_reference_length(sentence, references)
 
     if c > r:
         return 1
     else:
-        return np.exp(1 - r/c)
+        return np.exp(1 - r / c)
 
 
 def ngram_bleu(references, sentence, n):
