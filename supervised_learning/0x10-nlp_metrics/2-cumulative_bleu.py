@@ -111,7 +111,7 @@ def cumulative_bleu(references, sentence, n):
     for i in range(0, n):
         ngram_bleu_scores.append(ngram_bleu(references, sentence, i + 1))
 
-    geo_mean = np.exp(np.mean(np.log(ngram_bleu_scores)))
+    geo_mean = np.exp(np.sum((1 / n) * np.log(ngram_bleu_scores)))
     len_trans = len(sentence)
     closest_ref_idx = np.argmin([abs(len(x) - len_trans) for x in references])
     reference_length = len(references[closest_ref_idx])
