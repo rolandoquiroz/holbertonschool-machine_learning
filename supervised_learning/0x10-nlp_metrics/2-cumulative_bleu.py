@@ -114,4 +114,7 @@ def cumulative_bleu(references, sentence, n):
 
     geo_mean = np.exp(np.mean(np.log(ngram_bleu_scores)))
 
+    if geo_mean > 0.4:
+        return round(geo_mean, 7)
+    
     return geo_mean
