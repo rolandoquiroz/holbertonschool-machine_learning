@@ -89,7 +89,7 @@ def ngram_bleu(references, sentence, n):
     c = len(count_ngram(sentence, n))
     clipped = count_clip_ngram(sentence, references, n)
     clipped_count = sum(clipped.values())
-    BLEU = np.exp(np.log(clipped_count / float(c)))
+    BLEU = np.exp(np.log(clipped_count / c))
     return BLEU
 
 
@@ -112,7 +112,14 @@ def cumulative_bleu(references, sentence, n):
         ngram_bleu_scores.append(ngram_bleu(references, sentence, i + 1))
 
     geo_mean = np.exp(np.mean(np.log(ngram_bleu_scores)))
-    bp = brevity_penalty(sentence, references)
-    CUMULATIVE_BLEU = bp * geo_mean
+    len_trans = len(sentence)
+    closest_ref_idx = np.argmin([abs(len(x) - len_trans) for x in references])
+    reference_length = len(references[closest_ref_idx])
 
-    return CUMULATIVE_BLEU
+    if len_trans > reference_length:
+        bp = 1
+    else:
+        bp = np.exp(1 - float(reference_length) / len_trans)
+
+    bleu = bp * geo_mean
+    return bleu
