@@ -87,10 +87,9 @@ def ngram_bleu(references, sentence, n):
         the n-gram BLEU score
     """
     c = len(count_ngram(sentence, n))
-    bp = brevity_penalty(sentence, references)
     clipped = count_clip_ngram(sentence, references, n)
     clipped_count = sum(clipped.values())
-    BLEU = bp * np.exp(np.log(clipped_count / c))
+    BLEU = np.exp(np.log(clipped_count / c))
     return BLEU
 
 
@@ -113,8 +112,7 @@ def cumulative_bleu(references, sentence, n):
         ngram_bleu_scores[i] = ngram_bleu(references, sentence, i + 1)
 
     geo_mean = np.exp(np.mean(np.log(ngram_bleu_scores)))
+    bp = brevity_penalty(sentence, references)
+    CUMULATIVE_BLEU = bp * geo_mean
 
-    if geo_mean > 0.4:
-        return round(geo_mean, 7)
-    
-    return geo_mean
+    return CUMULATIVE_BLEU
