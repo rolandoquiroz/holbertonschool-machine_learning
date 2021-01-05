@@ -55,14 +55,11 @@ class RNNEncoder(tf.keras.layers.Layer):
         Returns: Tensor of shape (batch, units)
             Initialized hidden states
         """
-        initializer = tf.keras.initializers.Zeros()
-        initialized_hidden_states = initializer(shape=(self.batch,
-                                                       self.units))
-        return initialized_hidden_states
+        return tf.zeros((self.batch, self.units))
 
     def call(self, x, initial):
         """
-        Method that calls GRU layer
+        Method that calls GRU layer for initialization
 
         Arguments:
             x: tensor of shape (batch, input_seq_len)
