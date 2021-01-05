@@ -55,11 +55,13 @@ class RNNEncoder(tf.keras.layers.Layer):
         Returns: Tensor of shape (batch, units)
             Initialized hidden states
         """
-        return tf.zeros((self.batch, self.units))
+        initialized_hidden_states = tf.zeros((self.batch,
+                                              self.units))
+        return initialized_hidden_states
 
     def call(self, x, initial):
         """
-        Method that calls GRU layer for initialization
+        Method that calls GRU layer to be initializated
 
         Arguments:
             x: tensor of shape (batch, input_seq_len)
@@ -75,5 +77,6 @@ class RNNEncoder(tf.keras.layers.Layer):
                 the last hidden state of the encoder
         """
         embeddings = self.embedding(x)
-        outputs, hidden = self.gru(inputs=embeddings, initial_state=initial)
+        outputs, hidden = self.gru(inputs=embeddings,
+                                   initial_state=initial)
         return outputs, hidden
