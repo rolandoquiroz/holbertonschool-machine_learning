@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""This madule contains class RNNEncoder"""
+"""class RNNEncoder"""
 import tensorflow as tf
 
 
@@ -55,6 +55,9 @@ class RNNEncoder(tf.keras.layers.Layer):
         Returns: Tensor of shape (batch, units)
             Initialized hidden states
         """
+        # initializer = tf.keras.initializers.Zeros()
+        # initialized_hidden_states = initializer(shape=(self.batch,
+        #                                                self.units))
         initialized_hidden_states = tf.zeros((self.batch,
                                               self.units))
         return initialized_hidden_states
