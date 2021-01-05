@@ -37,15 +37,15 @@ class RNNEncoder(tf.keras.layers.Layer):
                     Return the full sequence of outputs and
                         the last hidden state
         """
-        super().__init__()
+        super(RNNEncoder, self).__init__()
         self.batch = batch
         self.units = units
         self.embedding = tf.keras.layers.Embedding(input_dim=vocab,
                                                    output_dim=embedding)
         self.gru = tf.keras.layers.GRU(units=self.units,
-                                       kernel_initializer='glorot_uniform',
                                        return_sequences=True,
-                                       return_state=True)
+                                       return_state=True,
+                                       recurrent_initializer='glorot_uniform')
 
     def initialize_hidden_state(self):
         """
@@ -62,7 +62,7 @@ class RNNEncoder(tf.keras.layers.Layer):
 
     def call(self, x, initial):
         """
-        Method that calls
+        Method that calls GRU layer
 
         Arguments:
             x: tensor of shape (batch, input_seq_len)
@@ -78,5 +78,5 @@ class RNNEncoder(tf.keras.layers.Layer):
                 the last hidden state of the encoder
         """
         embeddings = self.embedding(x)
-        outputs, hidden = self.gru(embeddings, initial_state=initial)
+        outputs, hidden = self.gru(inputs=embeddings, initial_state=initial)
         return outputs, hidden
