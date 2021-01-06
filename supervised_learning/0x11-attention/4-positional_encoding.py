@@ -14,12 +14,12 @@ def positional_encoding(max_seq_len, dm):
             the model depth
 
     Returns:
-        pe: numpy.ndarray of shape (max_seq_len, dm)
+        PE: numpy.ndarray of shape (max_seq_len, dm)
             positional encoding vectors
     """
-    pe = np.zeros([max_seq_len, dm])
+    PE = np.zeros([max_seq_len, dm])
     for pos in range(max_seq_len):
         for i in range(0, dm, 2):
-            pe[pos, i] = np.sin(pos / (10000 ** ((2 * i)//dm)))
-            pe[pos, i + 1] = np.cos(pos / (10000 ** ((2 * (i + 1))//dm)))
-    return pe
+            PE[pos, i] = np.sin(pos / (10000 ** (2 * (i // 2) / dm)))
+            PE[pos, i + 1] = np.cos(pos / (10000 ** (2 * (i // 2) / dm)))
+    return PE
