@@ -58,8 +58,8 @@ class RNNEncoder(tf.keras.layers.Layer):
         # initializer = tf.keras.initializers.Zeros()
         # initialized_hidden_states = initializer(shape=(self.batch,
         #                                                self.units))
-        initialized_hidden_states = tf.zeros((self.batch,
-                                              self.units))
+        initialized_hidden_states = tf.zeros(shape=(self.batch,
+                                                    self.units))
         return initialized_hidden_states
 
     def call(self, x, initial):
