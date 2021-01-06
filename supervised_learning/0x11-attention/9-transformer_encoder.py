@@ -7,7 +7,7 @@ EncoderBlock = __import__('7-transformer_encoder_block').EncoderBlock
 
 class Encoder(tf.keras.layers.Layer):
     """
-    class Encoder to create an decoder block for a transformer
+    class Encoder to create an encoder block for a transformer
     https://www.tensorflow.org/tutorials/text/transformer
     """
 
@@ -60,7 +60,7 @@ class Encoder(tf.keras.layers.Layer):
             a tensor of shape (batch, input_seq_len, dm)
                 the block’s output
         """
-        seq_len = tf.shape(x)[1]
+        seq_len = x.shape[1]
 
         x = self.embedding(x)
         x *= tf.math.sqrt(tf.cast(self.dm, tf.float32))
