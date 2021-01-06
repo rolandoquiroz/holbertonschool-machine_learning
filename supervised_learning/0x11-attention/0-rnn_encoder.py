@@ -5,8 +5,7 @@ import tensorflow as tf
 
 class RNNEncoder(tf.keras.layers.Layer):
     """
-    class RNNEncoder that inherits from tensorflow.keras.layers.Layer to
-    encode for machine translation
+    class RNNEncoder to encode for machine translation
     """
 
     def __init__(self, vocab, embedding, units, batch):
