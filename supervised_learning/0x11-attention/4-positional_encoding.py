@@ -14,7 +14,7 @@ def positional_encoding(max_seq_len, dm):
             the model depth
 
     Returns:
-        positional_encoding_vectors: numpy.ndarray of shape (max_seq_len, dm)
+        pe: numpy.ndarray of shape (max_seq_len, dm)
             positional encoding vectors
     """
     pe = np.zeros([max_seq_len, dm])
