@@ -10,7 +10,7 @@ def positional_encoding(max_seq_len, dm):
     Arguments:
         max_seq_len: int
             the maximum sequence length
-        dm:
+        dm: dimension of embedding vector
             the model depth
 
     Returns:
