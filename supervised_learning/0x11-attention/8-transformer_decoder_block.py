@@ -1,57 +1,62 @@
 #!/usr/bin/env python3
-"""class Encoder"""
+"""class DecoderBlock"""
 import tensorflow as tf
-positional_encoding = __import__('4-positional_encoding').positional_encoding
-EncoderBlock = __import__('7-transformer_encoder_block').EncoderBlock
+MultiHeadAttention = __import__('6-multihead_attention').MultiHeadAttention
 
 
-class Encoder(tf.keras.layers.Layer):
+class DecoderBlock(tf.keras.layers.Layer):
     """
-    class Encoder to create an decoder block for a transformer
+    class DecoderBlock to create an decoder block for a transformer
     https://www.tensorflow.org/tutorials/text/transformer
     """
 
-    def __init__(self, N, dm, h, hidden, input_vocab, max_seq_len,
-                 drop_rate=0.1):
+    def __init__(self, dm, h, hidden, drop_drop_rate=0.1):
         """
-        class Encoder constructor
+        class DecoderBlock constructor
 
         Arguments:
-            N: the number of blocks in the encoder
             dm: the dimensionality of the model
             h: the number of heads
             hidden: the number of hidden units in the fully connected layer
-            input_vocab: the size of the input vocabulary
-            max_seq_len: the maximum sequence length possible
-            drop_rate: the dropout rate
+            drop_drop_rate: the dropout drop_rate
 
         Public instance attributes:
-            N: the number of blocks in the encoder
-            dm: the dimensionality of the model
-            embedding: the embedding layer for the inputs
-            positional_encoding: a numpy.ndarray of shape (max_seq_len, dm)
-                containing the positional encodings
-            blocks: a list of length N containing all of the EncoderBlock‘s
-            dropout: the dropout layer, to be applied to
-                the positional encodings
+            mha1 - the first MultiHeadAttention layer
+            mha2 - the second MultiHeadAttention layer
+            dense_hidden - the hidden dense layer with hidden units
+                and relu activation
+            dense_output - the output dense layer with dm units
+            layernorm1 - the first layer norm layer, with epsilon=1e-6
+            layernorm2 - the second layer norm layer, with epsilon=1e-6
+            layernorm3 - the third layer norm layer, with epsilon=1e-6
+            dropout1 - the first dropout layer
+            dropout2 - the second dropout layer
+            dropout3 - the third dropout layer
         """
-        super(Encoder, self).__init__()
-        self.N = N
-        self.dm = dm
-        self.embedding = tf.keras.layers.Embedding(input_vocab, dm)
-        self.positional_encoding = positional_encoding(max_seq_len, dm)
-        self.blocks = [EncoderBlock(dm, h, hidden, drop_rate)
-                       for _ in range(N)]
-        self.dropout = tf.keras.layers.Dropout(drop_rate)
+        super(DecoderBlock, self).__init__()
+
+        self.mha1 = MultiHeadAttention(dm, h)
+        self.mha2 = MultiHeadAttention(dm, h)
+
+        self.dense_hidden = tf.keras.layers.Dense(hidden, activation='relu')
+        self.dense_output = tf.keras.layers.Dense(dm)
+
+        self.layernorm1 = tf.keras.layers.LayerNormalization(epsilon=1e-6)
+        self.layernorm2 = tf.keras.layers.LayerNormalization(epsilon=1e-6)
+        self.layernorm3 = tf.keras.layers.LayerNormalization(epsilon=1e-6)
+
+        self.dropout1 = tf.keras.layers.Dropout(drop_rate)
+        self.dropout2 = tf.keras.layers.Dropout(drop_rate)
+        self.dropout3 = tf.keras.layers.Dropout(drop_rate)
 
     def call(self, x, training, mask):
         """
-        Method to make a 'call' for a Encoder layer forward pass.
+        Method to make a 'call' for a DecoderBlock layer forward pass.
         Transformation from inputs to outputs
 
         Arguments:
             x: tensor of shape (batch, input_seq_len, dm)
-                the input to the encoder block
+                the input to the decoderblock block
             training: boolean
                 to determine if the model is training
             mask: the mask to be applied for multi head attention
@@ -60,14 +65,21 @@ class Encoder(tf.keras.layers.Layer):
             a tensor of shape (batch, input_seq_len, dm)
                 the block’s output
         """
-        seq_len = tf.shape(x)[1]
+        attn1, attn_weights_block1 = self.mha1(x, x, x, look_ahead_mask)
+        attn1 = self.dropout1(attn1, training=training)
+        out1 = self.layernorm1(attn1 + x)
 
-        x = self.embedding(x)
-        x *= tf.math.sqrt(tf.cast(self.dm, tf.float32))
-        x += self.positional_encoding[:, :seq_len, :]
-        x = self.dropout(x, training=training)
+        attn2, attn_weights_block2 = self.mha2(out1,
+                                               encoder_output,
+                                               encoder_output,
+                                               padding_mask)
 
-        for i in range(self.N):
-            x = self.blocks[i](x, training, mask)
+        attn2 = self.dropout2(attn2, training=training)
+        out2 = self.layernorm2(attn2 + out1)
 
-        return x
+        ffn_output = self.dense_hidden(out2)
+        ffn_output = self.dense_output(ffn_output)
+        ffn_output = self.dropout3(ffn_output, training=training)
+        out3 = self.layernorm3(ffn_output + out2)
+
+        return out3
