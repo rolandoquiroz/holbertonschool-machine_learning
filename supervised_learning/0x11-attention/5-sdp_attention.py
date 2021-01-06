@@ -26,7 +26,6 @@ def sdp_attention(Q, K, V, mask=None):
             the attention weights
     """
     QKT = tf.matmul(Q, K, transpose_b=True)
-
     dk = tf.cast(tf.shape(K)[-1], tf.float32)
     scaled_attention_logits = QKT / tf.math.sqrt(dk)
 
@@ -34,7 +33,6 @@ def sdp_attention(Q, K, V, mask=None):
         scaled_attention_logits += (mask * -1e9)
 
     attention_weights = tf.nn.softmax(scaled_attention_logits, axis=-1)
-
     output = tf.matmul(attention_weights, V)
 
     return output, attention_weights
