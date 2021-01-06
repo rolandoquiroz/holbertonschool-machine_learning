@@ -10,7 +10,7 @@ class DecoderBlock(tf.keras.layers.Layer):
     https://www.tensorflow.org/tutorials/text/transformer
     """
 
-    def __init__(self, dm, h, hidden, drop_drop_rate=0.1):
+    def __init__(self, dm, h, hidden, drop_rate=0.1):
         """
         class DecoderBlock constructor
 
