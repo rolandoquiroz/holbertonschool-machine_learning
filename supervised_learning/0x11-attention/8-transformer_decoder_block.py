@@ -49,17 +49,21 @@ class DecoderBlock(tf.keras.layers.Layer):
         self.dropout2 = tf.keras.layers.Dropout(drop_rate)
         self.dropout3 = tf.keras.layers.Dropout(drop_rate)
 
-    def call(self, x, training, mask):
+    def call(self, x, encoder_output, training, look_ahead_mask, padding_mask):
         """
         Method to make a 'call' for a DecoderBlock layer forward pass.
         Transformation from inputs to outputs
 
         Arguments:
-            x: tensor of shape (batch, input_seq_len, dm)
-                the input to the decoderblock block
-            training: boolean
-                to determine if the model is training
-            mask: the mask to be applied for multi head attention
+            x : a tensor of shape (batch, target_seq_len, dm)
+                the input to the decoder block
+            encoder_output : a tensor of shape (batch, input_seq_len, dm)
+                the output of the encoder
+            training : a boolean to determine if the model is training
+            look_ahead_mask : the mask to be applied to the first multi
+                head attention layer
+            padding_mask : the mask to be applied to the second multi
+                head attention layer
 
         Returns:
             a tensor of shape (batch, input_seq_len, dm)
