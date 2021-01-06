@@ -23,18 +23,15 @@ class RNNEncoder(tf.keras.layers.Layer):
                 the batch size
 
         Public instance attributes:
-            batch:
+            batch:batch
                 the batch size
-            units:
+            units:untis
                 the number of hidden units in the RNN cell
-            embedding:
-                a keras Embedding layer that converts words
-                from the vocabulary into an embedding vector
-            gru:
-                a keras GRU layer with units units:
-                    Recurrent weights initialized with glorot_uniform
-                    Return the full sequence of outputs and
-                        the last hidden state
+            embedding: a keras Embedding layer
+                converts words from the vocabulary into an embedding vector
+            gru: a keras GRU layer with units units
+                Recurrent weights initialized with glorot_uniform
+                Return the full sequence of outputs and the last hidden state
         """
         super(RNNEncoder, self).__init__()
         self.batch = batch
@@ -73,12 +70,12 @@ class RNNEncoder(tf.keras.layers.Layer):
                 the initial hidden state
 
         Returns: outputs, hidden
-            outputs: tensor of shape (batch, input_seq_len, units)
+            output: tensor of shape (batch, input_seq_len, units)
                 the outputs of the encoder
-            hidden: tensor of shape (batch, units)
+            state: tensor of shape (batch, units)
                 the last hidden state of the encoder
         """
-        embeddings = self.embedding(x)
-        outputs, hidden = self.gru(inputs=embeddings,
-                                   initial_state=initial)
-        return outputs, hidden
+        x = self.embedding(x)
+        output, state = self.gru(inputs=x,
+                                 initial_state=initial)
+        return output, state
