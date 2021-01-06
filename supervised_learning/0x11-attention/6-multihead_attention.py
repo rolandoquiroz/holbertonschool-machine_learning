@@ -39,9 +39,9 @@ class MultiHeadAttention(tf.keras.layers.Layer):
         self.h = h
         self.dm = dm
         self.depth = dm // h
-        self.WQ = tf.keras.layers.Dense(units=dm)
-        self.WK = tf.keras.layers.Dense(units=dm)
-        self.WV = tf.keras.layers.Dense(units=dm)
+        self.Wq = tf.keras.layers.Dense(units=dm)
+        self.Wk = tf.keras.layers.Dense(units=dm)
+        self.Wv = tf.keras.layers.Dense(units=dm)
         self.linear = tf.keras.layers.Dense(units=dm)
 
     def split_heads(self, x, batch_size):
@@ -78,9 +78,9 @@ class MultiHeadAttention(tf.keras.layers.Layer):
         """
         batch_size = tf.shape(Q)[0]
 
-        Q = self.wq(Q)
-        K = self.wk(K)
-        V = self.wv(V)
+        Q = self.Wq(Q)
+        K = self.Wk(K)
+        V = self.Wv(V)
 
         Q = self.split_heads(Q, batch_size)
         K = self.split_heads(K, batch_size)
