@@ -54,4 +54,4 @@ class SelfAttention(tf.keras.layers.Layer):
         context = attention * hidden_states
         context = tf.reduce_sum(context, axis=1)
 
-        return context_vector, attention_weights
+        return context, attention
