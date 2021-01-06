@@ -32,7 +32,8 @@ class SelfAttention(tf.keras.layers.Layer):
 
     def call(self, s_prev, hidden_states):
         """
-        Method that calls Attention layer to be initializated
+        Method to make a 'call' for a SelfAttention layer forward pass.
+        Transformation from inputs to outputs
 
         Arguments:
             s_prev: tensor of shape (batch, units)

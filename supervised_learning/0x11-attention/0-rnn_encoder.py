@@ -60,7 +60,8 @@ class RNNEncoder(tf.keras.layers.Layer):
 
     def call(self, x, initial):
         """
-        Method that calls GRU layer to be initializated
+        Method to make a 'call' for a RNNEncoder layer forward pass.
+        Transformation from inputs to outputs
 
         Arguments:
             x: tensor of shape (batch, input_seq_len)

@@ -45,6 +45,9 @@ class RNNDecoder(tf.keras.layers.Layer):
 
     def call(self, x, s_prev, hidden_states):
         """
+        Method to make a 'call' for a RNNDecoder layer forward pass.
+        Transformation from inputs to outputs
+
         Arguments:
             x: tensor of shape (batch, 1)
                 the previous word in the target sequence as an index
