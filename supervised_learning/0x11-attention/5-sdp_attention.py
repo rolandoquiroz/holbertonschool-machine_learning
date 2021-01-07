@@ -18,7 +18,8 @@ def sdp_attention(Q, K, V, mask=None):
         mask: tensor that can be broadcast into (..., seq_len_q, seq_len_v)
             the optional mask, defaulted to None
 
-    Returns: output, weights
+    Returns:
+        output, weights
         output: tensor with its last two dimensions as (..., seq_len_q, dv)
             the scaled dot product attention
         weights: tensor with its last two dimensions as (..., seq_len_q,

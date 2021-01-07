@@ -11,7 +11,7 @@ class SelfAttention(tf.keras.layers.Layer):
 
     def __init__(self, units):
         """
-        Class constructor
+        class SelfAttention constructor
 
         Arguments:
             units: (int)

@@ -12,7 +12,7 @@ class EncoderBlock(tf.keras.layers.Layer):
 
     def __init__(self, dm, h, hidden, drop_rate=0.1):
         """
-        Class constructor
+        class EncoderBlock constructor
 
         Arguments:
             dm: the dimensionality of the model

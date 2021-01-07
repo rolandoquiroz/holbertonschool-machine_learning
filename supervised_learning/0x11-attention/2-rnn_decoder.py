@@ -11,7 +11,7 @@ class RNNDecoder(tf.keras.layers.Layer):
 
     def __init__(self, vocab, embedding, units, batch):
         """
-        Class constructor
+        class RNNDecoder constructor
 
         Arguments:
             vocab: (int)
@@ -57,7 +57,8 @@ class RNNDecoder(tf.keras.layers.Layer):
             hidden_states: tensor of shape (batch, input_seq_len, units)
                 the outputs of the encoder
 
-        Returns: y, s
+        Returns:
+            y, s
             y: tensor of shape (batch, vocab)
                 the output word as a one hot vector in the target vocabulary
             s: tensor of shape (batch, units)

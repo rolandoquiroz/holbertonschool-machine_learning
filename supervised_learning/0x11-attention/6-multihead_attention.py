@@ -13,7 +13,7 @@ class MultiHeadAttention(tf.keras.layers.Layer):
 
     def __init__(self, dm, h):
         """
-        Class constructor
+        class MultiHeadAttention constructor
 
         Arguments:
             dm: int
