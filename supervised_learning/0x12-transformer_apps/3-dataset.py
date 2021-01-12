@@ -27,6 +27,7 @@ class Dataset:
         examples, metadata = tfds.load('ted_hrlr_translate/pt_to_en',
                                        with_info=True,
                                        as_supervised=True)
+
         self.data_train, self.data_valid = examples['train'],\
             examples['validation']
         self.metadata = metadata
