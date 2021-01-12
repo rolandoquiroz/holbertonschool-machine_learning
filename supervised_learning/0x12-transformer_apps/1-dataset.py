@@ -75,10 +75,9 @@ class Dataset:
                 en_tokens: np.ndarray
                     the English tokens
         """
-        pt = [self.tokenizer_pt.vocab_size] + self.tokenizer_pt.encode(
+        pt_tokens = [self.tokenizer_pt.vocab_size] + self.tokenizer_pt.encode(
             pt.numpy()) + [self.tokenizer_pt.vocab_size + 1]
-
-        en = [self.tokenizer_en.vocab_size] + self.tokenizer_en.encode(
+        en_tokens = [self.tokenizer_en.vocab_size] + self.tokenizer_en.encode(
             en.numpy()) + [self.tokenizer_en.vocab_size + 1]
 
-        return pt, en
+        return pt_tokens, en_tokens
