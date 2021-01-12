@@ -19,7 +19,8 @@ class Dataset:
             tokenizer_pt: Portuguese tokenizer created from the training set
             tokenizer_en: English tokenizer created from the training set
         """
-        examples, _ = tfds.load('ted_hrlr_translate/pt_to_en', with_info=True,
+        examples, _ = tfds.load('ted_hrlr_translate/pt_to_en',
+                                with_info=True,
                                 as_supervised=True)
         self.data_train = examples['train']
         self.data_valid = examples['validation']
@@ -44,8 +45,10 @@ class Dataset:
                 tokenizer_pt is the Portuguese tokenizer
                 tokenizer_en is the English tokenizer
         """
+        #              tfds.deprecated.text
         tokenizer_pt = tfds.features.text.SubwordTextEncoder.build_from_corpus(
             (pt.numpy() for pt, en in data), target_vocab_size=2**15)
+        #              tfds.deprecated.text
         tokenizer_en = tfds.features.text.SubwordTextEncoder.build_from_corpus(
             (pt.numpy() for pt, en in data), target_vocab_size=2**15)
 
