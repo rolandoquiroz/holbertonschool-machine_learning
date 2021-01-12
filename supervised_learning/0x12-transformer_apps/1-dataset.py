@@ -77,6 +77,7 @@ class Dataset:
         """
         pt_tokens = [self.tokenizer_pt.vocab_size] + self.tokenizer_pt.encode(
             pt.numpy()) + [self.tokenizer_pt.vocab_size + 1]
+
         en_tokens = [self.tokenizer_en.vocab_size] + self.tokenizer_en.encode(
             en.numpy()) + [self.tokenizer_en.vocab_size + 1]
 
