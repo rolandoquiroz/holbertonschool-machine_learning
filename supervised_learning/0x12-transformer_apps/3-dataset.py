@@ -31,6 +31,7 @@ class Dataset:
         self.data_train, self.data_valid = examples['train'],\
             examples['validation']
         self.metadata = metadata
+
         self.tokenizer_pt, self.tokenizer_en = self.tokenize_dataset(
             self.data_train)
 
@@ -87,7 +88,7 @@ class Dataset:
             target_vocab_size=target_vocab_size)
         #              tfds.deprecated.text
         tokenizer_en = tfds.features.text.SubwordTextEncoder.build_from_corpus(
-            (pt.numpy() for pt, en in data),
+            (en.numpy() for pt, en in data),
             target_vocab_size=target_vocab_size)
 
         return tokenizer_pt, tokenizer_en
