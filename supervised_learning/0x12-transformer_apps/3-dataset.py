@@ -35,6 +35,9 @@ class Dataset:
         self.tokenizer_pt, self.tokenizer_en = self.tokenize_dataset(
             self.data_train)
 
+        self.data_train = self.data_train.map(self.tf_encode)
+        self.data_valid = self.data_valid.map(self.tf_encode)
+
         def filter_max_length(x, y, max_length=max_len):
             """
             Function that filter out all examples that have
@@ -43,7 +46,6 @@ class Dataset:
             return tf.logical_and(tf.size(x) <= max_length,
                                   tf.size(y) <= max_length)
 
-        self.data_train = self.data_train.map(self.tf_encode)
         self.data_train = self.data_train.filter(filter_max_length)
         self.data_train = self.data_train.cache()
 
@@ -58,7 +60,6 @@ class Dataset:
         self.data_train = self.data_train.prefetch(
             tf.data.experimental.AUTOTUNE)
 
-        self.data_valid = self.data_valid.map(self.tf_encode)
         self.data_valid = self.data_valid.filter(filter_max_length)
         self.data_valid = self.data_valid.padded_batch(
             batch_size, padded_shapes=padded_shapes)
