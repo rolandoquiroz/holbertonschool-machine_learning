@@ -19,9 +19,8 @@ class Dataset:
             tokenizer_pt: Portuguese tokenizer created from the training set
             tokenizer_en: English tokenizer created from the training set
         """
-        examples, _ = tfds.load('ted_hrlr_translate/pt_to_en',
-                                with_info=True,
-                                as_supervised=True)
+        examples = tfds.load('ted_hrlr_translate/pt_to_en',
+                             as_supervised=True)
         self.data_train, self.data_valid = examples['train'],\
             examples['validation']
         self.tokenizer_pt, self.tokenizer_en = self.tokenize_dataset(
