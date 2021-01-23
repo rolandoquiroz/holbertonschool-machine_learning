@@ -51,7 +51,6 @@ def question_answer(question, reference):
 
     if not answer:
         return None
-
     return answer
 
 
