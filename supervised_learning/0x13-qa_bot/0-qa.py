@@ -23,7 +23,7 @@ def question_answer(question, reference):
         The answer for the question or None if no answer is found
     """
     tokenizer = BertTokenizer.from_pretrained(
-        'bert-large-uncased-whole-word-masking')
+        'bert-large-uncased-whole-word-masking-finetuned-squad')
     model = hub.load('https://tfhub.dev/see--/bert-uncased-tf2-qa/1')
 
     question_tokens = tokenizer.tokenize(question)
