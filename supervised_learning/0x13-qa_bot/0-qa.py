@@ -49,7 +49,7 @@ def question_answer(question, reference):
     answer_tokens = tokens[short_start: short_end + 1]
     answer = tokenizer.convert_tokens_to_string(answer_tokens)
 
-    if answer:
-        return answer
-    else:
-        return None
+    if not answer:
+        answer = None
+
+    return answer
