@@ -27,7 +27,8 @@ def question_answer(question, reference):
     model = hub.load('https://tfhub.dev/see--/bert-uncased-tf2-qa/1')
 
     question_tokens = tokenizer.tokenize(question)
-    paragraph_tokens = tokenizer.tokenize(reference)
+    paragraph = f"<p>{reference}</p>"
+    paragraph_tokens = tokenizer.tokenize(paragraph)
     tokens = ["[CLS]"] + question_tokens + ["[SEP]"] + paragraph_tokens +\
         ["[SEP]"]
 
