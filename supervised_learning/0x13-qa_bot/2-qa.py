@@ -70,8 +70,7 @@ def answer_loop(reference):
 
     while True:
 
-        print("Q: ", end="")
-        question = input().lower()
+        question = input("Q: ").lower()
 
         if question in exits:
             print("A: Goodbye")
