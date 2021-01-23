@@ -50,7 +50,7 @@ def question_answer(question, reference):
     answer = tokenizer.convert_tokens_to_string(answer_tokens)
 
     if not answer:
-        answer = None
+        return None
 
     return answer
 
