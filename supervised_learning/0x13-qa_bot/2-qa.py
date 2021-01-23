@@ -69,6 +69,7 @@ def answer_loop(reference):
     exits = ["exit", "quit", "goodbye", "bye"]
 
     while True:
+
         print("Q: ", end="")
         question = input().lower()
 
