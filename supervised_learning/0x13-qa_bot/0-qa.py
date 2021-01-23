@@ -8,7 +8,7 @@ from transformers import BertTokenizer, TFBertModel
 def question_answer(question, reference):
     """
     Function that finds a snippet of text within a reference document
-    to answer a question
+    to answer a question.
 
     Arguments
     ---------
