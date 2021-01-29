@@ -65,9 +65,10 @@ def answer_loop(reference):
     reference : str
         The reference document from which to find the answer
     """
+    exits = ["exit", "quit", "goodbye", "bye"]
     while True:
         question = input("Q: ").lower().strip()
-        if question in ["exit", "quit", "goodbye", "bye"]:
+        if question in exits:
             print("A: Goodbye")
             exit()
         else:
