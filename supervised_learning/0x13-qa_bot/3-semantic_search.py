@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Function semantic_search"""
-import tensorflow as tf
+from os import listdir
 import tensorflow_hub as hub
-from transformers import BertTokenizer, TFBertModel
+import numpy as np
 
 
 def semantic_search(corpus_path, sentence):
@@ -22,3 +22,15 @@ def semantic_search(corpus_path, sentence):
     reference : str
         the reference text of the document most similar to sentence
     """
+    articles = [sentence]
+    for filename in listdir(corpus_path):
+        if not filename.endswith('.md'):
+            continue
+        with open(f'{corpus_path}/{filename}', 'r', encoding='utf-8') as file:
+            articles.append(file.read())
+    embed = hub.load(
+        'https://tfhub.dev/google/universal-sentence-encoder-large/5')
+    embeddings = embed(articles)
+    corr = np.inner(embeddings, embeddings)
+    closest = np.argmax(corr[0, 1:])
+    return articles[closest + 1]
