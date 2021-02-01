@@ -77,7 +77,8 @@ def semantic_search(corpus_path, sentence):
     for filename in listdir(corpus_path):
         if not filename.endswith('.md'):
             continue
-        with open(f'{corpus_path}/{filename}', 'r', encoding='utf-8') as file:
+        with open(f'{corpus_path}/{filename}',
+                  mode='r', encoding='utf-8') as file:
             articles.append(file.read())
     embed = hub.load(
         'https://tfhub.dev/google/universal-sentence-encoder-large/5')
