@@ -8,6 +8,8 @@ import numpy as np
 def semantic_search(corpus_path, sentence):
     """
     Function that performs semantic search on a corpus of documents.
+    https://github.com/tensorflow/hub/blob/master/examples/colab/
+    semantic_similarity_with_tf_hub_universal_encoder.ipynb
 
     Parameters
     ----------
@@ -22,6 +24,9 @@ def semantic_search(corpus_path, sentence):
     reference : str
         the reference text of the document most similar to sentence
     """
+    embed = hub.load(
+        'https://tfhub.dev/google/universal-sentence-encoder-large/5')
+
     articles = [sentence]
     for filename in listdir(corpus_path):
         if not filename.endswith('.md'):
@@ -29,9 +34,12 @@ def semantic_search(corpus_path, sentence):
         with open(f'{corpus_path}/{filename}',
                   mode='r', encoding='utf-8') as file:
             articles.append(file.read())
-    embed = hub.load(
-        'https://tfhub.dev/google/universal-sentence-encoder-large/5')
+
     embeddings = embed(articles)
+    # The semantic similarity of two sentences can be trivially computed as
+    # the inner product of the encodings
     corr = np.inner(embeddings, embeddings)
     closest = np.argmax(corr[0, 1:])
-    return articles[closest + 1]
+    reference = articles[closest + 1]
+
+    return reference
