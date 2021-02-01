@@ -9,6 +9,9 @@ def question_answer(question, reference):
     """
     Function that finds a snippet of text within a reference document
     to answer a question.
+    https://aihub.cloud.google.com/u/0/p/
+    products%2F7ddf9aa0-8f53-405f-805a-61c1fe9b4e30
+    https://huggingface.co/bert-large-uncased-whole-word-masking
 
     Arguments
     ---------
