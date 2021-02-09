@@ -1,4 +1,4 @@
-name: /home/rq/Documents/wrqm/holberton/holbertonschool-machine_learning/reinforcement_learning/0x00-q_learning/q_learning
+name: /holberton/holbertonschool-machine_learning/reinforcement_learning/0x00-q_learning/q_learning
 channels:
   - defaults
 dependencies:
@@ -39,4 +39,4 @@ dependencies:
     - requests==2.25.1
     - six==1.15.0
     - urllib3==1.26.3
-prefix: /home/rq/Documents/wrqm/holberton/holbertonschool-machine_learning/reinforcement_learning/0x00-q_learning/q_learning
+prefix: /holberton/holbertonschool-machine_learning/reinforcement_learning/0x00-q_learning/q_learning
