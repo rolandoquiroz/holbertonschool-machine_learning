@@ -30,6 +30,10 @@ def train(env, Q, episodes=5000, max_steps=100, alpha=0.1, gamma=0.99,
     epsilon_decay : float, optional
         the decay rate for updating epsilon between episodes, by default 0.05
 
+    Note
+    ----
+        When the agent falls in a hole, the reward is updated to -1
+
     Returns
     -------
     Q, total_rewards : numpy.ndarray, list

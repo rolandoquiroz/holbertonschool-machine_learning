@@ -16,6 +16,11 @@ def play(env, Q, max_steps=100):
     max_steps : int, optional
         the maximum number of steps in the episode, by default 100
 
+    Notes
+    -----
+    Each state of the board is displayed via the console
+    The Q-table is always exploited
+
     Returns
     -------
     reward : [type]
