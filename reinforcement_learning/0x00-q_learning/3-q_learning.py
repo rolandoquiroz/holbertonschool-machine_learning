@@ -45,9 +45,7 @@ def train(env, Q, episodes=5000, max_steps=100, alpha=0.1, gamma=0.99,
         rewards_episode = 0
 
         for step in range(max_steps):
-
             action = epsilon_greedy(Q, state, epsilon)
-
             new_state, reward, done, info = env.step(action)
 
             if done is True and reward == 0:
