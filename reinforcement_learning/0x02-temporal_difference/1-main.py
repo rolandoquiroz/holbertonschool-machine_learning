@@ -2,7 +2,7 @@
 
 import gym
 import numpy as np
-monte_carlo = __import__('0-monte_carlo').monte_carlo
+td_lambtha = __import__('1-td_lambtha').td_lambtha
 
 np.random.seed(0)
 
@@ -31,6 +31,5 @@ def policy(s):
             return UP
 
 V = np.where(env.desc == b'H', -1, 1).reshape(64).astype('float64') 
-np.set_printoptions(precision=2)
-env.seed(0)
-print(monte_carlo(env, V, policy).reshape((8, 8)))
+np.set_printoptions(precision=4)
+print(td_lambtha(env, V, policy, 0.9).reshape((8, 8)))
