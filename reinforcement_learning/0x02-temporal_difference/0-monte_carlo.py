@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""Monte Carlo algorithm"""
 import numpy as np
 import gym
 
@@ -62,14 +63,11 @@ def monte_carlo(env, V, policy,
     V : numpy.ndarray of shape (s,)
         the updated value estimate
     """
-    """Monte Carlo prediction"""
-    first_visit = True
+    first_visit = False
     nS = env.observation_space.n
     discounts = np.logspace(0, max_steps, num=max_steps,
                             base=gamma, endpoint=False)
     alphas = decay_schedule(alpha, 0.01, 0.3, episodes)
-    V_ = np.zeros(nS)
-    V_ = V
     V_track = np.zeros((episodes, nS))
     for e in range(episodes):
         episode = generate_episode(policy, env, max_steps)
@@ -80,7 +78,7 @@ def monte_carlo(env, V, policy,
             visited[state] = True
             n_steps = len(episode[t:])
             G = np.sum(discounts[:n_steps] * episode[t:, 2])
-            V_[state] = V_[state] + alphas[e] * (G - V_[state])
-        V_track[e] = V_
+            V[state] = V[state] + alphas[e] * (G - V[state])
+        # V_track[e] = V_
     # return V.copy(), V_track
-    return V_.copy()
+    return V.copy()

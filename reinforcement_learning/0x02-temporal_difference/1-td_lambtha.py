@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""TD(λ) algorithm"""
 import numpy as np
 import gym
 
@@ -46,8 +47,6 @@ def td_lambtha(env, V, policy, lambtha,
         the updated value estimate
     """
     nS = env.observation_space.n
-    V_ = np.zeros(nS)
-    V_ = V
     V_track = np.zeros((episodes, nS))
     E = np.zeros(nS)
     alphas = decay_schedule(alpha, 0.01, 0.3, episodes)
@@ -57,12 +56,12 @@ def td_lambtha(env, V, policy, lambtha,
         while not done:
             action = policy(state)
             next_state, reward, done, _ = env.step(action)
-            td_target = reward + gamma * V_[next_state] * (not done)
-            td_error = td_target - V_[state]
+            td_target = reward + gamma * V[next_state] * (not done)
+            td_error = td_target - V[state]
             E[state] = E[state] + 1
-            V_ = V_ + alphas[e] * td_error * E
+            V = V + alphas[e] * td_error * E
             E = gamma * lambtha * E
             state = next_state
-        V_track[e] = V_
+        # V_track[e] = V
         # V_, V_track
-    return V_
+    return V
