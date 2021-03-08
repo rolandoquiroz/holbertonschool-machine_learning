@@ -1,0 +1,42 @@
+name: /holberton/holbertonschool-machine_learning/reinforcement_learning/0x00-q_learning/q_learning
+channels:
+  - defaults
+dependencies:
+  - _libgcc_mutex=0.1=main
+  - blas=1.0=mkl
+  - ca-certificates=2021.1.19=h06a4308_0
+  - certifi=2020.6.20=pyhd3eb1b0_3
+  - intel-openmp=2019.4=243
+  - libedit=3.1.20191231=h14c3975_1
+  - libffi=3.2.1=hf484d3e_1007
+  - libgcc-ng=9.1.0=hdf63c60_0
+  - libgfortran-ng=7.3.0=hdf63c60_0
+  - libstdcxx-ng=9.1.0=hdf63c60_0
+  - mkl=2018.0.3=1
+  - mkl_fft=1.0.6=py35h7dd41cf_0
+  - mkl_random=1.0.1=py35h4414c95_1
+  - ncurses=6.2=he6710b0_1
+  - numpy=1.15.0=py35h1b885b7_0
+  - numpy-base=1.15.0=py35h3dfced4_0
+  - openssl=1.0.2u=h7b6447c_0
+  - pip=10.0.1=py35_0
+  - pycodestyle=2.4.0=py35_0
+  - python=3.5.6=hc3d631a_0
+  - readline=7.0=h7b6447c_5
+  - setuptools=40.2.0=py35_0
+  - sqlite=3.33.0=h62c20be_0
+  - tbb=2020.3=hfd86e86_0
+  - tbb4py=2018.0.5=py35h6bb024c_0
+  - tk=8.6.10=hbc83047_0
+  - wheel=0.36.2=pyhd3eb1b0_0
+  - xz=5.2.5=h7b6447c_0
+  - zlib=1.2.11=h7b6447c_3
+  - pip:
+    - chardet==4.0.0
+    - gym==0.7.0
+    - idna==2.10
+    - pyglet==1.5.15
+    - requests==2.25.1
+    - six==1.15.0
+    - urllib3==1.26.3
+prefix: /holberton/holbertonschool-machine_learning/reinforcement_learning/0x00-q_learning/q_learning
