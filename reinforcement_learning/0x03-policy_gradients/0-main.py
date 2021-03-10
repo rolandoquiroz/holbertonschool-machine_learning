@@ -15,6 +15,5 @@ weight = np.ndarray((4, 2), buffer=np.array([
 state = np.ndarray((1, 4), buffer=np.array([
     [-0.04428214,  0.01636746,  0.01196594, -0.03095031]
     ]))
-
 res = policy(state, weight)
 print(res)
