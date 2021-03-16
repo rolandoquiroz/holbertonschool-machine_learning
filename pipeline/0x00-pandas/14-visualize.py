@@ -29,7 +29,6 @@ df["High"].fillna(value=df.Close.shift(1, axis=0), inplace=True)
 df["Low"].fillna(value=df.Close.shift(1, axis=0), inplace=True)
 df["Open"].fillna(value=df.Close.shift(1, axis=0), inplace=True)
 
-# resampling - seconds to days
 df_d = pd.DataFrame()
 df_d["High"] = df.High.resample('D').max()
 df_d["Low"] = df.Low.resample('D').min()
