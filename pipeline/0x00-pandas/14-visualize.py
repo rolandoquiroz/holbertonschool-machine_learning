@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 from datetime import date
 import matplotlib.pyplot as plt
 import pandas as pd
