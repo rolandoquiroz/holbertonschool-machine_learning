@@ -74,19 +74,50 @@ class BayesianOptimization:
             EI is a numpy.ndarray of shape (ac_samples,)
                 containing the expected improvement of each potential sample
         """
-        mu_sample, sigma_sample = self.gp.predict(self.X_s)
+        mu, sigma = self.gp.predict(self.X_s)
+
+        '''
+        The Multiple-Update-Infill Sampling Method Using
+        Minimum Energy Design for Sequential
+        Surrogate Modeling by:
+        Yongmoon Hwang, Sang-Lyul Cha, Sehoon Kim, Seung-Seop Jin and
+        Hyung-Jo Jung
+
+        pag 6:
+
+        the improvement on the minimum can be defined as I(x) = ymin − Y(x)
+        the improvement on maximum can be defined by I(x) = Y(x) − ymax
+        '''
 
         if self.minimize is True:
-            Y_sample = np.min(self.gp.Y)
-            imp = Y_sample - mu_sample - self.xsi
+            mu_sample_opt = np.min(self.gp.Y)
+            improvement = mu_sample_opt - mu
         else:
-            Y_sample = np.max(self.gp.Y)
-            imp = mu_sample - Y_sample - self.xsi
+            mu_sample_opt = np.max(self.gp.Y)
+            improvement = mu - mu_sample_opt
 
+        improvement = improvement - self.xsi
+
+        # EI Loop implementation : Algorithm
+        '''
+        ac_samples = sigma.shape[0]
+        Z, EI = np.zeros(ac_samples)
+
+        for i in range(sigma.shape[0]):
+            # if σ(x)>0 : Z = (μ(x)−f(x+)−ξ) / σ(x)
+            if sigma[i] > 0:
+                Z[i] = improvement[i] / sigma[i]
+            # if σ(x)=0 : Z = 0
+            else:
+                Z[i] = 0
+            EI[i] = improvement[i] * norm.cdf(Z[i]) + sigma[i] * norm.pdf(Z[i])
+        '''
+
+        # EI Vectorized implementation: Efficient
         with np.errstate(divide='ignore'):
-            Z = imp / sigma_sample
-            EI = (imp * norm.cdf(Z)) + (sigma_sample * norm.pdf(Z))
-        EI[np.isclose(sigma_sample, 0)] = 0.0
+            Z = improvement / sigma
+            EI = improvement * norm.cdf(Z) + sigma * norm.pdf(Z)
+            EI[sigma == 0.0] = 0.0
 
         X_next = self.X_s[np.argmax(EI)]
 
