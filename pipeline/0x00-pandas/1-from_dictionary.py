@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
-"""Script that created a pd.DataFrame from a dictionary"""
+""" Script that creates a pd.DataFrame from a dictionary """
 import pandas as pd
 
-df = pd.DataFrame(data={'First': [0.0, 0.5, 1.0, 1.5],
-                        'Second': ["one", "two", "three", "four"]},
-                  index=list('ABCD'))
+dictionary = {
+      'First': [0.0, 0.5, 1.0, 1.5],
+      'Second': ['one', 'two', 'three', 'four']
+}
+
+df = pd.DataFrame(data=dictionary, index=['A', 'B', 'C', 'D'])

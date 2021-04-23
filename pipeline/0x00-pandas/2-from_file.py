@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""function from_file"""
+""" Module that contains function: def from_file(filename, delimiter) """
 import pandas as pd
 
 
@@ -16,8 +16,8 @@ def from_file(filename, delimiter):
 
     Returns
     -------
-    df: Pandas Dahaframe
+    df: Pandas Dathaframe
         the loaded pd.DataFrame
     """
-    df = pd.read_csv(filename, sep=delimiter)
+    df = pd.read_csv(filepath_or_buffer=filename, delimiter=delimiter)
     return df
