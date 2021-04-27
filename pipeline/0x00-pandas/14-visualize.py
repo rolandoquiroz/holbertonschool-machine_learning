@@ -45,6 +45,5 @@ df_d['Volume_(Currency)'] = df['Volume_(Currency)'].resample('D').sum()
 
 
 df_d.plot()
-plt.ticklabel_format(axis="y", style="sci", scilimits=(0, 14000000))
 
 plt.show()
