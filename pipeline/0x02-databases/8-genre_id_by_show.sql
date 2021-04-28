@@ -1,4 +1,5 @@
 -- Script that lists all shows contained in hbtn_0d_tvshows that have at least one genre linked.
+-- Import in hbtn_0c_0 database the temperatures.sql table
 -- 	Each record should display: tv_shows.title - tv_show_genres.genre_id
 -- 	Results must be sorted in ascending order by tv_shows.title and tv_show_genres.genre_id
 -- 	This script uses only one SELECT statement
