@@ -5,6 +5,8 @@
 --   name, string (255 characters)
 -- If the table already exists, this script does not fail
 -- This script can be executed on any database
+-- Context: Make an attribute unique directly in the table schema
+-- will enforced your business rules and avoid bugs in your application
 CREATE TABLE IF NOT EXISTS users (
     id INT NOT NULL AUTO_INCREMENT,
     email VARCHAR(255) NOT NULL UNIQUE,
