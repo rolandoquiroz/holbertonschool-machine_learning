@@ -4,6 +4,7 @@
 -- 	Results are sorted in ascending order by tv_shows.title and tv_show_genres.genre_id
 -- 	This script uses only one SELECT statement
 -- 	The database name is passed as an argument of the mysql command
+-- MINUS emulated with LEFT JOIN
 SELECT tv_shows.title, tv_show_genres.genre_id
 FROM tv_shows
 LEFT JOIN tv_show_genres
