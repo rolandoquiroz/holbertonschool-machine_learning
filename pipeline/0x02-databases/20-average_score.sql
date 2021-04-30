@@ -2,12 +2,14 @@
 -- Requirements:
 --  Procedure ComputeAverageScoreForUser is taking 1 input:
 --      user_id, a users.id value (you can assume user_id is linked to an existing users)
-delimiter //
-CREATE PROCEDURE ComputeAverageScoreForUser(
-	IN user_id_new INTEGER)
-	BEGIN
-		UPDATE users SET average_score=(
-			SELECT AVG(score) FROM corrections WHERE user_id=user_id_new)
-			WHERE id=user_id_new;
-	END //
-delimiter ;
+DROP PROCEDURE IF EXISTS ComputeAverageScoreForUser;
+DELIMITER $$
+CREATE PROCEDURE ComputeAverageScoreForUser(IN new_user_id INT)
+BEGIN
+	UPDATE users
+	SET average_score = (SELECT AVG(score)
+	                     FROM corrections
+						 WHERE user_id=new_user_id)
+			             WHERE id=new_user_id;
+END $$
+DELIMITER ;
