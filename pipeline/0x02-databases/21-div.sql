@@ -5,14 +5,15 @@
 --	    a, INT
 --	    b, INT
 --	And returns a / b or 0 if b == 0
-delimiter //
+DROP FUNCTION IF EXISTS SafeDiv;
+DELIMITER $$
 CREATE FUNCTION SafeDiv(a INTEGER, b INTEGER)
 	RETURNS FLOAT
 	BEGIN
 		SET @result = 0;
-		IF b <> 0 THEN
-			SET @result = a/b;
+		IF b != 0 THEN
+			SET @result = a / b;
 		END IF;
 		RETURN @result;
-	END //
-delimiter ;
+	END $$
+DELIMITER ;
