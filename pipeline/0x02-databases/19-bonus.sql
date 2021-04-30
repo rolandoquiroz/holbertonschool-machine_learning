@@ -6,7 +6,7 @@
 --      score, the score value for the correction
 -- Context: Write code in SQL is a nice level up!
 DROP PROCEDURE IF EXISTS AddBonus;
-DELIMITER //
+DELIMITER $$
 CREATE PROCEDURE AddBonus(IN new_user_id INT, IN project_name varchar(255), IN new_score INT)
 BEGIN
 	IF NOT EXISTS (SELECT `name` FROM projects WHERE `name` = project_name) THEN
@@ -15,5 +15,5 @@ BEGIN
 	END IF;
 	INSERT INTO corrections(`user_id`, project_id, score)
 	VALUES (new_user_id, (SELECT id FROM projects WHERE `name` = project_name), new_score);
-END //
+END $$
 DELIMITER ;
