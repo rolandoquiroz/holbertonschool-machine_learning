@@ -2,9 +2,11 @@
 -- Quantity in the table items can be negative.
 -- Context: Updating multiple tables for one action from your application can generate issue:
 -- network disconnection, crash, etc… to keep your data in a good shape, let MySQL do it for you!
+DROP TRIGGER IF EXISTS update_items_quantity;
 delimiter //
 CREATE TRIGGER update_items_quantity
-AFTER INSERT ON orders
+AFTER INSERT
+ON orders
 FOR EACH ROW
 BEGIN
   UPDATE items
